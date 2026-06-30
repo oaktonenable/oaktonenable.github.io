@@ -12,28 +12,28 @@ cat > /mnt/user-data/outputs/oakton_enable.html << 'HTMLEOF'
     *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
     :root {
-      --bg:       #050405;
-      --surface:  rgba(255,255,255,0.05);
-      --surface2: rgba(255,255,255,0.08);
-      --border:   rgba(239,68,68,0.18);
-      --border-h: rgba(220,20,60,0.40);
-      --indigo:   #EF4444;
-      --violet:   #B91C1C;
-      --amber:    #F87171;
-      --cyan:     #F87171;
-      --text:     #F8F8F8;
-      --muted:    #C0B3B3;
-      --dim:      #6D6D6D;
-      --grad:     linear-gradient(135deg,#EF4444,#B91C1C);
-      --grad-r:   linear-gradient(135deg,#B91C1C,#EF4444);
-      --grad-t:   linear-gradient(90deg,#F87171,#DC2626,#F87171);
+      --bg:       #12060f;
+      --surface:  rgba(255,255,255,0.08);
+      --surface2: rgba(168,85,247,0.16);
+      --border:   rgba(220,38,38,0.24);
+      --border-h: rgba(168,85,247,0.42);
+      --indigo:   #ef4444;
+      --violet:   #a855f7;
+      --amber:    #f87171;
+      --cyan:     #c084fc;
+      --text:     #fff5f7;
+      --muted:    #e5c7d8;
+      --dim:      #b08ca9;
+      --grad:     linear-gradient(135deg,#ef4444,#a855f7);
+      --grad-r:   linear-gradient(135deg,#a855f7,#ef4444);
+      --grad-t:   linear-gradient(90deg,#f87171,#c084fc,#ef4444);
     }
 
     html { scroll-behavior: smooth; }
 
     body {
       font-family: 'Inter', sans-serif;
-      background: var(--bg);
+      background: linear-gradient(135deg, #12060f 0%, #1f0b1b 45%, #2a1023 100%);
       color: var(--text);
       overflow-x: hidden;
       min-height: 100vh;
@@ -50,19 +50,19 @@ cat > /mnt/user-data/outputs/oakton_enable.html << 'HTMLEOF'
     }
     .orb-a {
       width: 700px; height: 700px;
-      background: radial-gradient(circle,#EF4444,transparent);
+      background: radial-gradient(circle,#ef4444,transparent);
       top: -250px; left: -250px;
       animation: drift 28s ease-in-out infinite alternate;
     }
     .orb-b {
       width: 600px; height: 600px;
-      background: radial-gradient(circle,#B91C1C,transparent);
+      background: radial-gradient(circle,#a855f7,transparent);
       bottom: -200px; right: -200px;
       animation: drift 22s ease-in-out infinite alternate-reverse;
     }
     .orb-c {
       width: 400px; height: 400px;
-      background: radial-gradient(circle,#991B1B,transparent);
+      background: radial-gradient(circle,#7c3aed,transparent);
       top: 45%; left: 42%; opacity: 0.08;
       animation: drift 18s ease-in-out infinite alternate;
     }
@@ -73,8 +73,8 @@ cat > /mnt/user-data/outputs/oakton_enable.html << 'HTMLEOF'
     #grid-bg {
       position: fixed; inset: 0; z-index: 0;
       background-image:
-        linear-gradient(rgba(239,68,68,.04) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(239,68,68,.04) 1px, transparent 1px);
+        linear-gradient(rgba(168,85,247,.06) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(239,68,68,.06) 1px, transparent 1px);
       background-size: 56px 56px;
       pointer-events: none;
     }
@@ -696,6 +696,7 @@ cat > /mnt/user-data/outputs/oakton_enable.html << 'HTMLEOF'
     <div class="section-head">
       <span class="eyebrow">Flagship Project</span>
       <h2 class="section-title">The <span class="grad-text">IsoWrite</span></h2>
+      <a class="btn btn-primary" href="https://docs.google.com/document/d/17zHRZP8OW0Wda3QkkGgGZORQD0gJFME8ufDdyHBz6-g/edit?usp=sharing" style="margin: 1rem auto 0; display: inline-flex;">Explore the Prototype</a>
       <p class="section-sub">A revolutionary assistive writing device engineered to counteract the involuntary tremors of Parkinson's disease — restoring one of life's most personal forms of expression.</p>
     </div>
 
