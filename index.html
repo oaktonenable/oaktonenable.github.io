@@ -12,21 +12,24 @@
     :root {
       --black:   #060608;
       --dark:    #0d0d10;
-      --panel:   #111115;
+      --panel:   #12121a;
       --line:    rgba(255,255,255,0.08);
       --line2:   rgba(255,255,255,0.14);
-      --white:   #f4f4f6;
-      --muted:   #888892;
-      --dim:     #55555f;
-      --red:     #d63031;
-      --red2:    #ff4444;
+      --white:   #f7f4f2;
+      --muted:   #a9a6b7;
+      --dim:     #6d6b7a;
+      --red:     #ff5d5d;
+      --red2:    #ff7b7b;
       --mono:    'DM Mono', monospace;
     }
 
     html { scroll-behavior: smooth; }
     body {
       font-family: 'Inter', sans-serif;
-      background: var(--black);
+      background:
+        radial-gradient(circle at top left, rgba(255,93,93,.16), transparent 26%),
+        radial-gradient(circle at bottom right, rgba(255,123,123,.11), transparent 22%),
+        linear-gradient(135deg, #060608 0%, #0c0c13 45%, #11111b 100%);
       color: var(--white);
       overflow-x: hidden;
     }
@@ -110,6 +113,18 @@
       padding: .75rem 1.6rem; border-radius: 3px;
       cursor: pointer; transition: all .2s; border: none; font-family: inherit;
     }
+    .reveal {
+      opacity: 0;
+      transform: translateY(38px);
+      transition: opacity .85s cubic-bezier(.2,.75,.2,1), transform .85s cubic-bezier(.2,.75,.2,1);
+    }
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .reveal.delay-1 { transition-delay: .08s; }
+    .reveal.delay-2 { transition-delay: .16s; }
+    .reveal.delay-3 { transition-delay: .24s; }
     .btn-red { background: var(--red); color: #fff; }
     .btn-red:hover { background: var(--red2); transform: translateY(-1px); }
     .btn-outline { background: transparent; color: var(--white); border: 1px solid var(--line2); }
@@ -215,6 +230,63 @@
     .feat-body { font-size: .88rem; color: var(--muted); line-height: 1.72; }
 
     /* ── PRODUCT HERO ── */
+    .product-shell {
+      background: linear-gradient(145deg, rgba(255,255,255,0.045), rgba(255,255,255,0.02));
+      border: 1px solid var(--line);
+      border-radius: 24px;
+      padding: 2rem;
+      box-shadow: 0 20px 70px rgba(0,0,0,.22);
+      backdrop-filter: blur(16px);
+    }
+    .product-tabs {
+      display: flex; gap: .7rem; flex-wrap: wrap; margin: 2rem 0 1.5rem;
+    }
+    .product-tab {
+      border: 1px solid var(--line);
+      background: transparent; color: var(--muted);
+      padding: .65rem 1rem; border-radius: 999px;
+      cursor: pointer; font-family: var(--mono); font-size: .66rem;
+      letter-spacing: .12em; text-transform: uppercase; transition: all .25s;
+    }
+    .product-tab.active, .product-tab:hover {
+      color: var(--white);
+      border-color: rgba(255,125,125,.4);
+      background: rgba(255,93,93,.11);
+      box-shadow: inset 0 0 0 1px rgba(255,125,125,.1);
+    }
+    .product-panel { display: none; animation: fadein .35s ease; }
+    .product-panel.active { display: block; }
+    .product-card-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin-bottom: 1.5rem;
+    }
+    .product-card {
+      background: rgba(255,255,255,.035); border: 1px solid var(--line);
+      border-radius: 16px; padding: 1.3rem; min-height: 160px;
+    }
+    .product-card .icon { font-size: 1.35rem; margin-bottom: .75rem; }
+    .product-card h4 { font-size: .95rem; color: var(--white); margin-bottom: .45rem; }
+    .product-card p { font-size: .82rem; color: var(--muted); line-height: 1.7; }
+    .product-quote {
+      border-left: 2px solid var(--red2); padding-left: 1.2rem;
+      color: var(--white); font-style: italic; line-height: 1.8; font-size: .95rem;
+    }
+    .product-hero {
+      border: 1px solid var(--line); border-radius: 20px;
+      padding: 2rem; background: linear-gradient(135deg, rgba(255,93,93,.09), rgba(255,255,255,.03));
+      margin-bottom: 1.5rem;
+    }
+    .product-hero h3 { font-size: 1.3rem; color: var(--white); margin-bottom: .75rem; }
+    .product-hero p { color: var(--muted); line-height: 1.8; }
+    .future-grid {
+      display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem;
+    }
+    .future-item {
+      border: 1px solid var(--line); border-radius: 16px; padding: 1.3rem;
+      background: rgba(255,255,255,.03);
+    }
+    .future-item .tag { display: inline-block; margin-bottom: .9rem; }
+    .future-item h4 { font-size: .95rem; color: var(--white); margin-bottom: .4rem; }
+    .future-item p { font-size: .82rem; color: var(--muted); line-height: 1.7; }
     .prod-full {
       background: var(--panel);
       border-top: 1px solid var(--line);
@@ -518,68 +590,105 @@
 <!-- ████ PRODUCT ████ -->
 <div class="page" id="page-product">
   <div class="section">
-    <span class="label">Flagship Project</span>
-    <h1 class="display" style="margin-bottom:1rem;">ISO<em style="color:var(--red2);">WRITE</em></h1>
-    <p class="body-lg" style="margin-bottom:2.5rem;">A smart assistive writing device engineered to counteract the involuntary tremors of Parkinson's disease — restoring one of life's most personal forms of expression.</p>
-    <div style="display:flex;gap:1rem;flex-wrap:wrap;">
-      <a class="btn btn-red" href="https://docs.google.com/document/d/17zHRZP8OW0Wda3QkkGgGZORQD0gJFME8ufDdyHBz6-g/edit?usp=sharing" target="_blank">Explore Prototype</a>
-      <div style="display:inline-flex;align-items:center;gap:.5rem;border:1px solid rgba(214,48,49,.3);padding:.4rem 1rem;border-radius:3px;font-family:var(--mono);font-size:.68rem;color:var(--red2);text-transform:uppercase;letter-spacing:.1em;">
-        <div class="dot"></div> Active Development
-      </div>
+    <div class="reveal">
+      <span class="label">What We Build</span>
+      <h1 class="display" style="margin-bottom:1rem;">ASSISTIVE<br>TECHNOLOGY</h1>
+      <p class="body-lg" style="margin-bottom:2.5rem;">We create thoughtful biomedical tools that blend empathy, engineering, and storytelling — starting with IsoWrite and expanding into a wider family of accessible products.</p>
     </div>
-  </div>
 
-  <div class="prod-full">
-    <div class="prod-inner">
-      <div class="prod-header">
-        <div>
-          <span class="label">The Problem</span>
-          <h2 class="display-sm" style="margin-bottom:1.5rem;">PARKINSON'S<br>ROBS THE SIMPLE</h2>
+    <div class="product-shell reveal delay-1">
+      <div class="product-tabs" role="tablist" aria-label="Product sections">
+        <button class="product-tab active" data-product-tab="overview">Overview</button>
+        <button class="product-tab" data-product-tab="isowrite">IsoWrite</button>
+        <button class="product-tab" data-product-tab="explore">Explore</button>
+      </div>
+
+      <div class="product-panel active" id="product-overview">
+        <div class="product-hero">
+          <h3>We build products that turn constraints into possibility.</h3>
+          <p>Every idea starts with a person, not just a problem statement. We design with dignity, usability, and impact in mind — whether it's a writing aid, assistive interface, or a future daily living tool.</p>
         </div>
-        <div class="prod-body-col">
-          <p class="body-md">Parkinson's disease affects the dopamine-producing neurons that control movement. Its most visible symptom — resting tremor — makes fine motor control profoundly difficult. Writing, once second nature, becomes a daily struggle.</p>
-          <p class="body-md">Medication helps in early stages, but tremors often persist or worsen over time. And writing isn't just functional — it's deeply personal. Losing the ability to write a letter, sign your name, or keep a journal is a loss of identity and autonomy that millions face every day.</p>
+        <div class="product-card-grid">
+          <div class="product-card">
+            <div class="icon">🧠</div>
+            <h4>Empathy First</h4>
+            <p>Every concept begins by understanding how someone lives with a challenge day to day.</p>
+          </div>
+          <div class="product-card">
+            <div class="icon">⚙️</div>
+            <h4>Prototype Driven</h4>
+            <p>We move from sketches, to CAD, to physical prototypes and improve through iteration.</p>
+          </div>
+          <div class="product-card">
+            <div class="icon">🌱</div>
+            <h4>Built to Grow</h4>
+            <p>IsoWrite is our first milestone, but our broader vision is a future ecosystem of inclusive products.</p>
+          </div>
+        </div>
+        <div class="product-quote">Our goal is not simply to make devices. It is to make dignity, confidence, and independence feel more tangible for the people who use them.</div>
+      </div>
+
+      <div class="product-panel" id="product-isowrite">
+        <div class="product-hero">
+          <h3>IsoWrite: a smart writing companion for tremor stability</h3>
+          <p>IsoWrite is our flagship project — a student-designed assistive writing tool built to reduce the impact of Parkinson's-related tremor and help users write with steadier, more natural control.</p>
+        </div>
+        <div class="steps-grid" style="margin-bottom:1.5rem;">
+          <div class="step-cell">
+            <div class="step-tag">Step 01 — Sensing</div>
+            <div class="step-title">Motion Tracking</div>
+            <div class="step-body">Embedded sensors monitor hand movement in real time to detect the tremor pattern.</div>
+          </div>
+          <div class="step-cell">
+            <div class="step-tag">Step 02 — Processing</div>
+            <div class="step-title">Signal Filtering</div>
+            <div class="step-body">Real-time logic distinguishes intended motion from the involuntary oscillation of tremor.</div>
+          </div>
+          <div class="step-cell">
+            <div class="step-tag">Step 03 — Actuation</div>
+            <div class="step-title">Stabilization</div>
+            <div class="step-body">A corrective mechanism helps neutralize unwanted movement at the pen tip.</div>
+          </div>
+          <div class="step-cell">
+            <div class="step-tag">Step 04 — Output</div>
+            <div class="step-title">Steady Writing</div>
+            <div class="step-body">The result is cleaner, more controlled handwriting and a stronger sense of independence.</div>
+          </div>
+        </div>
+        <div style="display:flex;gap:1rem;flex-wrap:wrap;">
+          <a class="btn btn-red" href="https://docs.google.com/document/d/17zHRZP8OW0Wda3QkkGgGZORQD0gJFME8ufDdyHBz6-g/edit?usp=sharing" target="_blank">Explore Prototype</a>
+          <div style="display:inline-flex;align-items:center;gap:.5rem;border:1px solid rgba(255,93,93,.25);padding:.4rem 1rem;border-radius:3px;font-family:var(--mono);font-size:.68rem;color:var(--red2);text-transform:uppercase;letter-spacing:.1em;">
+            <div class="dot"></div> Active Development
+          </div>
         </div>
       </div>
 
-      <span class="label">Our Solution</span>
-      <h2 class="display-sm" style="margin-bottom:2.5rem;">A PEN THAT THINKS<br>IN REAL TIME</h2>
-
-      <div class="steps-grid" style="margin-bottom:4rem;">
-        <div class="step-cell">
-          <div class="step-tag">Step 01 — Sensing</div>
-          <div class="step-title">Tremor Detection</div>
-          <div class="step-body">High-precision IMUs continuously monitor acceleration and rotation across all axes — capturing the user's tremor signature at hundreds of samples per second.</div>
+      <div class="product-panel" id="product-explore">
+        <div class="product-hero">
+          <h3>From IsoWrite to a broader product family</h3>
+          <p>We are building a foundation for a future portfolio of tools that make everyday life more accessible, expressive, and easier to navigate.</p>
         </div>
-        <div class="step-cell">
-          <div class="step-tag">Step 02 — Processing</div>
-          <div class="step-title">Signal Analysis</div>
-          <div class="step-body">An onboard microcontroller separates involuntary tremor oscillations (3–8 Hz) from intentional writing movements using real-time filtering algorithms.</div>
-        </div>
-        <div class="step-cell">
-          <div class="step-tag">Step 03 — Actuation</div>
-          <div class="step-title">Countermovement</div>
-          <div class="step-body">The isolated tremor signal drives a precision stabilization mechanism that applies equal and opposite corrective displacement to the pen tip.</div>
-        </div>
-        <div class="step-cell">
-          <div class="step-tag">Step 04 — Output</div>
-          <div class="step-title">Stable Writing</div>
-          <div class="step-body">Smooth, controlled, legible handwriting — regardless of tremor severity. The patient writes naturally. The pen handles the rest, silently and continuously.</div>
-        </div>
-      </div>
-
-      <div class="impact-row">
-        <div class="impact-cell">
-          <div class="impact-num">10M+</div>
-          <div class="impact-lbl">People worldwide living with Parkinson's disease</div>
-        </div>
-        <div class="impact-cell">
-          <div class="impact-num">~75%</div>
-          <div class="impact-lbl">Who experience tremor as a primary symptom</div>
-        </div>
-        <div class="impact-cell">
-          <div class="impact-num">1</div>
-          <div class="impact-lbl">Dedicated student team working to change that</div>
+        <div class="future-grid">
+          <div class="future-item">
+            <div class="tag">Now</div>
+            <h4>IsoWrite</h4>
+            <p>Assistive writing technology for Parkinson's-related tremor stabilization.</p>
+          </div>
+          <div class="future-item">
+            <div class="tag">Next</div>
+            <h4>Adaptive Daily Tools</h4>
+            <p>Compact products that support routine tasks with more comfort and less friction.</p>
+          </div>
+          <div class="future-item">
+            <div class="tag">Future</div>
+            <h4>Communication Aids</h4>
+            <p>Accessible devices that help people express ideas clearly and independently.</p>
+          </div>
+          <div class="future-item">
+            <div class="tag">Vision</div>
+            <h4>Accessible Wellness Tech</h4>
+            <p>A growing collection of thoughtful tools designed for dignity, ease, and connection.</p>
+          </div>
         </div>
       </div>
     </div>
@@ -827,6 +936,7 @@
 
 <script>
   const PAGES = ['home','about','product','cad','creations','team','details','join'];
+
   function go(id) {
     PAGES.forEach(p => {
       document.getElementById('page-' + p).classList.remove('active');
@@ -837,9 +947,39 @@
     document.getElementById('nav-links').classList.remove('open');
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
+
+  function setProductTab(tab) {
+    document.querySelectorAll('.product-tab').forEach(btn => {
+      btn.classList.toggle('active', btn.dataset.productTab === tab);
+    });
+    document.querySelectorAll('.product-panel').forEach(panel => {
+      panel.classList.toggle('active', panel.id === 'product-' + tab);
+    });
+  }
+
+  document.querySelectorAll('.product-tab').forEach(button => {
+    button.addEventListener('click', () => setProductTab(button.dataset.productTab));
+  });
+
   function toggleMenu() {
     document.getElementById('nav-links').classList.toggle('open');
   }
+
+  const revealObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        revealObserver.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.18 });
+
+  document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+
+  window.addEventListener('scroll', () => {
+    const nav = document.getElementById('nav');
+    nav.style.boxShadow = window.scrollY > 8 ? '0 10px 30px rgba(0,0,0,.22)' : 'none';
+  });
 </script>
 </body>
 </html>
