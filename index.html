@@ -371,9 +371,143 @@
     .hamburger{ display:flex; }
     .join-cta-block{ padding:3rem 1.6rem; }
   }
+
+  /* ══════════ BOOT / CALIBRATION SEQUENCE ══════════ */
+  #boot-overlay{
+    position:fixed; inset:0; z-index:10000;
+    background:var(--bg); display:flex; align-items:center; justify-content:center;
+    flex-direction:column; gap:1.6rem; transition:opacity .7s ease;
+  }
+  #boot-overlay.hide{ opacity:0; pointer-events:none; }
+  .boot-wf{ width:min(420px, 70vw); height:70px; }
+  .boot-status{
+    font-family:var(--mono); font-size:.72rem; letter-spacing:.16em; text-transform:uppercase;
+    color:var(--muted); min-height:1.2em;
+  }
+  .boot-status .ok{ color:var(--steady); }
+  .boot-bar{ width:min(280px, 60vw); height:2px; background:var(--line); position:relative; overflow:hidden; }
+  .boot-bar-fill{ position:absolute; left:0; top:0; bottom:0; width:0%; background:linear-gradient(90deg,var(--tremor),var(--steady)); transition:width .25s linear; }
+  .boot-pct{ font-family:var(--mono); font-size:.62rem; color:var(--dim); letter-spacing:.1em; }
+
+  /* ══════════ CUSTOM CURSOR ══════════ */
+  body.cc-on, body.cc-on *{ cursor:none !important; }
+  #cc-dot, #cc-ring{
+    position:fixed; top:0; left:0; z-index:9998; pointer-events:none;
+    border-radius:50%; transform:translate(-50%,-50%);
+  }
+  #cc-dot{ width:5px; height:5px; background:var(--steady); }
+  #cc-ring{
+    width:30px; height:30px; border:1px solid var(--steady-dim);
+    transition:width .18s ease, height .18s ease, border-color .18s ease, background .18s ease;
+  }
+  #cc-ring::before, #cc-ring::after{
+    content:""; position:absolute; background:var(--steady-dim);
+  }
+  #cc-ring.active{ width:50px; height:50px; border-color:var(--tremor); background:rgba(255,90,95,.06); }
+
+  /* ══════════ MAGNETIC BUTTONS ══════════ */
+  .btn{ transform:translate(var(--mx,0), var(--my,0)) translateY(0); }
+  .btn:hover{ transform:translate(var(--mx,0), var(--my,0)) translateY(-1px); }
+  .btn:active{ transform:translate(var(--mx,0), var(--my,0)) translateY(0) scale(.97); }
+
+  /* ══════════ COMMAND PALETTE ══════════ */
+  .cmdk-hint{
+    display:flex; align-items:center; gap:.4rem;
+    font-family:var(--mono); font-size:.64rem; color:var(--dim);
+    border:1px solid var(--line); padding:.4rem .65rem; letter-spacing:.05em;
+    cursor:pointer; transition:border-color .2s, color .2s; background:transparent;
+  }
+  .cmdk-hint:hover{ border-color:var(--steady-dim); color:var(--steady); }
+  .cmdk-hint kbd{ font-family:var(--mono); background:var(--panel2); border:1px solid var(--line2); padding:.05rem .3rem; border-radius:2px; font-size:.6rem; }
+  #cmdk-overlay{
+    position:fixed; inset:0; z-index:9999; background:rgba(6,7,9,.72); backdrop-filter:blur(4px);
+    display:none; align-items:flex-start; justify-content:center; padding-top:14vh;
+  }
+  #cmdk-overlay.open{ display:flex; }
+  .cmdk-box{
+    width:min(480px, 90vw); background:var(--panel); border:1px solid var(--line2);
+    box-shadow:0 30px 80px rgba(0,0,0,.55);
+  }
+  .cmdk-input-row{ display:flex; align-items:center; gap:.75rem; padding:1rem 1.2rem; border-bottom:1px solid var(--line); }
+  .cmdk-input-row .glyph{ color:var(--steady); font-family:var(--mono); }
+  #cmdk-input{
+    flex:1; background:none; border:none; outline:none; color:var(--ink);
+    font-family:var(--mono); font-size:.9rem; letter-spacing:.02em;
+  }
+  #cmdk-input::placeholder{ color:var(--dim); }
+  .cmdk-list{ max-height:320px; overflow-y:auto; padding:.5rem; }
+  .cmdk-item{
+    display:flex; align-items:center; justify-content:space-between;
+    padding:.75rem .9rem; cursor:pointer; font-family:var(--disp); font-weight:500;
+    font-size:.9rem; color:var(--muted); border-left:2px solid transparent;
+  }
+  .cmdk-item .k{ font-family:var(--mono); font-size:.62rem; color:var(--dim); text-transform:uppercase; letter-spacing:.08em; }
+  .cmdk-item.sel{ background:rgba(63,224,192,.06); color:var(--ink); border-left-color:var(--steady); }
+  .cmdk-item.sel .k{ color:var(--steady); }
+  .cmdk-empty{ padding:1.5rem; text-align:center; font-family:var(--mono); font-size:.72rem; color:var(--dim); }
+
+  /* ══════════ STABILIZER DEMO ══════════ */
+  .demo-block{ border:1px solid var(--line); background:var(--panel2); padding:1.6rem; margin-bottom:1.6rem; }
+  .demo-head{ display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:1rem; margin-bottom:1rem; }
+  .demo-title{ font-family:var(--disp); font-weight:600; font-size:1rem; color:var(--ink); }
+  .demo-sub{ font-family:var(--serif); font-size:.85rem; color:var(--muted); margin-top:.3rem; }
+  .demo-toggle{
+    display:flex; border:1px solid var(--line2); font-family:var(--mono); font-size:.65rem;
+    text-transform:uppercase; letter-spacing:.08em; overflow:hidden;
+  }
+  .demo-toggle button{
+    background:transparent; border:none; color:var(--muted); padding:.55rem 1rem; cursor:pointer; transition:all .2s;
+  }
+  .demo-toggle button.on{ background:var(--steady); color:#04140f; }
+  .demo-canvas-wrap{ position:relative; border:1px solid var(--line); background:#070a0d; }
+  .demo-canvas-wrap::before{
+    content:""; position:absolute; inset:0; pointer-events:none; opacity:.5;
+    background-image:linear-gradient(rgba(63,224,192,.05) 1px, transparent 1px), linear-gradient(90deg, rgba(63,224,192,.05) 1px, transparent 1px);
+    background-size:24px 24px;
+  }
+  #demo-canvas{ display:block; width:100%; height:220px; touch-action:none; cursor:crosshair; }
+  .demo-placeholder{
+    position:absolute; inset:0; display:flex; align-items:center; justify-content:center;
+    font-family:var(--mono); font-size:.72rem; color:var(--dim); letter-spacing:.06em;
+    text-transform:uppercase; pointer-events:none; text-align:center; padding:1rem;
+  }
+  .demo-placeholder.hidden{ display:none; }
+  .demo-legend{ display:flex; gap:1.5rem; margin-top:1rem; flex-wrap:wrap; }
+  .demo-legend span{ display:flex; align-items:center; gap:.5rem; font-family:var(--mono); font-size:.65rem; color:var(--muted); text-transform:uppercase; letter-spacing:.06em; }
+  .demo-legend .sw{ width:14px; height:2px; display:inline-block; }
+  .sw-tremor{ background:var(--tremor); }
+  .sw-steady{ background:var(--steady); }
+
+  @media (max-width:640px){
+    .cmdk-hint{ display:none; }
+  }
 </style>
 </head>
 <body>
+
+<div id="boot-overlay" aria-hidden="true">
+  <svg class="boot-wf" viewBox="0 0 400 80" preserveAspectRatio="none" aria-hidden="true">
+    <path id="boot-tremor" d="M0,40 C8,20 16,60 24,30 C32,5 40,58 48,26 C56,4 64,55 72,32 C80,10 88,50 96,35 C104,60 112,15 120,40 C128,65 136,10 144,38 C152,58 160,18 168,40 C176,20 184,55 192,30 C200,8 208,50 216,35 C224,55 232,20 240,40" fill="none" stroke="#ff5a5f" stroke-width="2" stroke-linecap="round"/>
+    <path id="boot-steady" d="M240,40 C280,41 320,40 400,40" fill="none" stroke="#3fe0c0" stroke-width="2" stroke-linecap="round" opacity="0"/>
+  </svg>
+  <div class="boot-status" id="boot-status">INITIALIZING SENSOR ARRAY</div>
+  <div class="boot-bar"><div class="boot-bar-fill" id="boot-bar-fill"></div></div>
+  <div class="boot-pct" id="boot-pct">0%</div>
+</div>
+
+<div id="cc-dot"></div>
+<div id="cc-ring"></div>
+
+<div id="cmdk-overlay">
+  <div class="cmdk-box">
+    <div class="cmdk-input-row">
+      <span class="glyph">›</span>
+      <input id="cmdk-input" type="text" placeholder="Jump to a page…" autocomplete="off">
+      <span style="font-family:var(--mono);font-size:.62rem;color:var(--dim);">ESC</span>
+    </div>
+    <div class="cmdk-list" id="cmdk-list"></div>
+  </div>
+</div>
 
 <!-- NAV -->
 <nav id="nav">
@@ -392,6 +526,7 @@
     <li><a onclick="go('creations')" data-p="creations">Creations</a></li>
     <li><a onclick="go('team')" data-p="team">Team</a></li>
     <li><a onclick="go('details')" data-p="details">Club Info</a></li>
+    <li><button class="cmdk-hint" onclick="openCmdk()" aria-label="Open command palette">Jump to<kbd>/</kbd></button></li>
     <li><a onclick="go('join')" data-p="join" class="nav-apply">Apply</a></li>
   </ul>
 </nav>
@@ -506,6 +641,28 @@
           <h3>IsoWrite: a smart writing companion for tremor stability</h3>
           <p>IsoWrite is our flagship project — a student-designed assistive writing tool built to reduce the impact of Parkinson's-related tremor and help users write with steadier, more natural control.</p>
         </div>
+
+        <div class="demo-block">
+          <div class="demo-head">
+            <div>
+              <div class="demo-title">Try the stabilization concept</div>
+              <div class="demo-sub">Draw across the pad below — a simplified simulation of the filtering logic IsoWrite is built around.</div>
+            </div>
+            <div class="demo-toggle" role="group" aria-label="Toggle stabilization">
+              <button id="demo-off" onclick="setDemoMode(false)">Raw</button>
+              <button id="demo-on" class="on" onclick="setDemoMode(true)">Stabilized</button>
+            </div>
+          </div>
+          <div class="demo-canvas-wrap">
+            <canvas id="demo-canvas"></canvas>
+            <div class="demo-placeholder" id="demo-placeholder">Move your cursor or finger across this pad</div>
+          </div>
+          <div class="demo-legend">
+            <span><i class="sw sw-tremor"></i>Raw input</span>
+            <span><i class="sw sw-steady"></i>Filtered output</span>
+          </div>
+        </div>
+
         <div class="steps-grid">
           <div class="step-cell"><div class="step-tag">Step 01 — Sensing</div><div class="step-title">Motion Tracking</div><div class="step-body">Embedded sensors monitor hand movement in real time to detect the tremor pattern.</div></div>
           <div class="step-cell"><div class="step-tag">Step 02 — Processing</div><div class="step-title">Signal Filtering</div><div class="step-body">Real-time logic distinguishes intended motion from the involuntary oscillation of tremor.</div></div>
@@ -796,6 +953,219 @@
     entries.forEach(entry => { if (entry.isIntersecting) runCountUps(entry.target); });
   }, { threshold: 0.4 });
   document.querySelectorAll('.readout-strip, .impact-row').forEach(el => countObserver.observe(el));
+
+  /* ══════════ BOOT / CALIBRATION SEQUENCE ══════════ */
+  (function boot(){
+    const overlay = document.getElementById('boot-overlay');
+    const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (sessionStorage.getItem('oe-booted') || reduced) { overlay.style.display = 'none'; return; }
+    sessionStorage.setItem('oe-booted', '1');
+    const statusEl = document.getElementById('boot-status');
+    const fill = document.getElementById('boot-bar-fill');
+    const pctEl = document.getElementById('boot-pct');
+    const tremorPath = document.getElementById('boot-tremor');
+    const steadyPath = document.getElementById('boot-steady');
+    const steps = [
+      { t: 'INITIALIZING SENSOR ARRAY', p: 20 },
+      { t: 'READING TREMOR SIGNAL', p: 48 },
+      { t: 'APPLYING STABILIZATION FILTER', p: 78 },
+      { t: 'CALIBRATED', p: 100, ok: true }
+    ];
+    let i = 0;
+    function nextStep(){
+      const s = steps[i];
+      statusEl.innerHTML = s.ok ? '<span class="ok">' + s.t + '</span>' : s.t;
+      fill.style.width = s.p + '%';
+      pctEl.textContent = s.p + '%';
+      if (s.ok) { tremorPath.style.transition = 'opacity .5s'; tremorPath.style.opacity = '0.15'; steadyPath.style.transition = 'opacity .5s'; steadyPath.style.opacity = '1'; }
+      i++;
+      if (i < steps.length) setTimeout(nextStep, 480);
+      else setTimeout(() => {
+        overlay.classList.add('hide');
+        setTimeout(() => overlay.style.display = 'none', 700);
+      }, 550);
+    }
+    setTimeout(nextStep, 350);
+  })();
+
+  /* ══════════ CUSTOM CURSOR ══════════ */
+  (function cursor(){
+    if (!matchMedia('(hover: hover) and (pointer: fine)').matches || matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    document.body.classList.add('cc-on');
+    const dot = document.getElementById('cc-dot');
+    const ring = document.getElementById('cc-ring');
+    let rx = window.innerWidth/2, ry = window.innerHeight/2;
+    document.addEventListener('mousemove', (e) => {
+      dot.style.left = e.clientX + 'px'; dot.style.top = e.clientY + 'px';
+      rx = e.clientX; ry = e.clientY;
+      const el = e.target.closest('a, button, .icard, .future-item, #demo-canvas, .cmdk-item, input');
+      ring.classList.toggle('active', !!el);
+    });
+    function loop(){
+      const cur = ring.getBoundingClientRect();
+      const cx = cur.left + cur.width/2, cy = cur.top + cur.height/2;
+      const nx = cx + (rx - cx) * 0.22, ny = cy + (ry - cy) * 0.22;
+      ring.style.left = nx + 'px'; ring.style.top = ny + 'px';
+      requestAnimationFrame(loop);
+    }
+    ring.style.left = rx + 'px'; ring.style.top = ry + 'px';
+    loop();
+  })();
+
+  /* ══════════ MAGNETIC BUTTONS ══════════ */
+  (function magnets(){
+    if (!matchMedia('(hover: hover) and (pointer: fine)').matches) return;
+    document.querySelectorAll('.btn').forEach(btn => {
+      btn.addEventListener('mousemove', (e) => {
+        const r = btn.getBoundingClientRect();
+        const mx = (e.clientX - r.left - r.width/2) * 0.22;
+        const my = (e.clientY - r.top - r.height/2) * 0.32;
+        btn.style.setProperty('--mx', mx + 'px');
+        btn.style.setProperty('--my', my + 'px');
+      });
+      btn.addEventListener('mouseleave', () => {
+        btn.style.setProperty('--mx', '0px');
+        btn.style.setProperty('--my', '0px');
+      });
+    });
+  })();
+
+  /* ══════════ COMMAND PALETTE ══════════ */
+  const CMDK_PAGES = [
+    { id:'home', label:'Home', k:'Start' },
+    { id:'about', label:'About', k:'Mission' },
+    { id:'product', label:'Product', k:'IsoWrite' },
+    { id:'cad', label:'CAD', k:'Design files' },
+    { id:'creations', label:'Creations', k:'Member work' },
+    { id:'team', label:'Team', k:'People' },
+    { id:'details', label:'Club Info', k:'Meetings' },
+    { id:'join', label:'Apply', k:'Join us' }
+  ];
+  const cmdkOverlay = document.getElementById('cmdk-overlay');
+  const cmdkInput = document.getElementById('cmdk-input');
+  const cmdkList = document.getElementById('cmdk-list');
+  let cmdkSel = 0, cmdkFiltered = CMDK_PAGES.slice();
+
+  function renderCmdk(){
+    const q = cmdkInput.value.trim().toLowerCase();
+    cmdkFiltered = CMDK_PAGES.filter(p => p.label.toLowerCase().includes(q) || p.k.toLowerCase().includes(q));
+    cmdkSel = 0;
+    if (!cmdkFiltered.length) { cmdkList.innerHTML = '<div class="cmdk-empty">No matching page</div>'; return; }
+    cmdkList.innerHTML = cmdkFiltered.map((p,idx) =>
+      '<div class="cmdk-item' + (idx===0 ? ' sel':'') + '" data-id="' + p.id + '" data-idx="' + idx + '"><span>' + p.label + '</span><span class="k">' + p.k + '</span></div>'
+    ).join('');
+    cmdkList.querySelectorAll('.cmdk-item').forEach(el => {
+      el.addEventListener('click', () => { go(el.dataset.id); closeCmdk(); });
+      el.addEventListener('mouseenter', () => { cmdkSel = parseInt(el.dataset.idx,10); paintCmdkSel(); });
+    });
+  }
+  function paintCmdkSel(){
+    cmdkList.querySelectorAll('.cmdk-item').forEach((el) => el.classList.toggle('sel', parseInt(el.dataset.idx,10) === cmdkSel));
+    const selEl = cmdkList.querySelector('.cmdk-item.sel');
+    if (selEl) selEl.scrollIntoView({ block:'nearest' });
+  }
+  function openCmdk(){
+    cmdkOverlay.classList.add('open');
+    cmdkInput.value = '';
+    renderCmdk();
+    setTimeout(() => cmdkInput.focus(), 30);
+  }
+  function closeCmdk(){ cmdkOverlay.classList.remove('open'); }
+
+  cmdkInput.addEventListener('input', renderCmdk);
+  cmdkOverlay.addEventListener('click', (e) => { if (e.target === cmdkOverlay) closeCmdk(); });
+  document.addEventListener('keydown', (e) => {
+    const typing = ['INPUT','TEXTAREA'].includes(document.activeElement.tagName);
+    if ((e.key === '/' && !typing) || ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k')) {
+      e.preventDefault(); openCmdk();
+    } else if (e.key === 'Escape' && cmdkOverlay.classList.contains('open')) {
+      closeCmdk();
+    } else if (cmdkOverlay.classList.contains('open')) {
+      if (e.key === 'ArrowDown') { e.preventDefault(); cmdkSel = Math.min(cmdkSel+1, cmdkFiltered.length-1); paintCmdkSel(); }
+      else if (e.key === 'ArrowUp') { e.preventDefault(); cmdkSel = Math.max(cmdkSel-1, 0); paintCmdkSel(); }
+      else if (e.key === 'Enter' && cmdkFiltered[cmdkSel]) { go(cmdkFiltered[cmdkSel].id); closeCmdk(); }
+    }
+  });
+
+  /* ══════════ STABILIZER DEMO ══════════ */
+  (function demo(){
+    const canvas = document.getElementById('demo-canvas');
+    const placeholder = document.getElementById('demo-placeholder');
+    const ctx = canvas.getContext('2d');
+    let stabilized = true;
+    let raw = [], smoothed = [];
+    let smX = null, smY = null;
+    let drawing = false;
+    let hasDrawn = false;
+
+    function resize(){
+      const rect = canvas.getBoundingClientRect();
+      canvas.width = rect.width * devicePixelRatio;
+      canvas.height = rect.height * devicePixelRatio;
+    }
+    window.addEventListener('resize', resize);
+    resize();
+
+    function pos(e){
+      const rect = canvas.getBoundingClientRect();
+      const cx = (e.touches ? e.touches[0].clientX : e.clientX) - rect.left;
+      const cy = (e.touches ? e.touches[0].clientY : e.clientY) - rect.top;
+      return { x: cx * devicePixelRatio, y: cy * devicePixelRatio };
+    }
+    function start(e){
+      drawing = true; hasDrawn = true;
+      placeholder.classList.add('hidden');
+      const p = pos(e);
+      raw = [p]; smoothed = [p]; smX = p.x; smY = p.y;
+    }
+    function move(e){
+      if (!drawing) return;
+      const p = pos(e);
+      raw.push(p);
+      const alpha = 0.14;
+      smX += (p.x - smX) * alpha;
+      smY += (p.y - smY) * alpha;
+      smoothed.push({ x: smX, y: smY });
+      if (raw.length > 260) { raw.shift(); smoothed.shift(); }
+    }
+    function end(){ drawing = false; }
+
+    canvas.addEventListener('mousedown', start);
+    canvas.addEventListener('mousemove', move);
+    window.addEventListener('mouseup', end);
+    canvas.addEventListener('touchstart', (e) => { e.preventDefault(); start(e); }, { passive:false });
+    canvas.addEventListener('touchmove', (e) => { e.preventDefault(); move(e); }, { passive:false });
+    canvas.addEventListener('touchend', end);
+
+    function drawPath(pts, color, width){
+      if (pts.length < 2) return;
+      ctx.beginPath();
+      ctx.moveTo(pts[0].x, pts[0].y);
+      for (let i=1;i<pts.length;i++) ctx.lineTo(pts[i].x, pts[i].y);
+      ctx.strokeStyle = color; ctx.lineWidth = width * devicePixelRatio;
+      ctx.lineJoin = 'round'; ctx.lineCap = 'round';
+      ctx.stroke();
+    }
+    function frame(){
+      ctx.clearRect(0,0,canvas.width, canvas.height);
+      if (hasDrawn){
+        if (stabilized){
+          drawPath(raw, 'rgba(255,90,95,0.28)', 1.2);
+          drawPath(smoothed, '#3fe0c0', 2.2);
+        } else {
+          drawPath(raw, '#ff5a5f', 1.6);
+        }
+      }
+      requestAnimationFrame(frame);
+    }
+    frame();
+
+    window.setDemoMode = function(on){
+      stabilized = on;
+      document.getElementById('demo-on').classList.toggle('on', on);
+      document.getElementById('demo-off').classList.toggle('on', !on);
+    };
+  })();
 </script>
 </body>
 </html>
