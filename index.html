@@ -1,533 +1,401 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Oakton Enable</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
-  <style>
-    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Oakton Enable — Biomedical Engineering Club</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Newsreader:ital,wght@0,400;0,500;1,400;1,500&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  *,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
 
-    :root {
-      --black:   #060608;
-      --dark:    #0d0d10;
-      --panel:   #12121a;
-      --line:    rgba(255,255,255,0.08);
-      --line2:   rgba(255,255,255,0.14);
-      --white:   #f7f4f2;
-      --muted:   #a9a6b7;
-      --dim:     #6d6b7a;
-      --red:     #ff5d5d;
-      --red2:    #ff7b7b;
-      --mono:    'DM Mono', monospace;
-    }
+  :root{
+    --bg:#0a0c10;
+    --panel:#12161d;
+    --panel2:#161b23;
+    --ink:#eceef3;
+    --muted:#8b92a6;
+    --dim:#525869;
+    --line: rgba(236,238,243,0.09);
+    --line2: rgba(236,238,243,0.17);
+    --tremor:#ff5a5f;
+    --tremor-dim: rgba(255,90,95,0.5);
+    --steady:#3fe0c0;
+    --steady-dim: rgba(63,224,192,0.5);
+    --disp: 'Space Grotesk', sans-serif;
+    --serif: 'Newsreader', serif;
+    --mono: 'IBM Plex Mono', monospace;
+  }
 
-    html { scroll-behavior: smooth; }
-    body {
-      font-family: 'Inter', sans-serif;
-      background:
-        radial-gradient(circle at top left, rgba(255,93,93,.16), transparent 26%),
-        radial-gradient(circle at bottom right, rgba(255,123,123,.11), transparent 22%),
-        linear-gradient(135deg, #060608 0%, #0c0c13 45%, #11111b 100%);
-      color: var(--white);
-      overflow-x: hidden;
-    }
+  html{scroll-behavior:smooth;}
+  body{
+    font-family:var(--serif);
+    background:
+      radial-gradient(ellipse 60% 50% at 15% 0%, rgba(63,224,192,0.05), transparent 60%),
+      radial-gradient(ellipse 55% 45% at 100% 20%, rgba(255,90,95,0.05), transparent 60%),
+      var(--bg);
+    background-attachment:fixed;
+    color:var(--ink);
+    overflow-x:hidden;
+  }
+  body::before{
+    content:"";
+    position:fixed; inset:0; z-index:0; pointer-events:none;
+    background-image:
+      linear-gradient(rgba(236,238,243,.022) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(236,238,243,.022) 1px, transparent 1px);
+    background-size: 64px 64px;
+  }
 
-    /* ── NAV ── */
-    #nav {
-      position: fixed; top: 0; left: 0; right: 0; z-index: 999;
-      display: flex; align-items: center; justify-content: space-between;
-      padding: 0 3rem;
-      height: 60px;
-      border-bottom: 1px solid var(--line);
-      background: rgba(6,6,8,0.92);
-      backdrop-filter: blur(16px);
-    }
-    .nav-logo {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: 1.4rem; letter-spacing: .12em;
-      color: var(--white); text-decoration: none; cursor: pointer;
-    }
-    .nav-logo span { color: var(--red2); }
-    .nav-links { display: flex; align-items: center; gap: 2rem; list-style: none; }
-    .nav-links a {
-      color: var(--muted); text-decoration: none;
-      font-size: .78rem; font-weight: 500; letter-spacing: .06em;
-      text-transform: uppercase; cursor: pointer;
-      transition: color .2s;
-    }
-    .nav-links a:hover, .nav-links a.active { color: var(--white); }
-    .nav-links a.active { color: var(--red2); }
-    .nav-apply {
-      background: var(--red) !important;
-      color: #fff !important;
-      padding: .35rem .9rem;
-      border-radius: 3px;
-    }
-    .nav-apply:hover { background: var(--red2) !important; color: #fff !important; }
-    .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; background: none; border: none; padding: 4px; }
-    .hamburger span { display: block; width: 22px; height: 1.5px; background: var(--white); }
+  ::selection{ background:var(--steady); color:#04140f; }
+  :focus-visible{ outline:2px solid var(--steady); outline-offset:3px; }
 
-    /* ── PAGE SYSTEM ── */
-    .page { display: none; min-height: 100vh; }
-    .page.active { display: block; animation: fadein .3s ease; }
-    @keyframes fadein { from { opacity:0; } to { opacity:1; } }
+  /* ── NAV ── */
+  #nav{
+    position:fixed; top:0; left:0; right:0; z-index:999;
+    display:flex; align-items:center; justify-content:space-between;
+    padding:0 2.75rem; height:64px;
+    border-bottom:1px solid var(--line);
+    background:rgba(10,12,16,0.88);
+    backdrop-filter:blur(14px);
+  }
+  .nav-logo{
+    display:flex; align-items:center; gap:.6rem;
+    font-family:var(--disp); font-weight:600; font-size:1.02rem; letter-spacing:.02em;
+    color:var(--ink); text-decoration:none; cursor:pointer;
+  }
+  .nav-logo .mark{ width:20px; height:14px; display:block; }
+  .nav-logo .sub{ color:var(--dim); font-weight:400; }
+  .nav-links{ display:flex; align-items:center; gap:2rem; list-style:none; }
+  .nav-links a{
+    color:var(--muted); text-decoration:none;
+    font-family:var(--mono); font-size:.68rem; letter-spacing:.09em;
+    text-transform:uppercase; cursor:pointer; transition:color .2s;
+    position:relative; padding-bottom:2px;
+  }
+  .nav-links a::after{
+    content:""; position:absolute; left:0; bottom:-3px; width:0; height:1px;
+    background:var(--steady); transition:width .25s ease;
+  }
+  .nav-links a:hover{ color:var(--ink); }
+  .nav-links a:hover::after, .nav-links a.active::after{ width:100%; }
+  .nav-links a.active{ color:var(--steady); }
+  .nav-apply{
+    border:1px solid var(--tremor) !important; color:var(--tremor) !important;
+    padding:.4rem 1rem; border-radius:2px;
+  }
+  .nav-apply::after{ display:none; }
+  .nav-apply:hover{ background:var(--tremor) !important; color:#160506 !important; }
+  .hamburger{ display:none; flex-direction:column; gap:5px; cursor:pointer; background:none; border:none; padding:4px; }
+  .hamburger span{ display:block; width:22px; height:1.5px; background:var(--ink); }
 
-    /* ── SHARED ── */
-    .section {
-      padding: 8rem 3rem;
-      max-width: 1100px;
-      margin: 0 auto;
-    }
-    .section-sm { max-width: 700px; }
-    .label {
-      font-family: var(--mono);
-      font-size: .68rem; letter-spacing: .18em;
-      text-transform: uppercase; color: var(--red2);
-      margin-bottom: 1.5rem; display: block;
-    }
-    .display {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: clamp(3.5rem, 8vw, 7rem);
-      letter-spacing: .04em;
-      line-height: .95;
-      color: var(--white);
-    }
-    .display-sm {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: clamp(2.2rem, 5vw, 4rem);
-      letter-spacing: .04em;
-      line-height: 1;
-    }
-    .body-lg { font-size: 1.05rem; line-height: 1.8; color: var(--muted); max-width: 560px; }
-    .body-md { font-size: .92rem; line-height: 1.78; color: var(--muted); }
-    .rule { border: none; border-top: 1px solid var(--line); }
-    .rule-red { border-color: var(--red); opacity: .4; }
+  /* ── PAGE SYSTEM ── */
+  .page{ display:none; min-height:100vh; position:relative; z-index:1; }
+  .page.active{ display:block; animation:fadein .35s ease; }
+  @keyframes fadein{ from{opacity:0;} to{opacity:1;} }
 
-    /* ── BUTTONS ── */
-    .btn {
-      display: inline-flex; align-items: center; gap: .4rem;
-      font-size: .78rem; font-weight: 600; letter-spacing: .1em;
-      text-transform: uppercase; text-decoration: none;
-      padding: .75rem 1.6rem; border-radius: 3px;
-      cursor: pointer; transition: all .2s; border: none; font-family: inherit;
-    }
-    .reveal {
-      opacity: 0;
-      transform: translateY(38px);
-      transition: opacity .85s cubic-bezier(.2,.75,.2,1), transform .85s cubic-bezier(.2,.75,.2,1);
-    }
-    .reveal.visible {
-      opacity: 1;
-      transform: translateY(0);
-    }
-    .reveal.delay-1 { transition-delay: .08s; }
-    .reveal.delay-2 { transition-delay: .16s; }
-    .reveal.delay-3 { transition-delay: .24s; }
-    .btn-red { background: var(--red); color: #fff; }
-    .btn-red:hover { background: var(--red2); transform: translateY(-1px); }
-    .btn-outline { background: transparent; color: var(--white); border: 1px solid var(--line2); }
-    .btn-outline:hover { border-color: var(--white); }
+  .section{ padding:8rem 2.75rem; max-width:1080px; margin:0 auto; }
+  .section-sm{ max-width:680px; }
+  .eyebrow{
+    font-family:var(--mono); font-size:.68rem; letter-spacing:.16em;
+    text-transform:uppercase; color:var(--steady);
+    margin-bottom:1.4rem; display:flex; align-items:center; gap:.6rem;
+  }
+  .eyebrow::before{ content:""; width:16px; height:1px; background:var(--steady); display:inline-block; }
+  .display{
+    font-family:var(--disp); font-weight:600;
+    font-size:clamp(3rem, 6.6vw, 5.6rem);
+    letter-spacing:-.01em; line-height:1.02; color:var(--ink);
+  }
+  .display em{ font-style:normal; color:var(--tremor); }
+  .display-sm{
+    font-family:var(--disp); font-weight:600;
+    font-size:clamp(1.9rem, 3.6vw, 2.9rem); letter-spacing:-.01em; line-height:1.08;
+  }
+  .body-lg{ font-family:var(--serif); font-size:1.18rem; line-height:1.7; color:var(--muted); max-width:560px; font-weight:400;}
+  .body-md{ font-family:var(--serif); font-size:1.02rem; line-height:1.75; color:var(--muted); }
+  .rule{ border:none; border-top:1px solid var(--line); }
 
-    /* ── STAT ROW ── */
-    .stat-row {
-      display: flex; gap: 4rem; flex-wrap: wrap;
-      padding: 3rem 0; border-top: 1px solid var(--line);
-    }
-    .stat-num {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: 3.5rem; letter-spacing: .05em; line-height: 1;
-      color: var(--white);
-    }
-    .stat-num span { color: var(--red2); }
-    .stat-lbl { font-size: .72rem; color: var(--muted); margin-top: .3rem; text-transform: uppercase; letter-spacing: .1em; font-family: var(--mono); }
+  .btn{
+    display:inline-flex; align-items:center; gap:.5rem;
+    font-family:var(--mono); font-size:.72rem; font-weight:500; letter-spacing:.09em;
+    text-transform:uppercase; text-decoration:none;
+    padding:.85rem 1.5rem; border-radius:2px;
+    cursor:pointer; transition:all .2s; border:1px solid transparent;
+  }
+  .btn-steady{ background:var(--steady); color:#04140f; }
+  .btn-steady:hover{ background:var(--steady2, #7cf0d8); transform:translateY(-1px); }
+  .btn-outline{ background:transparent; color:var(--ink); border-color:var(--line2); }
+  .btn-outline:hover{ border-color:var(--steady); color:var(--steady); }
 
-    /* ── HERO ── */
-    .hero {
-      min-height: 100vh;
-      display: flex; flex-direction: column;
-      justify-content: flex-end;
-      padding: 0 3rem 5rem;
-      position: relative;
-      overflow: hidden;
-    }
-    .hero-bg {
-      position: absolute; inset: 0;
-      background:
-        radial-gradient(ellipse 70% 60% at 70% 40%, rgba(180,20,20,.13) 0%, transparent 70%),
-        linear-gradient(180deg, transparent 40%, rgba(6,6,8,.9) 100%);
-      z-index: 0;
-    }
-    .hero-grid-line {
-      position: absolute; inset: 0; z-index: 0; pointer-events: none;
-      background-image:
-        linear-gradient(rgba(255,255,255,.025) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(255,255,255,.025) 1px, transparent 1px);
-      background-size: 80px 80px;
-    }
-    .hero-badge {
-      position: absolute; top: 100px; left: 3rem;
-      font-family: var(--mono); font-size: .65rem;
-      color: var(--dim); letter-spacing: .14em; text-transform: uppercase;
-      border-left: 2px solid var(--red); padding-left: .75rem;
-      z-index: 1;
-    }
-    .hero-content { position: relative; z-index: 1; max-width: 900px; }
-    .hero h1 {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: clamp(5rem, 13vw, 11rem);
-      letter-spacing: .03em; line-height: .9;
-      color: var(--white); margin-bottom: 2rem;
-    }
-    .hero h1 em { color: var(--red2); font-style: normal; }
-    .hero-sub {
-      font-size: 1rem; color: var(--muted); line-height: 1.75;
-      max-width: 520px; margin-bottom: 2.5rem;
-    }
-    .hero-btns { display: flex; gap: 1rem; flex-wrap: wrap; }
+  .reveal{ opacity:0; transform:translateY(30px); transition:opacity .8s cubic-bezier(.2,.75,.2,1), transform .8s cubic-bezier(.2,.75,.2,1); }
+  .reveal.visible{ opacity:1; transform:translateY(0); }
+  .reveal.delay-1{ transition-delay:.08s; }
+  .reveal.delay-2{ transition-delay:.16s; }
+  .reveal.delay-3{ transition-delay:.24s; }
 
-    /* ── FULL-BLEED DIVIDER ── */
-    .divider {
-      width: 100%; border-top: 1px solid var(--line);
-    }
+  /* ── WAVEFORM SIGNATURE ── */
+  .waveform-divider{ width:100%; display:block; }
+  .waveform-divider path.tremor-line{ stroke:var(--tremor); }
+  .waveform-divider path.steady-line{ stroke:var(--steady); }
+  .wf-draw{
+    stroke-dasharray: 900;
+    stroke-dashoffset: 900;
+    animation: draw 1.8s cubic-bezier(.3,.7,.2,1) forwards;
+  }
+  .wf-draw.d2{ animation-delay: 1.1s; }
+  @keyframes draw{ to{ stroke-dashoffset:0; } }
+  @media (prefers-reduced-motion: reduce){
+    .wf-draw{ animation:none; stroke-dashoffset:0; }
+    .reveal{ opacity:1; transform:none; transition:none; }
+  }
 
-    /* ── GLANCE STRIP ── */
-    .glance-strip {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      border-bottom: 1px solid var(--line);
-    }
-    .glance-cell {
-      padding: 3.5rem 3rem;
-      border-right: 1px solid var(--line);
-      text-align: center;
-    }
-    .glance-cell:last-child { border-right: none; }
-    .glance-num {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: 4rem; letter-spacing: .05em; color: var(--white); line-height: 1;
-    }
-    .glance-lbl { font-family: var(--mono); font-size: .65rem; color: var(--muted); text-transform: uppercase; letter-spacing: .12em; margin-top: .5rem; }
+  /* ── READOUT STRIP ── */
+  .readout-strip{
+    display:grid; grid-template-columns:repeat(4,1fr);
+    border-top:1px solid var(--line); border-bottom:1px solid var(--line);
+  }
+  .readout-cell{
+    padding:2.6rem 2rem; border-right:1px solid var(--line);
+    position:relative;
+  }
+  .readout-cell:last-child{ border-right:none; }
+  .readout-tag{ font-family:var(--mono); font-size:.62rem; color:var(--dim); text-transform:uppercase; letter-spacing:.1em; margin-bottom:.6rem;}
+  .readout-num{ font-family:var(--disp); font-size:2.6rem; font-weight:600; color:var(--ink); line-height:1; }
+  .readout-num .u{ font-family:var(--mono); font-size:1rem; color:var(--steady); font-weight:500; }
 
-    /* ── WHO WE ARE SPLIT ── */
-    .split {
-      display: grid; grid-template-columns: 1fr 1fr; gap: 6rem;
-      align-items: start;
-    }
-    .split-sticky { position: sticky; top: 100px; }
+  /* ── SPLIT / FEATURE LIST ── */
+  .split{ display:grid; grid-template-columns:1fr 1fr; gap:5rem; align-items:start; }
+  .split-sticky{ position:sticky; top:110px; }
+  .feat-list{ display:flex; flex-direction:column; }
+  .feat-item{ padding:1.9rem 0; border-top:1px solid var(--line); display:grid; grid-template-columns:1.4rem 1fr; gap:1.3rem; }
+  .feat-mark{ font-family:var(--mono); font-size:.9rem; color:var(--steady); padding-top:.15rem; }
+  .feat-title{ font-family:var(--disp); font-size:1rem; font-weight:600; color:var(--ink); margin-bottom:.5rem; }
+  .feat-body{ font-family:var(--serif); font-size:.95rem; color:var(--muted); line-height:1.68; }
 
-    /* ── FEATURE LIST ── */
-    .feat-list { display: flex; flex-direction: column; }
-    .feat-item {
-      padding: 2rem 0;
-      border-top: 1px solid var(--line);
-      display: grid; grid-template-columns: 2rem 1fr; gap: 1.5rem;
-      align-items: start;
-    }
-    .feat-num { font-family: var(--mono); font-size: .7rem; color: var(--red2); padding-top: .2rem; }
-    .feat-title { font-size: .95rem; font-weight: 600; color: var(--white); margin-bottom: .5rem; }
-    .feat-body { font-size: .88rem; color: var(--muted); line-height: 1.72; }
+  /* ── INSTRUMENT CARD ── corner-bracket panel motif ── */
+  .icard{
+    position:relative; background:var(--panel);
+    border:1px solid var(--line); padding:1.6rem;
+  }
+  .icard::before, .icard::after{
+    content:""; position:absolute; width:11px; height:11px;
+    border:1px solid var(--steady-dim);
+  }
+  .icard::before{ top:-1px; left:-1px; border-right:none; border-bottom:none; }
+  .icard::after{ bottom:-1px; right:-1px; border-left:none; border-top:none; }
+  .icard .icard-icon{ font-size:1.25rem; margin-bottom:.85rem; }
+  .icard h4{ font-family:var(--disp); font-size:.98rem; color:var(--ink); margin-bottom:.55rem; font-weight:600; }
+  .icard p{ font-family:var(--serif); font-size:.92rem; color:var(--muted); line-height:1.65; }
 
-    /* ── PRODUCT HERO ── */
-    .product-shell {
-      background: linear-gradient(145deg, rgba(255,255,255,0.045), rgba(255,255,255,0.02));
-      border: 1px solid var(--line);
-      border-radius: 24px;
-      padding: 2rem;
-      box-shadow: 0 20px 70px rgba(0,0,0,.22);
-      backdrop-filter: blur(16px);
-    }
-    .product-tabs {
-      display: flex; gap: .7rem; flex-wrap: wrap; margin: 2rem 0 1.5rem;
-    }
-    .product-tab {
-      border: 1px solid var(--line);
-      background: transparent; color: var(--muted);
-      padding: .65rem 1rem; border-radius: 999px;
-      cursor: pointer; font-family: var(--mono); font-size: .66rem;
-      letter-spacing: .12em; text-transform: uppercase; transition: all .25s;
-    }
-    .product-tab.active, .product-tab:hover {
-      color: var(--white);
-      border-color: rgba(255,125,125,.4);
-      background: rgba(255,93,93,.11);
-      box-shadow: inset 0 0 0 1px rgba(255,125,125,.1);
-    }
-    .product-panel { display: none; animation: fadein .35s ease; }
-    .product-panel.active { display: block; }
-    .product-card-grid {
-      display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin-bottom: 1.5rem;
-    }
-    .product-card {
-      background: rgba(255,255,255,.035); border: 1px solid var(--line);
-      border-radius: 16px; padding: 1.3rem; min-height: 160px;
-    }
-    .product-card .icon { font-size: 1.35rem; margin-bottom: .75rem; }
-    .product-card h4 { font-size: .95rem; color: var(--white); margin-bottom: .45rem; }
-    .product-card p { font-size: .82rem; color: var(--muted); line-height: 1.7; }
-    .product-quote {
-      border-left: 2px solid var(--red2); padding-left: 1.2rem;
-      color: var(--white); font-style: italic; line-height: 1.8; font-size: .95rem;
-    }
-    .product-hero {
-      border: 1px solid var(--line); border-radius: 20px;
-      padding: 2rem; background: linear-gradient(135deg, rgba(255,93,93,.09), rgba(255,255,255,.03));
-      margin-bottom: 1.5rem;
-    }
-    .product-hero h3 { font-size: 1.3rem; color: var(--white); margin-bottom: .75rem; }
-    .product-hero p { color: var(--muted); line-height: 1.8; }
-    .future-grid {
-      display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem;
-    }
-    .future-item {
-      border: 1px solid var(--line); border-radius: 16px; padding: 1.3rem;
-      background: rgba(255,255,255,.03);
-    }
-    .future-item .tag { display: inline-block; margin-bottom: .9rem; }
-    .future-item h4 { font-size: .95rem; color: var(--white); margin-bottom: .4rem; }
-    .future-item p { font-size: .82rem; color: var(--muted); line-height: 1.7; }
-    .prod-full {
-      background: var(--panel);
-      border-top: 1px solid var(--line);
-      border-bottom: 1px solid var(--line);
-      padding: 6rem 3rem;
-    }
-    .prod-inner { max-width: 1100px; margin: 0 auto; }
-    .prod-header {
-      display: grid; grid-template-columns: 1fr 1fr; gap: 5rem;
-      margin-bottom: 5rem; align-items: end;
-    }
-    .prod-body-col .body-md { margin-bottom: 1.5rem; }
-    .steps-grid {
-      display: grid; grid-template-columns: repeat(4, 1fr);
-      gap: 0;
-      border: 1px solid var(--line);
-      border-radius: 4px; overflow: hidden;
-      margin-bottom: 4rem;
-    }
-    .step-cell {
-      padding: 2.5rem 2rem;
-      border-right: 1px solid var(--line);
-    }
-    .step-cell:last-child { border-right: none; }
-    .step-tag { font-family: var(--mono); font-size: .62rem; color: var(--red2); letter-spacing: .14em; text-transform: uppercase; margin-bottom: 1rem; }
-    .step-title { font-weight: 600; font-size: .92rem; margin-bottom: .65rem; color: var(--white); }
-    .step-body { font-size: .82rem; color: var(--muted); line-height: 1.68; }
-    .impact-row {
-      display: grid; grid-template-columns: repeat(3, 1fr);
-      gap: 0; border: 1px solid var(--line); border-radius: 4px; overflow: hidden;
-    }
-    .impact-cell {
-      padding: 2.5rem 2.5rem;
-      border-right: 1px solid var(--line); text-align: center;
-    }
-    .impact-cell:last-child { border-right: none; }
-    .impact-num { font-family: 'Bebas Neue', sans-serif; font-size: 3rem; color: var(--red2); }
-    .impact-lbl { font-size: .78rem; color: var(--muted); margin-top: .3rem; line-height: 1.5; }
+  /* ── HERO ── */
+  .hero{
+    min-height:100vh; display:flex; flex-direction:column; justify-content:flex-end;
+    padding:0 2.75rem 4.5rem; position:relative; overflow:hidden;
+  }
+  .hero-badge{
+    position:absolute; top:100px; left:2.75rem;
+    font-family:var(--mono); font-size:.66rem; color:var(--dim);
+    letter-spacing:.13em; text-transform:uppercase;
+    border-left:2px solid var(--tremor); padding-left:.75rem; z-index:2;
+  }
+  .hero-wf{ position:absolute; left:0; right:0; top:38%; z-index:0; opacity:.9; }
+  .hero-content{ position:relative; z-index:2; max-width:820px; }
+  .hero h1{
+    font-family:var(--disp); font-weight:700;
+    font-size:clamp(3.4rem, 8.2vw, 6.6rem);
+    letter-spacing:-.02em; line-height:.98; color:var(--ink); margin-bottom:1.8rem;
+  }
+  .hero h1 em{ font-style:normal; color:var(--tremor); }
+  .hero-sub{ font-family:var(--serif); font-size:1.12rem; color:var(--muted); line-height:1.7; max-width:520px; margin-bottom:2.4rem; }
+  .hero-btns{ display:flex; gap:1rem; flex-wrap:wrap; }
+  .hero-caption{
+    position:absolute; right:2.75rem; bottom:4.5rem; z-index:2;
+    font-family:var(--mono); font-size:.66rem; color:var(--dim); text-align:right;
+    line-height:1.8; letter-spacing:.04em; max-width:220px;
+  }
+  .hero-caption b{ color:var(--steady); font-weight:500; }
 
-    /* ── TEAM ── */
-    .team-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1px; background: var(--line); border: 1px solid var(--line); }
-    .member {
-      background: var(--black); padding: 2.5rem;
-      transition: background .25s;
-    }
-    .member:hover { background: var(--panel); }
-    .member-init {
-      font-family: 'Bebas Neue', sans-serif; font-size: 2.5rem;
-      color: var(--dim); margin-bottom: 1.2rem; letter-spacing: .06em;
-    }
-    .member-name { font-weight: 600; font-size: 1.05rem; margin-bottom: .3rem; color: var(--white); }
-    .member-role { font-family: var(--mono); font-size: .68rem; color: var(--red2); letter-spacing: .1em; text-transform: uppercase; margin-bottom: 1rem; }
-    .member-bio { font-size: .85rem; color: var(--muted); line-height: 1.72; }
-    .member-tags { display: flex; gap: .4rem; flex-wrap: wrap; margin-top: 1rem; }
-    .tag { font-family: var(--mono); font-size: .65rem; color: var(--dim); border: 1px solid var(--line); padding: .2rem .55rem; border-radius: 2px; }
+  /* ── WHO WE ARE ── */
+  /* uses .split / .feat-list above */
 
-    /* ── COMING SOON ── */
-    .soon-page { padding: 8rem 3rem; max-width: 700px; margin: 0 auto; }
-    .soon-status { font-family: var(--mono); font-size: .7rem; color: var(--red2); letter-spacing: .12em; text-transform: uppercase; display: flex; align-items: center; gap: .5rem; margin-bottom: 2rem; }
-    .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--red2); animation: pulse 2s infinite; }
-    @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.3} }
-    .soon-list { margin: 2.5rem 0; padding: 2rem; border: 1px solid var(--line); border-radius: 4px; }
-    .soon-list h4 { font-weight: 600; font-size: .88rem; margin-bottom: 1.1rem; color: var(--white); }
-    .soon-list ul { list-style: none; color: var(--muted); font-size: .85rem; line-height: 2; }
+  /* ── PRODUCT ── */
+  .product-shell{ background:var(--panel); border:1px solid var(--line); padding:2rem; }
+  .product-tabs{ display:flex; gap:.6rem; flex-wrap:wrap; margin:0 0 1.75rem; border-bottom:1px solid var(--line); padding-bottom:1.5rem;}
+  .product-tab{
+    border:1px solid var(--line); background:transparent; color:var(--muted);
+    padding:.6rem 1rem; cursor:pointer; font-family:var(--mono); font-size:.66rem;
+    letter-spacing:.1em; text-transform:uppercase; transition:all .2s;
+  }
+  .product-tab.active, .product-tab:hover{ color:var(--bg); background:var(--steady); border-color:var(--steady); }
+  .product-panel{ display:none; animation:fadein .3s ease; }
+  .product-panel.active{ display:block; }
+  .product-card-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:1rem; margin-bottom:1.5rem; }
+  .product-quote{ border-left:2px solid var(--tremor); padding-left:1.2rem; color:var(--ink); font-family:var(--serif); font-style:italic; line-height:1.8; font-size:1rem; }
+  .product-hero{ border:1px solid var(--line); padding:1.9rem; background:var(--panel2); margin-bottom:1.5rem; }
+  .product-hero h3{ font-family:var(--disp); font-size:1.25rem; font-weight:600; color:var(--ink); margin-bottom:.75rem; }
+  .product-hero p{ font-family:var(--serif); color:var(--muted); line-height:1.78; }
+  .future-grid{ display:grid; grid-template-columns:repeat(2,1fr); gap:1rem; }
+  .future-item{ border:1px solid var(--line); padding:1.4rem; background:var(--panel2); }
+  .future-tag{ font-family:var(--mono); font-size:.62rem; letter-spacing:.12em; text-transform:uppercase; color:var(--tremor); margin-bottom:.85rem; display:block; }
+  .future-item h4{ font-family:var(--disp); font-size:.98rem; color:var(--ink); margin-bottom:.4rem; font-weight:600; }
+  .future-item p{ font-family:var(--serif); font-size:.9rem; color:var(--muted); line-height:1.65; }
 
-    /* ── DETAILS ── */
-    .details-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: var(--line); border: 1px solid var(--line); margin-bottom: 4rem; }
-    .detail-cell { background: var(--black); padding: 2.5rem; transition: background .25s; }
-    .detail-cell:hover { background: var(--panel); }
-    .detail-icon { font-size: 1.4rem; margin-bottom: 1rem; }
-    .detail-label { font-family: var(--mono); font-size: .65rem; color: var(--red2); letter-spacing: .12em; text-transform: uppercase; margin-bottom: .4rem; }
-    .detail-val { font-weight: 600; font-size: 1rem; color: var(--white); margin-bottom: .6rem; }
-    .detail-body { font-size: .83rem; color: var(--muted); line-height: 1.68; }
+  .steps-grid{ display:grid; grid-template-columns:repeat(4,1fr); border:1px solid var(--line); margin-bottom:1.6rem; }
+  .step-cell{ padding:2rem 1.5rem; border-right:1px solid var(--line); }
+  .step-cell:last-child{ border-right:none; }
+  .step-tag{ font-family:var(--mono); font-size:.6rem; color:var(--steady); letter-spacing:.12em; text-transform:uppercase; margin-bottom:.9rem; }
+  .step-title{ font-family:var(--disp); font-weight:600; font-size:.92rem; margin-bottom:.55rem; color:var(--ink); }
+  .step-body{ font-family:var(--serif); font-size:.87rem; color:var(--muted); line-height:1.62; }
+  .live-tag{ display:inline-flex; align-items:center; gap:.5rem; border:1px solid var(--tremor-dim); padding:.45rem 1rem; font-family:var(--mono); font-size:.64rem; color:var(--tremor); text-transform:uppercase; letter-spacing:.1em; }
+  .dot{ width:6px; height:6px; border-radius:50%; background:var(--tremor); animation:pulse 2s infinite; }
+  @keyframes pulse{ 0%,100%{opacity:1;} 50%{opacity:.25;} }
 
-    /* ── JOIN ── */
-    .social-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: var(--line); border: 1px solid var(--line); margin-bottom: 4rem; }
-    .social-cell { background: var(--black); padding: 2.5rem; text-align: center; text-decoration: none; color: inherit; transition: background .25s; display: block; }
-    .social-cell:hover { background: var(--panel); }
-    .sc-icon { font-size: 2rem; margin-bottom: .9rem; }
-    .sc-name { font-weight: 600; font-size: .95rem; color: var(--white); margin-bottom: .3rem; }
-    .sc-handle { font-family: var(--mono); font-size: .75rem; color: var(--red2); }
-    .sc-note { font-size: .78rem; color: var(--muted); margin-top: .4rem; }
-    .join-cta-block {
-      border: 1px solid var(--line); padding: 5rem 4rem; text-align: center;
-      background: var(--panel);
-    }
-    .join-cta-block h3 { font-family: 'Bebas Neue', sans-serif; font-size: 3rem; letter-spacing: .05em; margin-bottom: 1rem; }
-    .join-cta-block p { color: var(--muted); max-width: 420px; margin: 0 auto 2.5rem; line-height: 1.72; font-size: .92rem; }
-    .join-fine { margin-top: 1rem; color: var(--dim); font-size: .75rem; font-family: var(--mono); }
+  /* ── TEAM ── */
+  .team-grid{ display:grid; grid-template-columns:repeat(2,1fr); gap:1px; background:var(--line); border:1px solid var(--line); }
+  .member{ background:var(--bg); padding:2.4rem; transition:background .25s; }
+  .member:hover{ background:var(--panel); }
+  .member-init{ font-family:var(--disp); font-weight:700; font-size:2.1rem; color:var(--dim); margin-bottom:1.1rem; letter-spacing:.02em; }
+  .member-name{ font-family:var(--disp); font-weight:600; font-size:1.05rem; margin-bottom:.3rem; color:var(--ink); }
+  .member-role{ font-family:var(--mono); font-size:.66rem; color:var(--steady); letter-spacing:.08em; text-transform:uppercase; margin-bottom:1rem; }
+  .member-bio{ font-family:var(--serif); font-size:.94rem; color:var(--muted); line-height:1.72; }
+  .member-tags{ display:flex; gap:.4rem; flex-wrap:wrap; margin-top:1.1rem; }
+  .tag{ font-family:var(--mono); font-size:.63rem; color:var(--dim); border:1px solid var(--line); padding:.22rem .55rem; }
 
-    /* ── FOOTER ── */
-    footer {
-      border-top: 1px solid var(--line);
-      padding: 3rem;
-    }
-    .footer-inner {
-      max-width: 1100px; margin: 0 auto;
-      display: grid; grid-template-columns: 1fr auto 1fr;
-      align-items: center; gap: 2rem;
-    }
-    .footer-logo { font-family: 'Bebas Neue', sans-serif; font-size: 1.2rem; letter-spacing: .12em; color: var(--white); cursor: pointer; }
-    .footer-logo span { color: var(--red2); }
-    .footer-nav { display: flex; gap: 1.75rem; justify-content: center; }
-    .footer-nav a { color: var(--dim); text-decoration: none; font-size: .75rem; cursor: pointer; transition: color .2s; text-transform: uppercase; letter-spacing: .06em; font-family: var(--mono); }
-    .footer-nav a:hover { color: var(--white); }
-    .footer-right { text-align: right; color: var(--dim); font-size: .72rem; font-family: var(--mono); line-height: 1.8; }
-    .footer-socials { display: flex; gap: 1rem; justify-content: flex-end; margin-bottom: .5rem; }
-    .footer-socials a { color: var(--dim); text-decoration: none; font-size: .72rem; transition: color .2s; }
-    .footer-socials a:hover { color: var(--white); }
+  .join-cta-block{ border:1px solid var(--line); padding:4.5rem 3.5rem; text-align:center; background:var(--panel); position:relative; }
+  .join-cta-block::before, .join-cta-block::after{ content:""; position:absolute; width:14px; height:14px; border:1px solid var(--steady-dim); }
+  .join-cta-block::before{ top:-1px; left:-1px; border-right:none; border-bottom:none; }
+  .join-cta-block::after{ bottom:-1px; right:-1px; border-left:none; border-top:none; }
+  .join-cta-block h3{ font-family:var(--disp); font-weight:700; font-size:2.4rem; letter-spacing:-.01em; margin-bottom:1rem; }
+  .join-cta-block p{ font-family:var(--serif); color:var(--muted); max-width:420px; margin:0 auto 2.2rem; line-height:1.72; font-size:.98rem; }
+  .join-fine{ margin-top:1.1rem; color:var(--dim); font-size:.72rem; font-family:var(--mono); letter-spacing:.03em; }
 
-    /* ── RESPONSIVE ── */
-    @media (max-width: 900px) {
-      .glance-strip { grid-template-columns: repeat(2, 1fr); }
-      .glance-cell:nth-child(2) { border-right: none; }
-      .split { grid-template-columns: 1fr; gap: 3rem; }
-      .split-sticky { position: static; }
-      .prod-header { grid-template-columns: 1fr; gap: 2.5rem; }
-      .steps-grid { grid-template-columns: 1fr 1fr; }
-      .step-cell:nth-child(2) { border-right: none; }
-      .step-cell:nth-child(3) { border-top: 1px solid var(--line); }
-      .step-cell:nth-child(4) { border-top: 1px solid var(--line); border-right: none; }
-      .impact-row { grid-template-columns: 1fr; }
-      .impact-cell { border-right: none; border-bottom: 1px solid var(--line); }
-      .impact-cell:last-child { border-bottom: none; }
-      .team-grid { grid-template-columns: 1fr; }
-      .details-grid { grid-template-columns: 1fr; }
-      .social-row { grid-template-columns: 1fr; }
-      .footer-inner { grid-template-columns: 1fr; text-align: center; gap: 1.5rem; }
-      .footer-nav { flex-wrap: wrap; }
-      .footer-right { text-align: center; }
-      .footer-socials { justify-content: center; }
-      .hero { padding: 0 1.5rem 4rem; }
-      .hero-badge { left: 1.5rem; }
-      .section { padding: 5rem 1.5rem; }
-      .prod-full { padding: 4rem 1.5rem; }
-      #nav { padding: 0 1.5rem; }
-      .nav-links {
-        display: none; position: absolute; top: 60px; left: 0; right: 0;
-        background: rgba(6,6,8,.98); flex-direction: column;
-        padding: 1rem 1.5rem; border-bottom: 1px solid var(--line);
-        gap: .75rem;
-      }
-      .nav-links.open { display: flex; }
-      .hamburger { display: flex; }
-    }
-  </style>
+  /* ── COMING SOON / STATUS ── */
+  .soon-status{ font-family:var(--mono); font-size:.7rem; color:var(--tremor); letter-spacing:.1em; text-transform:uppercase; display:flex; align-items:center; gap:.5rem; margin-bottom:2rem; }
+  .soon-list{ margin:2.2rem 0; padding:1.9rem; border:1px solid var(--line); background:var(--panel); }
+  .soon-list h4{ font-family:var(--disp); font-weight:600; font-size:.9rem; margin-bottom:1rem; color:var(--ink); }
+  .soon-list ul{ list-style:none; color:var(--muted); font-family:var(--serif); font-size:.94rem; line-height:2; }
+
+  /* ── DETAILS / SOCIAL GRIDS ── */
+  .details-grid, .social-row{ display:grid; grid-template-columns:repeat(3,1fr); gap:1px; background:var(--line); border:1px solid var(--line); margin-bottom:3.5rem; }
+  .detail-cell, .social-cell{ background:var(--bg); padding:2.2rem; transition:background .25s; }
+  .detail-cell:hover, .social-cell:hover{ background:var(--panel); }
+  .social-cell{ text-align:center; text-decoration:none; color:inherit; display:block; }
+  .detail-icon, .sc-icon{ font-size:1.3rem; margin-bottom:.9rem; }
+  .detail-label{ font-family:var(--mono); font-size:.62rem; color:var(--steady); letter-spacing:.1em; text-transform:uppercase; margin-bottom:.4rem; }
+  .detail-val, .sc-name{ font-family:var(--disp); font-weight:600; font-size:.98rem; color:var(--ink); margin-bottom:.55rem; }
+  .detail-body{ font-family:var(--serif); font-size:.88rem; color:var(--muted); line-height:1.65; }
+  .sc-handle{ font-family:var(--mono); font-size:.72rem; color:var(--steady); }
+  .sc-note{ font-family:var(--serif); font-size:.82rem; color:var(--muted); margin-top:.45rem; }
+
+  /* ── FOOTER ── */
+  footer{ border-top:1px solid var(--line); padding:2.75rem; position:relative; z-index:1; }
+  .footer-inner{ max-width:1080px; margin:0 auto; display:grid; grid-template-columns:1fr auto 1fr; align-items:center; gap:2rem; }
+  .footer-logo{ font-family:var(--disp); font-weight:600; font-size:1rem; color:var(--ink); cursor:pointer; }
+  .footer-logo span{ color:var(--tremor); }
+  .footer-nav{ display:flex; gap:1.6rem; justify-content:center; }
+  .footer-nav a{ color:var(--dim); text-decoration:none; font-size:.68rem; cursor:pointer; transition:color .2s; text-transform:uppercase; letter-spacing:.07em; font-family:var(--mono); }
+  .footer-nav a:hover{ color:var(--steady); }
+  .footer-right{ text-align:right; color:var(--dim); font-size:.68rem; font-family:var(--mono); line-height:1.8; }
+  .footer-socials{ display:flex; gap:1rem; justify-content:flex-end; margin-bottom:.5rem; }
+  .footer-socials a{ color:var(--dim); text-decoration:none; font-size:.68rem; transition:color .2s; }
+  .footer-socials a:hover{ color:var(--steady); }
+
+  blockquote{ border-left:2px solid var(--tremor); padding-left:1.75rem; }
+  blockquote p{ font-family:var(--serif); font-size:1.2rem; line-height:1.65; color:var(--ink); font-weight:400; font-style:italic; }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width:900px){
+    .readout-strip{ grid-template-columns:repeat(2,1fr); }
+    .split{ grid-template-columns:1fr; gap:2.75rem; }
+    .split-sticky{ position:static; }
+    .product-card-grid{ grid-template-columns:1fr; }
+    .steps-grid{ grid-template-columns:1fr 1fr; }
+    .step-cell:nth-child(2){ border-right:none; }
+    .step-cell:nth-child(3){ border-top:1px solid var(--line); }
+    .step-cell:nth-child(4){ border-top:1px solid var(--line); border-right:none; }
+    .future-grid{ grid-template-columns:1fr; }
+    .team-grid, .details-grid, .social-row{ grid-template-columns:1fr; }
+    .footer-inner{ grid-template-columns:1fr; text-align:center; gap:1.4rem; }
+    .footer-nav{ flex-wrap:wrap; }
+    .footer-right{ text-align:center; }
+    .footer-socials{ justify-content:center; }
+    .hero{ padding:0 1.4rem 3.5rem; }
+    .hero-badge{ left:1.4rem; }
+    .hero-caption{ display:none; }
+    .section{ padding:5rem 1.4rem; }
+    #nav{ padding:0 1.4rem; }
+    .nav-links{ display:none; position:absolute; top:64px; left:0; right:0; background:rgba(10,12,16,.98); flex-direction:column; padding:1rem 1.4rem; border-bottom:1px solid var(--line); gap:.9rem; }
+    .nav-links.open{ display:flex; }
+    .hamburger{ display:flex; }
+    .join-cta-block{ padding:3rem 1.6rem; }
+  }
+</style>
 </head>
 <body>
 
 <!-- NAV -->
 <nav id="nav">
-  <a class="nav-logo" onclick="go('home')">OAKTON <span>ENABLE</span></a>
-  <button class="hamburger" id="ham" onclick="toggleMenu()" aria-label="Menu">
-    <span></span><span></span><span></span>
-  </button>
+  <a class="nav-logo" onclick="go('home')">
+    <svg class="mark" viewBox="0 0 40 26" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <path d="M0,20 L6,8 L10,22 L14,4 L18,20 L24,13 L40,13" fill="none" stroke="#3fe0c0" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+    OAKTON <span class="sub">ENABLE</span>
+  </a>
+  <button class="hamburger" id="ham" onclick="toggleMenu()" aria-label="Menu"><span></span><span></span><span></span></button>
   <ul class="nav-links" id="nav-links">
-    <li><a onclick="go('home')"      data-p="home"      class="active">Home</a></li>
-    <li><a onclick="go('about')"     data-p="about"             >About</a></li>
-    <li><a onclick="go('product')"   data-p="product"           >Product</a></li>
-    <li><a onclick="go('cad')"       data-p="cad"               >CAD</a></li>
-    <li><a onclick="go('creations')" data-p="creations"         >Creations</a></li>
-    <li><a onclick="go('team')"      data-p="team"              >Team</a></li>
-    <li><a onclick="go('details')"   data-p="details"           >Club Info</a></li>
-    <li><a onclick="go('join')"      data-p="join" class="nav-apply">Apply</a></li>
+    <li><a onclick="go('home')" data-p="home" class="active">Home</a></li>
+    <li><a onclick="go('about')" data-p="about">About</a></li>
+    <li><a onclick="go('product')" data-p="product">Product</a></li>
+    <li><a onclick="go('cad')" data-p="cad">CAD</a></li>
+    <li><a onclick="go('creations')" data-p="creations">Creations</a></li>
+    <li><a onclick="go('team')" data-p="team">Team</a></li>
+    <li><a onclick="go('details')" data-p="details">Club Info</a></li>
+    <li><a onclick="go('join')" data-p="join" class="nav-apply">Apply</a></li>
   </ul>
 </nav>
 
 <!-- ████ HOME ████ -->
 <div class="page active" id="page-home">
   <section class="hero">
-    <div class="hero-bg" aria-hidden="true"></div>
-    <div class="hero-grid-line" aria-hidden="true"></div>
     <div class="hero-badge">Oakton High School · Biomedical Engineering Club</div>
+
+    <svg class="hero-wf" viewBox="0 0 1200 220" preserveAspectRatio="none" aria-hidden="true">
+      <path class="tremor-line wf-draw" d="M0,110 C15,70 30,155 45,90 C60,25 75,165 90,80 C105,10 120,150 135,95 C150,35 165,130 180,100 C195,155 210,55 225,115 C240,175 255,35 270,105 C285,60 300,145 315,95 C330,25 345,155 360,85 C375,130 390,45 405,110 C420,160 435,50 450,100 C465,25 480,150 495,90 C510,140 525,45 540,105 C555,15 570,150 585,100" fill="none" stroke-width="1.6" opacity="0.55"/>
+      <path class="steady-line wf-draw d2" d="M585,100 C650,102 720,100 800,101 C900,100 1000,101 1200,100" fill="none" stroke-width="1.6" opacity="0.85"/>
+    </svg>
+
     <div class="hero-content">
       <h1>ENGINEER<br>THE <em>FUTURE</em><br>OF MEDICINE</h1>
       <p class="hero-sub">Oakton Enable is a student-led team designing real-world solutions for people living with neurological challenges — starting with Parkinson's disease.</p>
       <div class="hero-btns">
-        <button class="btn btn-red" onclick="go('product')">Our Work</button>
+        <button class="btn btn-steady" onclick="go('product')">Our Work</button>
         <button class="btn btn-outline" onclick="go('join')">Join the Club</button>
       </div>
     </div>
+    <div class="hero-caption">TREMOR SIGNAL <b>→</b> CALIBRATED OUTPUT<br>a stray hand made steady</div>
   </section>
 
-  <!-- GLANCE STRIP -->
-  <div class="glance-strip">
-    <div class="glance-cell">
-      <div class="glance-num">4</div>
-      <div class="glance-lbl">Core Members</div>
-    </div>
-    <div class="glance-cell">
-      <div class="glance-num">1</div>
-      <div class="glance-lbl">Active Project</div>
-    </div>
-    <div class="glance-cell">
-      <div class="glance-num">10M+</div>
-      <div class="glance-lbl">Lives We Aim to Impact</div>
-    </div>
-    <div class="glance-cell">
-      <div class="glance-num">2025</div>
-      <div class="glance-lbl">Founded</div>
-    </div>
+  <div class="readout-strip">
+    <div class="readout-cell"><div class="readout-tag">Core Members</div><div class="readout-num">04</div></div>
+    <div class="readout-cell"><div class="readout-tag">Active Project</div><div class="readout-num">01</div></div>
+    <div class="readout-cell"><div class="readout-tag">Lives We Aim to Impact</div><div class="readout-num">10<span class="u">M+</span></div></div>
+    <div class="readout-cell"><div class="readout-tag">Founded</div><div class="readout-num">2025</div></div>
   </div>
 
-  <!-- WHO WE ARE -->
   <div class="section">
     <div class="split">
       <div class="split-sticky">
-        <span class="label">Who We Are</span>
+        <span class="eyebrow">Who We Are</span>
         <h2 class="display-sm" style="margin-bottom:1.5rem;">WHERE EMPATHY<br>MEETS ENGINEERING</h2>
         <p class="body-md" style="margin-bottom:2rem;">We tackle real biomedical challenges through student-driven design, research, and hardware — giving students the platform to create meaningful change before they ever leave high school.</p>
         <button class="btn btn-outline" onclick="go('about')">Learn More</button>
       </div>
       <div class="feat-list">
-        <div class="feat-item">
-          <div class="feat-num">01</div>
-          <div>
-            <div class="feat-title">Full-Pipeline Engineering</div>
-            <div class="feat-body">From concept sketch to physical prototype — CAD, 3D printing, embedded electronics, and firmware. We mirror a real product development pipeline.</div>
-          </div>
-        </div>
-        <div class="feat-item">
-          <div class="feat-num">02</div>
-          <div>
-            <div class="feat-title">Research Before We Build</div>
-            <div class="feat-body">Before we design anything, we go deep. Medical literature, patient communities, and clinical data shape every engineering decision we make.</div>
-          </div>
-        </div>
-        <div class="feat-item">
-          <div class="feat-num">03</div>
-          <div>
-            <div class="feat-title">Student-Led. Impact-Driven.</div>
-            <div class="feat-body">Every design, line of code, and research finding is created by students. The next breakthrough in assistive tech could come from a high school lab.</div>
-          </div>
-        </div>
-        <div class="feat-item">
-          <div class="feat-num">04</div>
-          <div>
-            <div class="feat-title">Open Source Everything</div>
-            <div class="feat-body">Our code, schematics, and CAD files are public. We believe accessible technology starts with accessible development.</div>
-          </div>
-        </div>
+        <div class="feat-item"><div class="feat-mark">›</div><div><div class="feat-title">Full-Pipeline Engineering</div><div class="feat-body">From concept sketch to physical prototype — CAD, 3D printing, embedded electronics, and firmware. We mirror a real product development pipeline.</div></div></div>
+        <div class="feat-item"><div class="feat-mark">›</div><div><div class="feat-title">Research Before We Build</div><div class="feat-body">Before we design anything, we go deep. Medical literature, patient communities, and clinical data shape every engineering decision we make.</div></div></div>
+        <div class="feat-item"><div class="feat-mark">›</div><div><div class="feat-title">Student-Led. Impact-Driven.</div><div class="feat-body">Every design, line of code, and research finding is created by students. The next breakthrough in assistive tech could come from a high school lab.</div></div></div>
+        <div class="feat-item"><div class="feat-mark">›</div><div><div class="feat-title">Open Source Everything</div><div class="feat-body">Our code, schematics, and CAD files are public. We believe accessible technology starts with accessible development.</div></div></div>
       </div>
     </div>
   </div>
@@ -536,9 +404,9 @@
 <!-- ████ ABOUT ████ -->
 <div class="page" id="page-about">
   <div class="section">
-    <span class="label">Who We Are</span>
+    <span class="eyebrow">Who We Are</span>
     <h1 class="display" style="margin-bottom:3rem;">ABOUT<br>THE CLUB</h1>
-    <hr class="rule rule-red" style="margin-bottom:4rem;">
+    <hr class="rule" style="margin-bottom:4rem;">
 
     <div class="split" style="margin-bottom:5rem;">
       <div>
@@ -546,43 +414,17 @@
         <p class="body-md">We operate in the space between clinical need and technical possibility — choosing problems rooted in real human experience, and building solutions with dignity at the center of every design decision.</p>
       </div>
       <div>
-        <blockquote style="border-left:2px solid var(--red); padding-left:1.75rem;">
-          <p style="font-size:1.15rem; line-height:1.65; color:var(--white); font-weight:300; font-style:italic; margin-bottom:1rem;">"We exist to engineer hope — for the patients who wait, for the families who struggle, and for a future where transformative technology is accessible to everyone who needs it."</p>
-        </blockquote>
+        <blockquote><p>"We exist to engineer hope — for the patients who wait, for the families who struggle, and for a future where transformative technology is accessible to everyone who needs it."</p></blockquote>
       </div>
     </div>
 
-    <span class="label">Core Philosophy</span>
+    <span class="eyebrow">Core Philosophy</span>
     <h2 class="display-sm" style="margin-bottom:3rem;">OUR VALUES</h2>
     <div class="feat-list">
-      <div class="feat-item">
-        <div class="feat-num">💡</div>
-        <div>
-          <div class="feat-title">Innovation</div>
-          <div class="feat-body">Chase creative solutions where others see dead ends. Conventional answers aren't enough when the stakes are someone's quality of life.</div>
-        </div>
-      </div>
-      <div class="feat-item">
-        <div class="feat-num">❤️</div>
-        <div>
-          <div class="feat-title">Empathy</div>
-          <div class="feat-body">Design with the end user at the heart of every decision — always. We build for people, not portfolios.</div>
-        </div>
-      </div>
-      <div class="feat-item">
-        <div class="feat-num">🔍</div>
-        <div>
-          <div class="feat-title">Rigor</div>
-          <div class="feat-body">Ground every choice in data, research, and testing. Guesswork isn't design — especially when it affects real patients.</div>
-        </div>
-      </div>
-      <div class="feat-item">
-        <div class="feat-num">🚀</div>
-        <div>
-          <div class="feat-title">Action</div>
-          <div class="feat-body">Build, test, iterate — never wait for perfection before you begin. Momentum is how real projects get done.</div>
-        </div>
-      </div>
+      <div class="feat-item"><div class="feat-mark">💡</div><div><div class="feat-title">Innovation</div><div class="feat-body">Chase creative solutions where others see dead ends. Conventional answers aren't enough when the stakes are someone's quality of life.</div></div></div>
+      <div class="feat-item"><div class="feat-mark">❤</div><div><div class="feat-title">Empathy</div><div class="feat-body">Design with the end user at the heart of every decision — always. We build for people, not portfolios.</div></div></div>
+      <div class="feat-item"><div class="feat-mark">◎</div><div><div class="feat-title">Rigor</div><div class="feat-body">Ground every choice in data, research, and testing. Guesswork isn't design — especially when it affects real patients.</div></div></div>
+      <div class="feat-item"><div class="feat-mark">▲</div><div><div class="feat-title">Action</div><div class="feat-body">Build, test, iterate — never wait for perfection before you begin. Momentum is how real projects get done.</div></div></div>
     </div>
   </div>
 </div>
@@ -591,7 +433,7 @@
 <div class="page" id="page-product">
   <div class="section">
     <div class="reveal">
-      <span class="label">What We Build</span>
+      <span class="eyebrow">What We Build</span>
       <h1 class="display" style="margin-bottom:1rem;">ASSISTIVE<br>TECHNOLOGY</h1>
       <p class="body-lg" style="margin-bottom:2.5rem;">We create thoughtful biomedical tools that blend empathy, engineering, and storytelling — starting with IsoWrite and expanding into a wider family of accessible products.</p>
     </div>
@@ -609,21 +451,9 @@
           <p>Every idea starts with a person, not just a problem statement. We design with dignity, usability, and impact in mind — whether it's a writing aid, assistive interface, or a future daily living tool.</p>
         </div>
         <div class="product-card-grid">
-          <div class="product-card">
-            <div class="icon">🧠</div>
-            <h4>Empathy First</h4>
-            <p>Every concept begins by understanding how someone lives with a challenge day to day.</p>
-          </div>
-          <div class="product-card">
-            <div class="icon">⚙️</div>
-            <h4>Prototype Driven</h4>
-            <p>We move from sketches, to CAD, to physical prototypes and improve through iteration.</p>
-          </div>
-          <div class="product-card">
-            <div class="icon">🌱</div>
-            <h4>Built to Grow</h4>
-            <p>IsoWrite is our first milestone, but our broader vision is a future ecosystem of inclusive products.</p>
-          </div>
+          <div class="icard"><div class="icard-icon">🧠</div><h4>Empathy First</h4><p>Every concept begins by understanding how someone lives with a challenge day to day.</p></div>
+          <div class="icard"><div class="icard-icon">⚙️</div><h4>Prototype Driven</h4><p>We move from sketches, to CAD, to physical prototypes and improve through iteration.</p></div>
+          <div class="icard"><div class="icard-icon">🌱</div><h4>Built to Grow</h4><p>IsoWrite is our first milestone, but our broader vision is a future ecosystem of inclusive products.</p></div>
         </div>
         <div class="product-quote">Our goal is not simply to make devices. It is to make dignity, confidence, and independence feel more tangible for the people who use them.</div>
       </div>
@@ -633,33 +463,15 @@
           <h3>IsoWrite: a smart writing companion for tremor stability</h3>
           <p>IsoWrite is our flagship project — a student-designed assistive writing tool built to reduce the impact of Parkinson's-related tremor and help users write with steadier, more natural control.</p>
         </div>
-        <div class="steps-grid" style="margin-bottom:1.5rem;">
-          <div class="step-cell">
-            <div class="step-tag">Step 01 — Sensing</div>
-            <div class="step-title">Motion Tracking</div>
-            <div class="step-body">Embedded sensors monitor hand movement in real time to detect the tremor pattern.</div>
-          </div>
-          <div class="step-cell">
-            <div class="step-tag">Step 02 — Processing</div>
-            <div class="step-title">Signal Filtering</div>
-            <div class="step-body">Real-time logic distinguishes intended motion from the involuntary oscillation of tremor.</div>
-          </div>
-          <div class="step-cell">
-            <div class="step-tag">Step 03 — Actuation</div>
-            <div class="step-title">Stabilization</div>
-            <div class="step-body">A corrective mechanism helps neutralize unwanted movement at the pen tip.</div>
-          </div>
-          <div class="step-cell">
-            <div class="step-tag">Step 04 — Output</div>
-            <div class="step-title">Steady Writing</div>
-            <div class="step-body">The result is cleaner, more controlled handwriting and a stronger sense of independence.</div>
-          </div>
+        <div class="steps-grid">
+          <div class="step-cell"><div class="step-tag">Step 01 — Sensing</div><div class="step-title">Motion Tracking</div><div class="step-body">Embedded sensors monitor hand movement in real time to detect the tremor pattern.</div></div>
+          <div class="step-cell"><div class="step-tag">Step 02 — Processing</div><div class="step-title">Signal Filtering</div><div class="step-body">Real-time logic distinguishes intended motion from the involuntary oscillation of tremor.</div></div>
+          <div class="step-cell"><div class="step-tag">Step 03 — Actuation</div><div class="step-title">Stabilization</div><div class="step-body">A corrective mechanism helps neutralize unwanted movement at the pen tip.</div></div>
+          <div class="step-cell"><div class="step-tag">Step 04 — Output</div><div class="step-title">Steady Writing</div><div class="step-body">The result is cleaner, more controlled handwriting and a stronger sense of independence.</div></div>
         </div>
-        <div style="display:flex;gap:1rem;flex-wrap:wrap;">
-          <a class="btn btn-red" href="https://docs.google.com/document/d/17zHRZP8OW0Wda3QkkGgGZORQD0gJFME8ufDdyHBz6-g/edit?usp=sharing" target="_blank">Explore Prototype</a>
-          <div style="display:inline-flex;align-items:center;gap:.5rem;border:1px solid rgba(255,93,93,.25);padding:.4rem 1rem;border-radius:3px;font-family:var(--mono);font-size:.68rem;color:var(--red2);text-transform:uppercase;letter-spacing:.1em;">
-            <div class="dot"></div> Active Development
-          </div>
+        <div style="display:flex;gap:1rem;flex-wrap:wrap;align-items:center;">
+          <a class="btn btn-steady" href="https://docs.google.com/document/d/17zHRZP8OW0Wda3QkkGgGZORQD0gJFME8ufDdyHBz6-g/edit?usp=sharing" target="_blank">Explore Prototype</a>
+          <div class="live-tag"><div class="dot"></div> Active Development</div>
         </div>
       </div>
 
@@ -669,26 +481,10 @@
           <p>We are building a foundation for a future portfolio of tools that make everyday life more accessible, expressive, and easier to navigate.</p>
         </div>
         <div class="future-grid">
-          <div class="future-item">
-            <div class="tag">Now</div>
-            <h4>IsoWrite</h4>
-            <p>Assistive writing technology for Parkinson's-related tremor stabilization.</p>
-          </div>
-          <div class="future-item">
-            <div class="tag">Next</div>
-            <h4>Adaptive Daily Tools</h4>
-            <p>Compact products that support routine tasks with more comfort and less friction.</p>
-          </div>
-          <div class="future-item">
-            <div class="tag">Future</div>
-            <h4>Communication Aids</h4>
-            <p>Accessible devices that help people express ideas clearly and independently.</p>
-          </div>
-          <div class="future-item">
-            <div class="tag">Vision</div>
-            <h4>Accessible Wellness Tech</h4>
-            <p>A growing collection of thoughtful tools designed for dignity, ease, and connection.</p>
-          </div>
+          <div class="future-item"><span class="future-tag">Now</span><h4>IsoWrite</h4><p>Assistive writing technology for Parkinson's-related tremor stabilization.</p></div>
+          <div class="future-item"><span class="future-tag">Next</span><h4>Adaptive Daily Tools</h4><p>Compact products that support routine tasks with more comfort and less friction.</p></div>
+          <div class="future-item"><span class="future-tag">Future</span><h4>Communication Aids</h4><p>Accessible devices that help people express ideas clearly and independently.</p></div>
+          <div class="future-item"><span class="future-tag">Vision</span><h4>Accessible Wellness Tech</h4><p>A growing collection of thoughtful tools designed for dignity, ease, and connection.</p></div>
         </div>
       </div>
     </div>
@@ -698,9 +494,9 @@
 <!-- ████ CAD ████ -->
 <div class="page" id="page-cad">
   <div class="section section-sm">
-    <span class="label">Design Files</span>
+    <span class="eyebrow">Design Files</span>
     <h1 class="display" style="margin-bottom:2rem;">CAD<br>MODELS</h1>
-    <hr class="rule rule-red" style="margin-bottom:3rem;">
+    <hr class="rule" style="margin-bottom:3rem;">
     <div class="soon-status"><div class="dot"></div>Public Link Not Yet Available</div>
     <p class="body-md" style="margin-bottom:2.5rem;">We're finalizing our 3D models and will publish all design files publicly via OnShape once they're ready for review. Full assembly models, component breakdowns, and print-ready STLs will all be available.</p>
     <div class="soon-list">
@@ -715,7 +511,7 @@
     </div>
     <div style="display:flex;gap:1rem;flex-wrap:wrap;">
       <button class="btn btn-outline" onclick="go('join')">Get Notified</button>
-      <a href="https://github.com/oaktonenable" target="_blank" class="btn btn-red">GitHub →</a>
+      <a href="https://github.com/oaktonenable" target="_blank" class="btn btn-steady">GitHub →</a>
     </div>
   </div>
 </div>
@@ -723,27 +519,15 @@
 <!-- ████ CREATIONS ████ -->
 <div class="page" id="page-creations">
   <div class="section section-sm">
-    <span class="label">Member Projects</span>
+    <span class="eyebrow">Member Projects</span>
     <h1 class="display" style="margin-bottom:2rem;">INDIVIDUAL<br>CREATIONS</h1>
-    <hr class="rule rule-red" style="margin-bottom:3rem;">
+    <hr class="rule" style="margin-bottom:3rem;">
     <div class="soon-status"><div class="dot"></div>Coming Soon</div>
     <p class="body-md" style="margin-bottom:2.5rem;">Our members are actively working on individual projects spanning programming, electrical design, 3D modeling, and research writing. This gallery will be populated as projects reach shareable milestones.</p>
     <div class="details-grid" style="margin-bottom:2.5rem;">
-      <div class="detail-cell" style="opacity:.35;pointer-events:none;">
-        <div class="detail-icon">💻</div>
-        <div class="detail-val">Software Projects</div>
-        <div class="detail-body">Code, firmware, and embedded systems work.</div>
-      </div>
-      <div class="detail-cell" style="opacity:.35;pointer-events:none;">
-        <div class="detail-icon">🖨️</div>
-        <div class="detail-val">3D Designs</div>
-        <div class="detail-body">CAD models, prints, and physical prototypes.</div>
-      </div>
-      <div class="detail-cell" style="opacity:.35;pointer-events:none;">
-        <div class="detail-icon">📊</div>
-        <div class="detail-val">Research Papers</div>
-        <div class="detail-body">Medical research and literature reviews.</div>
-      </div>
+      <div class="detail-cell" style="opacity:.35;pointer-events:none;"><div class="detail-icon">💻</div><div class="detail-val">Software Projects</div><div class="detail-body">Code, firmware, and embedded systems work.</div></div>
+      <div class="detail-cell" style="opacity:.35;pointer-events:none;"><div class="detail-icon">🖨️</div><div class="detail-val">3D Designs</div><div class="detail-body">CAD models, prints, and physical prototypes.</div></div>
+      <div class="detail-cell" style="opacity:.35;pointer-events:none;"><div class="detail-icon">📊</div><div class="detail-val">Research Papers</div><div class="detail-body">Medical research and literature reviews.</div></div>
     </div>
     <button class="btn btn-outline" onclick="go('join')">Express Interest</button>
   </div>
@@ -752,9 +536,9 @@
 <!-- ████ TEAM ████ -->
 <div class="page" id="page-team">
   <div class="section">
-    <span class="label">The People Behind the Mission</span>
+    <span class="eyebrow">The People Behind the Mission</span>
     <h1 class="display" style="margin-bottom:3rem;">THE<br>TEAM</h1>
-    <hr class="rule rule-red" style="margin-bottom:4rem;">
+    <hr class="rule" style="margin-bottom:4rem;">
 
     <div class="team-grid" style="margin-bottom:4rem;">
       <div class="member">
@@ -790,7 +574,7 @@
     <div class="join-cta-block">
       <h3>WANT TO JOIN THE TEAM?</h3>
       <p>We're always looking for passionate Oakton students. No prior experience required — just curiosity and commitment.</p>
-      <a href="https://docs.google.com/forms/d/e/1FAIpQLSediQK2menlsXeRNVHi76ocW_E3qNm8afyynof9Xd01SNs3rQ/viewform?usp=publish-editor" target="_blank" class="btn btn-red">Apply Now →</a>
+      <a href="https://docs.google.com/forms/d/e/1FAIpQLSediQK2menlsXeRNVHi76ocW_E3qNm8afyynof9Xd01SNs3rQ/viewform?usp=publish-editor" target="_blank" class="btn btn-steady">Apply Now →</a>
     </div>
   </div>
 </div>
@@ -798,73 +582,43 @@
 <!-- ████ DETAILS ████ -->
 <div class="page" id="page-details">
   <div class="section">
-    <span class="label">Club Information</span>
+    <span class="eyebrow">Club Information</span>
     <h1 class="display" style="margin-bottom:3rem;">CLUB<br>DETAILS</h1>
-    <hr class="rule rule-red" style="margin-bottom:4rem;">
+    <hr class="rule" style="margin-bottom:4rem;">
 
     <div class="details-grid">
-      <div class="detail-cell">
-        <div class="detail-icon">📅</div>
-        <div class="detail-label">Meeting Times</div>
-        <div class="detail-val">TBA</div>
-        <div class="detail-body">Our official meeting schedule is being finalized. Follow our Instagram for announcements the moment times are confirmed.</div>
-      </div>
-      <div class="detail-cell">
-        <div class="detail-icon">📍</div>
-        <div class="detail-label">Location</div>
-        <div class="detail-val">Oakton High School</div>
-        <div class="detail-body">We meet on campus. The specific room and schedule details will be released alongside our first meeting announcement.</div>
-      </div>
-      <div class="detail-cell">
-        <div class="detail-icon">🎓</div>
-        <div class="detail-label">Open To</div>
-        <div class="detail-val">All Grade Levels</div>
-        <div class="detail-body">Oakton Enable welcomes students from every grade level. No engineering background required — we teach you what you need as we go.</div>
-      </div>
-      <div class="detail-cell">
-        <div class="detail-icon">⏱️</div>
-        <div class="detail-label">Structure</div>
-        <div class="detail-val">Project-Based</div>
-        <div class="detail-body">We operate on project cycles. Your time commitment scales with the needs of the project you contribute to.</div>
-      </div>
-      <div class="detail-cell">
-        <div class="detail-icon">🛠️</div>
-        <div class="detail-label">At Meetings</div>
-        <div class="detail-val">Build & Research</div>
-        <div class="detail-body">Meetings include design reviews, programming sessions, research presentations, and hands-on prototyping. Every session moves the project forward.</div>
-      </div>
-      <div class="detail-cell">
-        <div class="detail-icon">📬</div>
-        <div class="detail-label">How to Join</div>
-        <div class="detail-val">Interest Form</div>
-        <div class="detail-body">Fill out our interest form and a club officer will reach out with next steps once the schedule is locked in.</div>
-      </div>
+      <div class="detail-cell"><div class="detail-icon">📅</div><div class="detail-label">Meeting Times</div><div class="detail-val">TBA</div><div class="detail-body">Our official meeting schedule is being finalized. Follow our Instagram for announcements the moment times are confirmed.</div></div>
+      <div class="detail-cell"><div class="detail-icon">📍</div><div class="detail-label">Location</div><div class="detail-val">Oakton High School</div><div class="detail-body">We meet on campus. The specific room and schedule details will be released alongside our first meeting announcement.</div></div>
+      <div class="detail-cell"><div class="detail-icon">🎓</div><div class="detail-label">Open To</div><div class="detail-val">All Grade Levels</div><div class="detail-body">Oakton Enable welcomes students from every grade level. No engineering background required — we teach you what you need as we go.</div></div>
+      <div class="detail-cell"><div class="detail-icon">⏱️</div><div class="detail-label">Structure</div><div class="detail-val">Project-Based</div><div class="detail-body">We operate on project cycles. Your time commitment scales with the needs of the project you contribute to.</div></div>
+      <div class="detail-cell"><div class="detail-icon">🛠️</div><div class="detail-label">At Meetings</div><div class="detail-val">Build & Research</div><div class="detail-body">Meetings include design reviews, programming sessions, research presentations, and hands-on prototyping. Every session moves the project forward.</div></div>
+      <div class="detail-cell"><div class="detail-icon">📬</div><div class="detail-label">How to Join</div><div class="detail-val">Interest Form</div><div class="detail-body">Fill out our interest form and a club officer will reach out with next steps once the schedule is locked in.</div></div>
     </div>
 
     <div style="margin-top:4rem; padding:3rem; border:1px solid var(--line); background:var(--panel);">
       <div class="split" style="align-items:center;">
         <div>
-          <span class="label">Stay Connected</span>
+          <span class="eyebrow">Stay Connected</span>
           <h3 class="display-sm" style="margin-bottom:1rem;">DON'T MISS AN ANNOUNCEMENT</h3>
           <p class="body-md" style="margin-bottom:2rem;">Meeting times, project milestones, and news will be posted to our Instagram first. Follow us there to stay current.</p>
           <div style="display:flex;gap:1rem;flex-wrap:wrap;">
-            <a href="https://instagram.com/oaktonenable" target="_blank" class="btn btn-red">@oaktonenable →</a>
+            <a href="https://instagram.com/oaktonenable" target="_blank" class="btn btn-steady">@oaktonenable →</a>
             <button class="btn btn-outline" onclick="go('join')">Interest Form</button>
           </div>
         </div>
         <div>
           <div style="display:flex;flex-direction:column;gap:1px;background:var(--line);border:1px solid var(--line);">
-            <div style="background:var(--black);padding:1.25rem 1.5rem;display:flex;align-items:center;gap:1rem;">
-              <span style="font-size:1.2rem;">📸</span>
-              <div><div style="font-weight:600;font-size:.88rem;">Instagram</div><div style="font-family:var(--mono);font-size:.72rem;color:var(--red2);">@oaktonenable</div></div>
+            <div style="background:var(--bg);padding:1.2rem 1.4rem;display:flex;align-items:center;gap:1rem;">
+              <span style="font-size:1.15rem;">📸</span>
+              <div><div style="font-family:var(--disp);font-weight:600;font-size:.86rem;">Instagram</div><div style="font-family:var(--mono);font-size:.7rem;color:var(--steady);">@oaktonenable</div></div>
             </div>
-            <div style="background:var(--black);padding:1.25rem 1.5rem;display:flex;align-items:center;gap:1rem;">
-              <span style="font-size:1.2rem;">💻</span>
-              <div><div style="font-weight:600;font-size:.88rem;">GitHub</div><div style="font-family:var(--mono);font-size:.72rem;color:var(--red2);">github.com/oaktonenable</div></div>
+            <div style="background:var(--bg);padding:1.2rem 1.4rem;display:flex;align-items:center;gap:1rem;">
+              <span style="font-size:1.15rem;">💻</span>
+              <div><div style="font-family:var(--disp);font-weight:600;font-size:.86rem;">GitHub</div><div style="font-family:var(--mono);font-size:.7rem;color:var(--steady);">github.com/oaktonenable</div></div>
             </div>
-            <div style="background:var(--black);padding:1.25rem 1.5rem;display:flex;align-items:center;gap:1rem;opacity:.4;">
-              <span style="font-size:1.2rem;">📐</span>
-              <div><div style="font-weight:600;font-size:.88rem;">OnShape</div><div style="font-family:var(--mono);font-size:.72rem;color:var(--muted);">Link coming soon</div></div>
+            <div style="background:var(--bg);padding:1.2rem 1.4rem;display:flex;align-items:center;gap:1rem;opacity:.4;">
+              <span style="font-size:1.15rem;">📐</span>
+              <div><div style="font-family:var(--disp);font-weight:600;font-size:.86rem;">OnShape</div><div style="font-family:var(--mono);font-size:.7rem;color:var(--muted);">Link coming soon</div></div>
             </div>
           </div>
         </div>
@@ -876,36 +630,21 @@
 <!-- ████ JOIN ████ -->
 <div class="page" id="page-join">
   <div class="section">
-    <span class="label">Get Connected</span>
+    <span class="eyebrow">Get Connected</span>
     <h1 class="display" style="margin-bottom:3rem;">JOIN &<br>CONNECT</h1>
-    <hr class="rule rule-red" style="margin-bottom:4rem;">
+    <hr class="rule" style="margin-bottom:4rem;">
 
-    <h3 style="font-family:var(--mono);font-size:.72rem;color:var(--muted);text-transform:uppercase;letter-spacing:.12em;margin-bottom:1.5rem;">Find Us Online</h3>
+    <h3 style="font-family:var(--mono);font-size:.7rem;color:var(--muted);text-transform:uppercase;letter-spacing:.11em;margin-bottom:1.5rem;">Find Us Online</h3>
     <div class="social-row" style="margin-bottom:4rem;">
-      <a href="https://instagram.com/oaktonenable" target="_blank" class="social-cell">
-        <div class="sc-icon">📸</div>
-        <div class="sc-name">Instagram</div>
-        <div class="sc-handle">@oaktonenable</div>
-        <div class="sc-note">Club updates, photos, and announcements</div>
-      </a>
-      <a href="https://github.com/oaktonenable" target="_blank" class="social-cell">
-        <div class="sc-icon">💻</div>
-        <div class="sc-name">GitHub</div>
-        <div class="sc-handle">github.com/oaktonenable</div>
-        <div class="sc-note">Open source code and project repositories</div>
-      </a>
-      <div class="social-cell" style="opacity:.4;cursor:default;">
-        <div class="sc-icon">📐</div>
-        <div class="sc-name">OnShape</div>
-        <div class="sc-handle" style="color:var(--muted);">Coming Soon</div>
-        <div class="sc-note">3D CAD models and design files</div>
-      </div>
+      <a href="https://instagram.com/oaktonenable" target="_blank" class="social-cell"><div class="sc-icon">📸</div><div class="sc-name">Instagram</div><div class="sc-handle">@oaktonenable</div><div class="sc-note">Club updates, photos, and announcements</div></a>
+      <a href="https://github.com/oaktonenable" target="_blank" class="social-cell"><div class="sc-icon">💻</div><div class="sc-name">GitHub</div><div class="sc-handle">github.com/oaktonenable</div><div class="sc-note">Open source code and project repositories</div></a>
+      <div class="social-cell" style="opacity:.4;cursor:default;"><div class="sc-icon">📐</div><div class="sc-name">OnShape</div><div class="sc-handle" style="color:var(--muted);">Coming Soon</div><div class="sc-note">3D CAD models and design files</div></div>
     </div>
 
     <div class="join-cta-block">
       <h3>READY TO JOIN<br>OAKTON ENABLE?</h3>
       <p>Fill out our interest form and we'll be in touch. We'd love to hear from you — regardless of your background or skill level.</p>
-      <a href="https://docs.google.com/forms/d/e/1FAIpQLSediQK2menlsXeRNVHi76ocW_E3qNm8afyynof9Xd01SNs3rQ/viewform?usp=publish-editor" target="_blank" class="btn btn-red" style="font-size:.85rem;padding:.9rem 2.25rem;">Fill Out the Interest Form →</a>
+      <a href="https://docs.google.com/forms/d/e/1FAIpQLSediQK2menlsXeRNVHi76ocW_E3qNm8afyynof9Xd01SNs3rQ/viewform?usp=publish-editor" target="_blank" class="btn btn-steady" style="font-size:.78rem;padding:1rem 2.25rem;">Fill Out the Interest Form →</a>
       <p class="join-fine">No experience required · All grades welcome · All interests considered</p>
     </div>
   </div>
@@ -949,36 +688,25 @@
   }
 
   function setProductTab(tab) {
-    document.querySelectorAll('.product-tab').forEach(btn => {
-      btn.classList.toggle('active', btn.dataset.productTab === tab);
-    });
-    document.querySelectorAll('.product-panel').forEach(panel => {
-      panel.classList.toggle('active', panel.id === 'product-' + tab);
-    });
+    document.querySelectorAll('.product-tab').forEach(btn => btn.classList.toggle('active', btn.dataset.productTab === tab));
+    document.querySelectorAll('.product-panel').forEach(panel => panel.classList.toggle('active', panel.id === 'product-' + tab));
   }
-
   document.querySelectorAll('.product-tab').forEach(button => {
     button.addEventListener('click', () => setProductTab(button.dataset.productTab));
   });
 
-  function toggleMenu() {
-    document.getElementById('nav-links').classList.toggle('open');
-  }
+  function toggleMenu(){ document.getElementById('nav-links').classList.toggle('open'); }
 
   const revealObserver = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        entry.target.classList.add('visible');
-        revealObserver.unobserve(entry.target);
-      }
+      if (entry.isIntersecting) { entry.target.classList.add('visible'); revealObserver.unobserve(entry.target); }
     });
   }, { threshold: 0.18 });
-
   document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
 
   window.addEventListener('scroll', () => {
     const nav = document.getElementById('nav');
-    nav.style.boxShadow = window.scrollY > 8 ? '0 10px 30px rgba(0,0,0,.22)' : 'none';
+    nav.style.boxShadow = window.scrollY > 8 ? '0 10px 30px rgba(0,0,0,.3)' : 'none';
   });
 </script>
 </body>
