@@ -551,6 +551,7 @@
         <button class="btn btn-outline" onclick="go('join')">Join the Club</button>
       </div>
     </div>
+    <div class="hero-caption">TREMOR SIGNAL <b>→</b> CALIBRATED OUTPUT<br>a stray hand made steady</div>
   </section>
 
   <div class="readout-strip">
@@ -890,6 +891,7 @@
   function setProductTab(tab) {
     document.querySelectorAll('.product-tab').forEach(btn => btn.classList.toggle('active', btn.dataset.productTab === tab));
     document.querySelectorAll('.product-panel').forEach(panel => panel.classList.toggle('active', panel.id === 'product-' + tab));
+    if (tab === 'isowrite' && window.demoResize) requestAnimationFrame(() => requestAnimationFrame(window.demoResize));
   }
   document.querySelectorAll('.product-tab').forEach(button => {
     button.addEventListener('click', () => setProductTab(button.dataset.productTab));
@@ -1099,11 +1101,18 @@
 
     function resize(){
       const rect = canvas.getBoundingClientRect();
+      if (rect.width === 0 || rect.height === 0) return; // panel still hidden, skip
       canvas.width = rect.width * devicePixelRatio;
       canvas.height = rect.height * devicePixelRatio;
+      raw = []; smoothed = []; hasDrawn = false;
+      placeholder.classList.remove('hidden');
     }
     window.addEventListener('resize', resize);
     resize();
+    if ('ResizeObserver' in window) {
+      new ResizeObserver(resize).observe(canvas);
+    }
+    window.demoResize = resize;
 
     function pos(e){
       const rect = canvas.getBoundingClientRect();
