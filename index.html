@@ -481,9 +481,72 @@
   @media (max-width:640px){
     .cmdk-hint{ display:none; }
   }
+
+  /* ══════════ AMBIENT SIGNAL FIELD ══════════ */
+  #bg-signal{ position:fixed; inset:0; z-index:0; pointer-events:none; }
+
+  /* ══════════ PAGE TRANSITION SWEEP ══════════ */
+  #sweep{
+    position:fixed; inset:0; z-index:9996; pointer-events:none;
+    opacity:0;
+  }
+  #sweep .line{
+    position:absolute; left:0; right:0; height:2px; top:-2px;
+    background:linear-gradient(90deg, transparent, var(--steady), var(--tremor), transparent);
+    box-shadow:0 0 24px 2px rgba(63,224,192,.5);
+  }
+  #sweep.go{ animation: sweepFade .5s ease forwards; }
+  #sweep.go .line{ animation: sweepMove .5s cubic-bezier(.6,0,.3,1) forwards; }
+  @keyframes sweepFade{ 0%{opacity:0;} 12%{opacity:1;} 88%{opacity:1;} 100%{opacity:0;} }
+  @keyframes sweepMove{ 0%{ top:-2px; } 100%{ top:100%; } }
+
+  /* ══════════ SIGNAL HUD ══════════ */
+  #hud{
+    position:fixed; left:1.25rem; bottom:1.25rem; z-index:500;
+    font-family:var(--mono); font-size:.6rem; color:var(--dim);
+    background:rgba(10,12,16,.72); backdrop-filter:blur(8px);
+    border:1px solid var(--line); padding:.6rem .75rem;
+    display:flex; align-items:center; gap:.65rem;
+    letter-spacing:.05em; user-select:none;
+  }
+  #hud .hud-label{ text-transform:uppercase; color:var(--muted); line-height:1.6; }
+  #hud .hud-label b{ color:var(--steady); font-weight:500; }
+  #hud canvas{ display:block; width:76px; height:26px; }
+  @media (max-width:900px){ #hud{ display:none; } }
+
+  /* ══════════ TEAM VITALS ══════════ */
+  .vitals-row{ display:flex; align-items:center; gap:.6rem; margin-top:1.2rem; padding-top:1.1rem; border-top:1px solid var(--line); }
+  .vitals-row canvas{ width:100px; height:28px; display:block; }
+  .vitals-tag{ font-family:var(--mono); font-size:.6rem; color:var(--dim); text-transform:uppercase; letter-spacing:.08em; display:flex; align-items:center; gap:.4rem; }
+  .vitals-tag .vdot{ width:5px; height:5px; border-radius:50%; background:var(--steady); animation:pulse 2.4s infinite; }
+
+  /* ══════════ PARTICLE BURST LAYER ══════════ */
+  #burst-canvas{ position:fixed; inset:0; z-index:9995; pointer-events:none; }
+
+  /* ══════════ EASTER EGG FLASH ══════════ */
+  #egg-flash{
+    position:fixed; inset:0; z-index:9997; pointer-events:none;
+    display:flex; align-items:center; justify-content:center;
+    opacity:0;
+  }
+  #egg-flash.show{ animation:eggFade 1.7s ease forwards; }
+  #egg-flash span{
+    font-family:var(--mono); font-size:.9rem; letter-spacing:.2em; text-transform:uppercase;
+    color:var(--steady); text-shadow:0 0 20px rgba(63,224,192,.6);
+  }
+  @keyframes eggFade{ 0%{opacity:0;} 15%{opacity:1;} 75%{opacity:1;} 100%{opacity:0;} }
 </style>
 </head>
 <body>
+
+<canvas id="bg-signal"></canvas>
+<div id="sweep"><div class="line"></div></div>
+<canvas id="burst-canvas"></canvas>
+<div id="egg-flash"><span>Calibration Complete</span></div>
+<div id="hud">
+  <canvas id="hud-canvas"></canvas>
+  <div class="hud-label">MODULE <b id="hud-page">HOME</b><br>VARIANCE <b id="hud-var">0.00</b></div>
+</div>
 
 <div id="boot-overlay" aria-hidden="true">
   <svg class="boot-wf" viewBox="0 0 400 80" preserveAspectRatio="none" aria-hidden="true">
@@ -747,6 +810,7 @@
         <div class="member-role">President</div>
         <p class="member-bio">As founding president, Arnav provides the vision, strategic direction, and leadership that holds the club together. He coordinates across disciplines — ensuring that programmers, designers, and researchers are working in concert toward a coherent goal. His leadership is defined by inclusivity, rigorous standards, and a personal belief that student innovation can and should matter in the real world.</p>
         <div class="member-tags"><span class="tag">Leadership</span><span class="tag">Strategy</span><span class="tag">Vision</span></div>
+        <div class="vitals-row"><canvas class="vcanvas" data-seed="1"></canvas><span class="vitals-tag"><span class="vdot"></span>Signal</span></div>
       </div>
       <div class="member">
         <div class="member-init">AD</div>
@@ -754,6 +818,7 @@
         <div class="member-role">Head of Outreach & Research · Programmer</div>
         <p class="member-bio">Aditya serves as the intellectual and external bridge of Oakton Enable. As Head of Outreach and Research, he digs deep into medical literature, connects the club with patient communities, and shapes how the team communicates its work. He also contributes as a core programmer — translating research findings into functional software and control logic for the IsoWrite's sensor systems.</p>
         <div class="member-tags"><span class="tag">Research</span><span class="tag">Outreach</span><span class="tag">Programming</span></div>
+        <div class="vitals-row"><canvas class="vcanvas" data-seed="2"></canvas><span class="vitals-tag"><span class="vdot"></span>Signal</span></div>
       </div>
       <div class="member">
         <div class="member-init">CC</div>
@@ -761,6 +826,7 @@
         <div class="member-role">Head of 3D Design</div>
         <p class="member-bio">Christopher is the creative force behind Oakton Enable's physical product development. Working in professional-grade CAD software, he translates engineering concepts into precise, printable, and ergonomically considered 3D models. His designs balance aesthetics, manufacturability, and function — and his work on the IsoWrite's housing and mechanical stabilization mechanism is central to making the concept real.</p>
         <div class="member-tags"><span class="tag">CAD / OnShape</span><span class="tag">3D Printing</span><span class="tag">Product Design</span></div>
+        <div class="vitals-row"><canvas class="vcanvas" data-seed="3"></canvas><span class="vitals-tag"><span class="vdot"></span>Signal</span></div>
       </div>
       <div class="member">
         <div class="member-init">AA</div>
@@ -768,6 +834,7 @@
         <div class="member-role">Programmer & Electrical Engineer</div>
         <p class="member-bio">Arjun is the technical backbone of the IsoWrite's electronics and embedded systems. As both a programmer and circuit designer, he bridges the gap between software and hardware — laying out PCBs, selecting components, and writing the low-level firmware that makes real-time tremor cancellation actually run. Without his expertise in embedded systems and electrical integration, the pen remains a design on a screen.</p>
         <div class="member-tags"><span class="tag">Embedded Systems</span><span class="tag">Circuit Design</span><span class="tag">Programming</span></div>
+        <div class="vitals-row"><canvas class="vcanvas" data-seed="4"></canvas><span class="vitals-tag"><span class="vdot"></span>Signal</span></div>
       </div>
     </div>
 
@@ -877,6 +944,9 @@
   const PAGES = ['home','about','product','cad','creations','team','details','join'];
 
   function go(id) {
+    const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const sweepEl = document.getElementById('sweep');
+    if (sweepEl && !reduced) { sweepEl.classList.remove('go'); void sweepEl.offsetWidth; sweepEl.classList.add('go'); }
     PAGES.forEach(p => {
       document.getElementById('page-' + p).classList.remove('active');
       document.querySelectorAll('[data-p="' + p + '"]').forEach(a => a.classList.remove('active'));
@@ -886,6 +956,8 @@
     document.getElementById('nav-links').classList.remove('open');
     window.scrollTo({ top: 0, behavior: 'smooth' });
     setTimeout(updateProgress, 50);
+    const hudPage = document.getElementById('hud-page');
+    if (hudPage) hudPage.textContent = id.toUpperCase();
   }
 
   function setProductTab(tab) {
@@ -1173,6 +1245,174 @@
       document.getElementById('demo-on').classList.toggle('on', on);
       document.getElementById('demo-off').classList.toggle('on', !on);
     };
+  })();
+
+  const REDUCED = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* ══════════ AMBIENT SIGNAL FIELD ══════════ */
+  (function ambient(){
+    const canvas = document.getElementById('bg-signal');
+    const ctx = canvas.getContext('2d');
+    let w, h, mx = -9999, my = -9999;
+    const traces = [];
+    const N = 6;
+    function build(){
+      w = canvas.width = window.innerWidth * (window.devicePixelRatio || 1);
+      h = canvas.height = window.innerHeight * (window.devicePixelRatio || 1);
+      canvas.style.width = window.innerWidth + 'px';
+      canvas.style.height = window.innerHeight + 'px';
+      traces.length = 0;
+      for (let i=0;i<N;i++){
+        traces.push({
+          y: (h/(N+1)) * (i+1),
+          amp: 6 + Math.random()*14,
+          freq: 0.004 + Math.random()*0.006,
+          speed: 0.4 + Math.random()*0.8,
+          phase: Math.random()*1000,
+          jitter: i % 3 === 0 ? 1 : 0,
+          color: i % 3 === 0 ? '255,90,95' : '63,224,192',
+          alpha: 0.05 + Math.random()*0.05
+        });
+      }
+    }
+    window.addEventListener('resize', build);
+    document.addEventListener('mousemove', (e) => { mx = e.clientX * (window.devicePixelRatio||1); my = e.clientY * (window.devicePixelRatio||1); });
+    build();
+    let t = 0;
+    function draw(){
+      if (document.hidden) { requestAnimationFrame(draw); return; }
+      ctx.clearRect(0,0,w,h);
+      t += 1;
+      traces.forEach(tr => {
+        ctx.beginPath();
+        for (let x=0; x<=w; x+=8){
+          let y = tr.y + Math.sin(x*tr.freq + t*0.01*tr.speed + tr.phase) * tr.amp;
+          if (tr.jitter) y += (Math.sin(x*0.7 + t*0.5) * 3);
+          const dist = Math.hypot(x - mx, y - my);
+          if (dist < 180) y += (y > my ? 1 : -1) * (180-dist) * 0.12;
+          x === 0 ? ctx.moveTo(x,y) : ctx.lineTo(x,y);
+        }
+        ctx.strokeStyle = 'rgba(' + tr.color + ',' + tr.alpha + ')';
+        ctx.lineWidth = 1 * (window.devicePixelRatio||1);
+        ctx.stroke();
+      });
+      requestAnimationFrame(draw);
+    }
+    if (!REDUCED) requestAnimationFrame(draw);
+  })();
+
+  /* ══════════ SIGNAL HUD (live cursor oscilloscope) ══════════ */
+  (function hud(){
+    if (!matchMedia('(hover: hover) and (pointer: fine)').matches) return;
+    const canvas = document.getElementById('hud-canvas');
+    const varEl = document.getElementById('hud-var');
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+    const dpr = window.devicePixelRatio || 1;
+    canvas.width = 76 * dpr; canvas.height = 26 * dpr;
+    let history = new Array(38).fill(0);
+    let lastX = null, lastY = null, lastT = performance.now();
+    document.addEventListener('mousemove', (e) => {
+      const now = performance.now();
+      const dt = Math.max(1, now - lastT);
+      if (lastX !== null){
+        const v = Math.hypot(e.clientX-lastX, e.clientY-lastY) / dt * 20;
+        history.push(Math.min(24, v));
+        history.shift();
+      }
+      lastX = e.clientX; lastY = e.clientY; lastT = now;
+    });
+    function draw(){
+      ctx.clearRect(0,0,canvas.width,canvas.height);
+      ctx.beginPath();
+      history.forEach((v,i) => {
+        const x = (i/(history.length-1)) * canvas.width;
+        const y = canvas.height/2 - v * dpr * 0.7;
+        i === 0 ? ctx.moveTo(x,y) : ctx.lineTo(x,y);
+      });
+      ctx.strokeStyle = '#3fe0c0'; ctx.lineWidth = 1.3 * dpr; ctx.stroke();
+      const avg = history.reduce((a,b)=>a+b,0)/history.length;
+      if (varEl) varEl.textContent = avg.toFixed(2);
+      requestAnimationFrame(draw);
+    }
+    if (!REDUCED) requestAnimationFrame(draw);
+  })();
+
+  /* ══════════ TEAM VITALS ══════════ */
+  (function vitals(){
+    const canvases = Array.from(document.querySelectorAll('.vcanvas'));
+    if (!canvases.length) return;
+    const dpr = window.devicePixelRatio || 1;
+    canvases.forEach(c => { c.width = 100*dpr; c.height = 28*dpr; });
+    let t = 0;
+    function draw(){
+      t += 1;
+      canvases.forEach(c => {
+        const ctx = c.getContext('2d');
+        const seed = parseInt(c.dataset.seed,10);
+        ctx.clearRect(0,0,c.width,c.height);
+        ctx.beginPath();
+        for (let x=0; x<=c.width; x+=3){
+          let y;
+          if (seed === 1) y = c.height/2 + Math.sin(x*0.06 + t*0.03) * (c.height*0.28);
+          else if (seed === 2) y = c.height/2 + Math.sin(x*0.1 + t*0.05) * (c.height*0.2) + Math.sin(x*0.3+t*0.1)*3;
+          else if (seed === 3) y = c.height/2 + Math.sin(x*0.045 + t*0.02) * (c.height*0.32);
+          else y = c.height/2 + (((Math.floor((x+t*2)/9))%2===0) ? c.height*0.26 : -c.height*0.26) * Math.sin((x+t)*0.02);
+          x === 0 ? ctx.moveTo(x,y) : ctx.lineTo(x,y);
+        }
+        ctx.strokeStyle = '#3fe0c0'; ctx.lineWidth = 1.2*dpr; ctx.lineJoin='round'; ctx.stroke();
+      });
+      requestAnimationFrame(draw);
+    }
+    if (!REDUCED) requestAnimationFrame(draw); else canvases.forEach(c => c.getContext('2d'));
+  })();
+
+  /* ══════════ PARTICLE BURST ══════════ */
+  const burstCanvas = document.getElementById('burst-canvas');
+  const burstCtx = burstCanvas.getContext('2d');
+  let particles = [];
+  function resizeBurst(){ burstCanvas.width = window.innerWidth; burstCanvas.height = window.innerHeight; }
+  window.addEventListener('resize', resizeBurst); resizeBurst();
+  function spawnBurst(x, y, color){
+    for (let i=0;i<22;i++){
+      const a = (Math.PI*2/22)*i + Math.random()*0.3;
+      const speed = 2 + Math.random()*3;
+      particles.push({ x, y, vx:Math.cos(a)*speed, vy:Math.sin(a)*speed, life:1, color });
+    }
+  }
+  function burstLoop(){
+    burstCtx.clearRect(0,0,burstCanvas.width,burstCanvas.height);
+    particles = particles.filter(p => p.life > 0);
+    particles.forEach(p => {
+      p.x += p.vx; p.y += p.vy; p.vx *= 0.96; p.vy *= 0.96; p.life -= 0.02;
+      burstCtx.beginPath();
+      burstCtx.arc(p.x, p.y, 2, 0, Math.PI*2);
+      burstCtx.fillStyle = p.color.replace('ALPHA', p.life);
+      burstCtx.fill();
+    });
+    requestAnimationFrame(burstLoop);
+  }
+  if (!REDUCED) requestAnimationFrame(burstLoop);
+  document.addEventListener('click', (e) => {
+    const btn = e.target.closest('.btn-steady');
+    if (!btn || REDUCED) return;
+    spawnBurst(e.clientX, e.clientY, 'rgba(63,224,192,ALPHA)');
+  });
+
+  /* ══════════ EASTER EGG ══════════ */
+  (function egg(){
+    let buffer = '';
+    document.addEventListener('keydown', (e) => {
+      if (['INPUT','TEXTAREA'].includes(document.activeElement.tagName)) return;
+      if (e.key.length !== 1) return;
+      buffer = (buffer + e.key.toLowerCase()).slice(-6);
+      if (buffer === 'steady'){
+        const flash = document.getElementById('egg-flash');
+        flash.classList.remove('show'); void flash.offsetWidth; flash.classList.add('show');
+        spawnBurst(window.innerWidth/2, window.innerHeight/2, 'rgba(63,224,192,ALPHA)');
+        setTimeout(() => spawnBurst(window.innerWidth/2, window.innerHeight/2, 'rgba(255,90,95,ALPHA)'), 150);
+      }
+    });
   })();
 </script>
 </body>
