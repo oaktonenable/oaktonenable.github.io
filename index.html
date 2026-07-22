@@ -535,6 +535,67 @@
     color:var(--steady); text-shadow:0 0 20px rgba(63,224,192,.6);
   }
   @keyframes eggFade{ 0%{opacity:0;} 15%{opacity:1;} 75%{opacity:1;} 100%{opacity:0;} }
+
+  /* ══════════ ACHIEVEMENT TOAST ══════════ */
+  #achievement-toast{
+    position:fixed; right:1.25rem; bottom:1.25rem; z-index:9994;
+    background:var(--panel); border:1px solid var(--steady-dim);
+    padding:1.1rem 1.4rem; max-width:280px;
+    box-shadow:0 20px 50px rgba(0,0,0,.5);
+    transform:translateX(120%); opacity:0;
+    transition:transform .5s cubic-bezier(.2,.8,.2,1), opacity .5s;
+  }
+  #achievement-toast.show{ transform:translateX(0); opacity:1; }
+  #achievement-toast .ach-title{ font-family:var(--disp); font-weight:600; font-size:.92rem; color:var(--steady); margin-bottom:.4rem; }
+  #achievement-toast .ach-sub{ font-family:var(--serif); font-size:.82rem; color:var(--muted); line-height:1.55; }
+
+  /* ══════════ SOUND TOGGLE STATE ══════════ */
+  #sound-toggle.on kbd{ background:var(--steady); color:#04140f; border-color:var(--steady); }
+
+  /* ══════════ ACCESSIBILITY / DIAGNOSTIC MODE ══════════ */
+  .a11y-btn{
+    display:flex; align-items:center; gap:.4rem;
+    font-family:var(--mono); font-size:.64rem; color:var(--dim);
+    border:1px solid var(--line); padding:.4rem .65rem; letter-spacing:.05em;
+    cursor:pointer; transition:border-color .2s, color .2s; background:transparent;
+  }
+  .a11y-btn:hover{ border-color:var(--tremor-dim); color:var(--tremor); }
+  .a11y-btn.on{ border-color:var(--tremor); color:var(--tremor); background:rgba(255,90,95,.08); }
+
+  body.diagnostic-mode{ --muted:#c2c5d1; --dim:#8b92a6; }
+  body.diagnostic-mode .reveal{ opacity:1 !important; transform:none !important; transition:none !important; }
+  body.diagnostic-mode #bg-signal,
+  body.diagnostic-mode #burst-canvas,
+  body.diagnostic-mode #cc-dot,
+  body.diagnostic-mode #cc-ring,
+  body.diagnostic-mode #hud,
+  body.diagnostic-mode .tremor-line,
+  body.diagnostic-mode .wf-draw{ display:none !important; }
+  body.diagnostic-mode.cc-on, body.diagnostic-mode.cc-on *{ cursor:auto !important; }
+  body.diagnostic-mode{ font-size:105%; }
+  body.diagnostic-mode :focus-visible{ outline:3px solid var(--steady); outline-offset:3px; }
+  body.diagnostic-mode .btn, body.diagnostic-mode a{ text-underline-offset:3px; }
+  #a11y-banner{
+    display:none; position:fixed; top:64px; left:0; right:0; z-index:997;
+    background:var(--steady); color:#04140f; text-align:center;
+    font-family:var(--mono); font-size:.68rem; letter-spacing:.08em; text-transform:uppercase;
+    padding:.5rem; z-index:996;
+  }
+  body.diagnostic-mode #a11y-banner{ display:block; }
+
+  /* ══════════ RESEARCH PAGE ══════════ */
+  .paper-grid{ display:flex; flex-direction:column; gap:1px; background:var(--line); border:1px solid var(--line); margin-bottom:3rem; }
+  .paper-row{ background:var(--bg); padding:1.8rem 2rem; display:grid; grid-template-columns:auto 1fr auto; gap:1.5rem; align-items:center; transition:background .25s; }
+  .paper-row:hover{ background:var(--panel); }
+  .paper-status{ font-family:var(--mono); font-size:.6rem; text-transform:uppercase; letter-spacing:.08em; padding:.35rem .7rem; border:1px solid var(--line2); color:var(--muted); white-space:nowrap; }
+  .paper-status.active{ color:var(--steady); border-color:var(--steady-dim); }
+  .paper-info h4{ font-family:var(--disp); font-weight:600; font-size:.98rem; color:var(--ink); margin-bottom:.35rem; }
+  .paper-info p{ font-family:var(--serif); font-size:.86rem; color:var(--muted); line-height:1.6; }
+  .paper-tags{ display:flex; gap:.4rem; flex-wrap:wrap; justify-self:end; }
+  @media (max-width:700px){ .paper-row{ grid-template-columns:1fr; } .paper-tags{ justify-self:start; } }
+
+  .method-grid{ display:grid; grid-template-columns:repeat(2,1fr); gap:1rem; margin-bottom:3rem; }
+  @media (max-width:700px){ .method-grid{ grid-template-columns:1fr; } }
 </style>
 </head>
 <body>
@@ -586,15 +647,18 @@
     <li><a onclick="go('home')" data-p="home" class="active">Home</a></li>
     <li><a onclick="go('about')" data-p="about">About</a></li>
     <li><a onclick="go('product')" data-p="product">Product</a></li>
+    <li><a onclick="go('research')" data-p="research">Research</a></li>
     <li><a onclick="go('cad')" data-p="cad">CAD</a></li>
     <li><a onclick="go('creations')" data-p="creations">Creations</a></li>
     <li><a onclick="go('team')" data-p="team">Team</a></li>
     <li><a onclick="go('details')" data-p="details">Club Info</a></li>
     <li><button class="cmdk-hint" onclick="openCmdk()" aria-label="Open command palette">Jump to<kbd>/</kbd></button></li>
     <li><button class="cmdk-hint" id="sound-toggle" onclick="toggleSound()" aria-label="Toggle interface sound">SND<kbd id="sound-state">OFF</kbd></button></li>
+    <li><button class="a11y-btn" id="a11y-toggle" onclick="toggleA11y()" aria-label="Toggle diagnostic accessibility mode">◐ Diagnostic Mode</button></li>
     <li><a onclick="go('join')" data-p="join" class="nav-apply">Apply</a></li>
   </ul>
 </nav>
+<div id="a11y-banner">Diagnostic Mode active — motion, custom cursor, and background effects disabled for a calmer, higher-contrast view</div>
 <div id="scroll-progress"></div>
 
 <!-- ████ HOME ████ -->
@@ -752,6 +816,87 @@
           <div class="future-item"><span class="future-tag">Vision</span><h4>Accessible Wellness Tech</h4><p>A growing collection of thoughtful tools designed for dignity, ease, and connection.</p></div>
         </div>
       </div>
+    </div>
+  </div>
+</div>
+
+<!-- ████ RESEARCH ████ -->
+<div class="page" id="page-research">
+  <div class="section">
+    <div class="reveal">
+      <span class="eyebrow">Evidence Before Engineering</span>
+      <h1 class="display" style="margin-bottom:1rem;">RESEARCH<br>LIBRARY</h1>
+      <p class="body-lg" style="margin-bottom:3rem;">Every mechanism we design starts with a question we can't answer from intuition alone. This is where we track what we're reading, what we're testing, and what we still don't know.</p>
+    </div>
+
+    <div class="reveal delay-1">
+      <span class="eyebrow">Focus Areas</span>
+      <div class="method-grid">
+        <div class="icard">
+          <div class="icard-icon">📈</div>
+          <h4>Tremor Biomechanics</h4>
+          <p>Understanding the frequency, amplitude, and variability of Parkinsonian hand tremor — the baseline every stabilization mechanism has to be measured against.</p>
+        </div>
+        <div class="icard">
+          <div class="icard-icon">🎛️</div>
+          <h4>Signal Filtering Methods</h4>
+          <p>Comparing approaches to separating intentional motion from involuntary oscillation in real time, from simple smoothing to more adaptive filtering logic.</p>
+        </div>
+        <div class="icard">
+          <div class="icard-icon">🖊️</div>
+          <h4>Assistive Device Ergonomics</h4>
+          <p>How grip, weight distribution, and feedback affect whether an assistive tool actually gets used day to day — not just whether it works on a bench.</p>
+        </div>
+        <div class="icard">
+          <div class="icard-icon">🗣️</div>
+          <h4>Patient & Caregiver Input</h4>
+          <p>Conversations and community feedback that shape our priorities — making sure we're solving problems people actually have, not ones we assume they have.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="reveal delay-2">
+      <span class="eyebrow">How We Work</span>
+      <h2 class="display-sm" style="margin-bottom:2rem;">FROM LITERATURE TO PROTOTYPE</h2>
+      <div class="steps-grid" style="margin-bottom:3rem;">
+        <div class="step-cell"><div class="step-tag">Stage 01</div><div class="step-title">Literature Review</div><div class="step-body">We start with published research and clinical resources to understand what's already known.</div></div>
+        <div class="step-cell"><div class="step-tag">Stage 02</div><div class="step-title">Synthesis</div><div class="step-body">Findings get distilled into design constraints — numbers and patterns our engineering has to respect.</div></div>
+        <div class="step-cell"><div class="step-tag">Stage 03</div><div class="step-title">Applied Testing</div><div class="step-body">We validate assumptions against our own prototypes, not just against the paper they came from.</div></div>
+        <div class="step-cell"><div class="step-tag">Stage 04</div><div class="step-title">Documentation</div><div class="step-body">What we learn — including what didn't work — gets written up for the next iteration.</div></div>
+      </div>
+    </div>
+
+    <div class="reveal delay-3">
+      <span class="eyebrow">Club Research Output</span>
+      <h2 class="display-sm" style="margin-bottom:2rem;">IN PROGRESS</h2>
+      <div class="paper-grid">
+        <div class="paper-row">
+          <div class="paper-status active">Drafting</div>
+          <div class="paper-info">
+            <h4>IsoWrite Design Rationale</h4>
+            <p>An internal writeup documenting the engineering decisions behind IsoWrite's sensing and stabilization approach.</p>
+          </div>
+          <div class="paper-tags"><span class="tag">Engineering</span><span class="tag">Internal</span></div>
+        </div>
+        <div class="paper-row">
+          <div class="paper-status">Planned</div>
+          <div class="paper-info">
+            <h4>Literature Review: Tremor Filtering Approaches</h4>
+            <p>A summary of existing published approaches to separating tremor from intentional motion, to be shared publicly once complete.</p>
+          </div>
+          <div class="paper-tags"><span class="tag">Literature Review</span></div>
+        </div>
+        <div class="paper-row">
+          <div class="paper-status">Planned</div>
+          <div class="paper-info">
+            <h4>User Testing Findings</h4>
+            <p>Observations from early prototype testing sessions, once we have enough data to report responsibly.</p>
+          </div>
+          <div class="paper-tags"><span class="tag">User Research</span></div>
+        </div>
+      </div>
+      <p class="body-md" style="margin-bottom:2rem;">We don't publish research findings until they're ready to stand on their own — no placeholder data, no premature conclusions. Check back as these move from drafting to published.</p>
+      <button class="btn btn-outline" onclick="go('join')">Get Notified When Published</button>
     </div>
   </div>
 </div>
@@ -938,6 +1083,7 @@
       <a onclick="go('home')">Home</a>
       <a onclick="go('about')">About</a>
       <a onclick="go('product')">Product</a>
+      <a onclick="go('research')">Research</a>
       <a onclick="go('cad')">CAD</a>
       <a onclick="go('team')">Team</a>
       <a onclick="go('details')">Club Info</a>
@@ -954,7 +1100,7 @@
 </footer>
 
 <script>
-  const PAGES = ['home','about','product','cad','creations','team','details','join'];
+  const PAGES = ['home','about','product','research','cad','creations','team','details','join'];
 
   function go(id) {
     const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -971,6 +1117,8 @@
     setTimeout(updateProgress, 50);
     const hudPage = document.getElementById('hud-page');
     if (hudPage) hudPage.textContent = id.toUpperCase();
+    if (window.trackVisit) window.trackVisit(id);
+    if (window.playBlip) window.playBlip('nav');
   }
 
   function setProductTab(tab) {
@@ -1121,6 +1269,7 @@
     { id:'home', label:'Home', k:'Start' },
     { id:'about', label:'About', k:'Mission' },
     { id:'product', label:'Product', k:'IsoWrite' },
+    { id:'research', label:'Research', k:'Literature' },
     { id:'cad', label:'CAD', k:'Design files' },
     { id:'creations', label:'Creations', k:'Member work' },
     { id:'team', label:'Team', k:'People' },
@@ -1425,8 +1574,102 @@
         flash.classList.remove('show'); void flash.offsetWidth; flash.classList.add('show');
         spawnBurst(window.innerWidth/2, window.innerHeight/2, 'rgba(63,224,192,ALPHA)');
         setTimeout(() => spawnBurst(window.innerWidth/2, window.innerHeight/2, 'rgba(255,90,95,ALPHA)'), 150);
+        if (window.playBlip) window.playBlip('egg');
       }
     });
+  })();
+
+  /* ══════════ SOUND SYSTEM ══════════ */
+  (function sound(){
+    let ctx = null;
+    let on = localStorage.getItem('oe-sound') === '1';
+    const stateEl = document.getElementById('sound-state');
+    const toggleBtn = document.getElementById('sound-toggle');
+    function paint(){
+      if (stateEl) stateEl.textContent = on ? 'ON' : 'OFF';
+      if (toggleBtn) toggleBtn.classList.toggle('on', on);
+    }
+    paint();
+    function ensureCtx(){
+      if (!ctx) ctx = new (window.AudioContext || window.webkitAudioContext)();
+      if (ctx.state === 'suspended') ctx.resume();
+      return ctx;
+    }
+    window.toggleSound = function(){
+      on = !on;
+      localStorage.setItem('oe-sound', on ? '1' : '0');
+      paint();
+      if (on) window.playBlip('nav');
+    };
+    window.playBlip = function(kind){
+      if (!on) return;
+      try {
+        const c = ensureCtx();
+        const osc = c.createOscillator();
+        const gain = c.createGain();
+        osc.connect(gain); gain.connect(c.destination);
+        const freqs = { nav: 520, click: 720, egg: 340 };
+        osc.frequency.value = freqs[kind] || 500;
+        osc.type = kind === 'egg' ? 'triangle' : 'sine';
+        gain.gain.setValueAtTime(0.0001, c.currentTime);
+        gain.gain.linearRampToValueAtTime(0.05, c.currentTime + 0.01);
+        gain.gain.exponentialRampToValueAtTime(0.0001, c.currentTime + (kind==='egg'?0.35:0.12));
+        osc.start();
+        osc.stop(c.currentTime + (kind==='egg'?0.4:0.15));
+      } catch(e){ /* audio unavailable, fail silently */ }
+    };
+    document.addEventListener('click', (e) => {
+      if (e.target.closest('.btn, .product-tab, .icard, .future-item')) window.playBlip('click');
+    });
+  })();
+
+  /* ══════════ ACCESSIBILITY / DIAGNOSTIC MODE ══════════ */
+  (function a11y(){
+    const btn = document.getElementById('a11y-toggle');
+    let on = localStorage.getItem('oe-diagnostic') === '1';
+    function paint(){
+      document.body.classList.toggle('diagnostic-mode', on);
+      if (btn) btn.classList.toggle('on', on);
+      if (btn) btn.setAttribute('aria-pressed', on ? 'true' : 'false');
+    }
+    paint();
+    window.toggleA11y = function(){
+      on = !on;
+      localStorage.setItem('oe-diagnostic', on ? '1' : '0');
+      paint();
+    };
+  })();
+
+  /* ══════════ ACHIEVEMENT TRACKER ══════════ */
+  (function achievements(){
+    const KEY = 'oe-visited';
+    let visited = new Set(JSON.parse(sessionStorage.getItem(KEY) || '[]'));
+    window.trackVisit = function(id){
+      if (visited.has('__all_shown__')) return;
+      visited.add(id);
+      sessionStorage.setItem(KEY, JSON.stringify(Array.from(visited)));
+      const allDone = PAGES.every(p => visited.has(p));
+      if (allDone && !visited.has('__all_shown__')){
+        visited.add('__all_shown__');
+        sessionStorage.setItem(KEY, JSON.stringify(Array.from(visited)));
+        setTimeout(() => {
+          const toast = document.getElementById('achievement-toast');
+          toast.classList.add('show');
+          spawnBurst(window.innerWidth - 60, window.innerHeight - 60, 'rgba(63,224,192,ALPHA)');
+          setTimeout(() => toast.classList.remove('show'), 5000);
+        }, 600);
+      }
+    };
+    if (PAGES && PAGES.length) window.trackVisit('home');
+  })();
+
+  /* ══════════ HUD DAYS-ACTIVE COUNTER ══════════ */
+  (function hudDays(){
+    const el = document.getElementById('hud-days');
+    if (!el) return;
+    const founded = new Date('2025-01-01T00:00:00Z');
+    const days = Math.max(0, Math.floor((Date.now() - founded.getTime()) / 86400000));
+    el.textContent = days;
   })();
 </script>
 </body>
