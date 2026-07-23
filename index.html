@@ -1,602 +1,12 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Oakton Enable — Biomedical Engineering Club</title>
+<title>Oakton Enable - Biomedical Engineering Club</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Newsreader:ital,wght@0,400;0,500;1,400;1,500&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-<style>
-  *,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
-
-  :root{
-    --bg:#0a0c10;
-    --panel:#12161d;
-    --panel2:#161b23;
-    --ink:#eceef3;
-    --muted:#8b92a6;
-    --dim:#525869;
-    --line: rgba(236,238,243,0.09);
-    --line2: rgba(236,238,243,0.17);
-    --tremor:#ff5a5f;
-    --tremor-dim: rgba(255,90,95,0.5);
-    --steady:#3fe0c0;
-    --steady-dim: rgba(63,224,192,0.5);
-    --disp: 'Space Grotesk', sans-serif;
-    --serif: 'Newsreader', serif;
-    --mono: 'IBM Plex Mono', monospace;
-  }
-
-  html{scroll-behavior:smooth;}
-  body{
-    font-family:var(--serif);
-    background:
-      radial-gradient(ellipse 60% 50% at 15% 0%, rgba(63,224,192,0.05), transparent 60%),
-      radial-gradient(ellipse 55% 45% at 100% 20%, rgba(255,90,95,0.05), transparent 60%),
-      var(--bg);
-    background-attachment:fixed;
-    color:var(--ink);
-    overflow-x:hidden;
-  }
-  body::before{
-    content:"";
-    position:fixed; inset:0; z-index:0; pointer-events:none;
-    background-image:
-      linear-gradient(rgba(236,238,243,.022) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(236,238,243,.022) 1px, transparent 1px);
-    background-size: 64px 64px;
-  }
-
-  ::selection{ background:var(--steady); color:#04140f; }
-  :focus-visible{ outline:2px solid var(--steady); outline-offset:3px; }
-
-  /* grain */
-  body::after{
-    content:""; position:fixed; inset:0; z-index:2; pointer-events:none;
-    opacity:.035; mix-blend-mode:overlay;
-    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-  }
-
-  /* scroll progress */
-  #scroll-progress{
-    position:fixed; top:64px; left:0; height:2px; width:0%; z-index:998;
-    background:linear-gradient(90deg, var(--tremor), var(--steady));
-    transition:width .08s linear;
-  }
-  @media (max-width:900px){ #scroll-progress{ top:64px; } }
-
-  /* ── NAV ── */
-  #nav{
-    position:fixed; top:0; left:0; right:0; z-index:999;
-    display:flex; align-items:center; justify-content:space-between;
-    padding:0 2.75rem; height:64px;
-    border-bottom:1px solid var(--line);
-    background:rgba(10,12,16,0.88);
-    backdrop-filter:blur(14px);
-  }
-  .nav-logo{
-    display:flex; align-items:center; gap:.6rem;
-    font-family:var(--disp); font-weight:600; font-size:1.02rem; letter-spacing:.02em;
-    color:var(--ink); text-decoration:none; cursor:pointer;
-  }
-  .nav-logo .mark{ width:20px; height:14px; display:block; }
-  .nav-logo .sub{ color:var(--dim); font-weight:400; }
-  .nav-links{ display:flex; align-items:center; gap:2rem; list-style:none; }
-  .nav-links a{
-    color:var(--muted); text-decoration:none;
-    font-family:var(--mono); font-size:.68rem; letter-spacing:.09em;
-    text-transform:uppercase; cursor:pointer; transition:color .2s;
-    position:relative; padding-bottom:2px;
-  }
-  .nav-links a::after{
-    content:""; position:absolute; left:0; bottom:-3px; width:0; height:1px;
-    background:var(--steady); transition:width .25s ease;
-  }
-  .nav-links a:hover{ color:var(--ink); }
-  .nav-links a:hover::after, .nav-links a.active::after{ width:100%; }
-  .nav-links a.active{ color:var(--steady); }
-  .nav-apply{
-    border:1px solid var(--tremor) !important; color:var(--tremor) !important;
-    padding:.4rem 1rem; border-radius:2px;
-  }
-  .nav-apply::after{ display:none; }
-  .nav-apply:hover{ background:var(--tremor) !important; color:#160506 !important; }
-  .hamburger{ display:none; flex-direction:column; gap:5px; cursor:pointer; background:none; border:none; padding:4px; }
-  .hamburger span{ display:block; width:22px; height:1.5px; background:var(--ink); }
-
-  /* ── PAGE SYSTEM ── */
-  .page{ display:none; min-height:100vh; position:relative; z-index:1; }
-  .page.active{ display:block; animation:fadein .35s ease; }
-  @keyframes fadein{ from{opacity:0;} to{opacity:1;} }
-
-  .section{ padding:8rem 2.75rem; max-width:1080px; margin:0 auto; }
-  .section-sm{ max-width:680px; }
-  .eyebrow{
-    font-family:var(--mono); font-size:.68rem; letter-spacing:.16em;
-    text-transform:uppercase; color:var(--steady);
-    margin-bottom:1.4rem; display:flex; align-items:center; gap:.6rem;
-  }
-  .eyebrow::before{ content:""; width:16px; height:1px; background:var(--steady); display:inline-block; }
-  .display{
-    font-family:var(--disp); font-weight:600;
-    font-size:clamp(3rem, 6.6vw, 5.6rem);
-    letter-spacing:-.01em; line-height:1.02; color:var(--ink);
-  }
-  .display em{ font-style:normal; color:var(--tremor); }
-  .display-sm{
-    font-family:var(--disp); font-weight:600;
-    font-size:clamp(1.9rem, 3.6vw, 2.9rem); letter-spacing:-.01em; line-height:1.08;
-  }
-  .body-lg{ font-family:var(--serif); font-size:1.18rem; line-height:1.7; color:var(--muted); max-width:560px; font-weight:400;}
-  .body-md{ font-family:var(--serif); font-size:1.02rem; line-height:1.75; color:var(--muted); }
-  .rule{ border:none; border-top:1px solid var(--line); }
-
-  .btn{
-    display:inline-flex; align-items:center; gap:.5rem;
-    font-family:var(--mono); font-size:.72rem; font-weight:500; letter-spacing:.09em;
-    text-transform:uppercase; text-decoration:none;
-    padding:.85rem 1.5rem; border-radius:2px;
-    cursor:pointer; transition:all .2s; border:1px solid transparent;
-  }
-  .btn-steady{ background:var(--steady); color:#04140f; box-shadow:0 0 0 0 rgba(63,224,192,0); }
-  .btn-steady:hover{ background:#7cf0d8; transform:translateY(-1px); box-shadow:0 6px 24px rgba(63,224,192,.22); }
-  .btn-steady:active{ transform:translateY(0) scale(.97); box-shadow:0 2px 10px rgba(63,224,192,.18); }
-  .btn-outline{ background:transparent; color:var(--ink); border-color:var(--line2); }
-  .btn-outline:hover{ border-color:var(--steady); color:var(--steady); transform:translateY(-1px); }
-  .btn-outline:active{ transform:translateY(0) scale(.97); }
-  .btn{ transition:all .18s cubic-bezier(.2,.8,.3,1); }
-
-  .reveal{ opacity:0; transform:translateY(30px); transition:opacity .8s cubic-bezier(.2,.75,.2,1), transform .8s cubic-bezier(.2,.75,.2,1); }
-  .reveal.visible{ opacity:1; transform:translateY(0); }
-  .reveal.delay-1{ transition-delay:.08s; }
-  .reveal.delay-2{ transition-delay:.16s; }
-  .reveal.delay-3{ transition-delay:.24s; }
-
-  /* ── WAVEFORM SIGNATURE ── */
-  .waveform-divider{ width:100%; display:block; }
-  .waveform-divider path.tremor-line{ stroke:var(--tremor); }
-  .waveform-divider path.steady-line{ stroke:var(--steady); }
-  .wf-draw{
-    stroke-dasharray: 900;
-    stroke-dashoffset: 900;
-    animation: draw 1.8s cubic-bezier(.3,.7,.2,1) forwards;
-  }
-  .wf-draw.d2{ animation-delay: 1.1s; }
-  @keyframes draw{ to{ stroke-dashoffset:0; } }
-  .tremor-line{ animation: draw 1.8s cubic-bezier(.3,.7,.2,1) forwards, wobble 3.6s ease-in-out 1.9s infinite; }
-  @keyframes wobble{
-    0%,100%{ transform:translateY(0); }
-    50%{ transform:translateY(2.5px); }
-  }
-  .hero-spotlight{
-    position:absolute; inset:0; z-index:1; pointer-events:none; opacity:0;
-    background:radial-gradient(320px circle at var(--mx,50%) var(--my,50%), rgba(63,224,192,.10), transparent 65%);
-    transition:opacity .4s ease;
-  }
-  .hero:hover .hero-spotlight{ opacity:1; }
-  @media (prefers-reduced-motion: reduce){
-    .wf-draw, .tremor-line{ animation:none; stroke-dashoffset:0; }
-    .reveal{ opacity:1; transform:none; transition:none; }
-    .hero-spotlight{ display:none; }
-  }
-
-  /* ── READOUT STRIP ── */
-  .readout-strip{
-    display:grid; grid-template-columns:repeat(4,1fr);
-    border-top:1px solid var(--line); border-bottom:1px solid var(--line);
-  }
-  .readout-cell{
-    padding:2.6rem 2rem; border-right:1px solid var(--line);
-    position:relative; transition:background .3s;
-  }
-  .readout-cell:hover{ background:rgba(63,224,192,0.035); }
-  .readout-cell:last-child{ border-right:none; }
-  .readout-tag{ font-family:var(--mono); font-size:.62rem; color:var(--dim); text-transform:uppercase; letter-spacing:.1em; margin-bottom:.6rem;}
-  .readout-num{ font-family:var(--disp); font-size:2.6rem; font-weight:600; color:var(--ink); line-height:1; font-variant-numeric:tabular-nums; }
-  .readout-num .u{ font-family:var(--mono); font-size:1rem; color:var(--steady); font-weight:500; }
-
-  /* ── SPLIT / FEATURE LIST ── */
-  .split{ display:grid; grid-template-columns:1fr 1fr; gap:5rem; align-items:start; }
-  .split-sticky{ position:sticky; top:110px; }
-  .feat-list{ display:flex; flex-direction:column; }
-  .feat-item{ padding:1.9rem 0; border-top:1px solid var(--line); display:grid; grid-template-columns:1.4rem 1fr; gap:1.3rem; }
-  .feat-mark{ font-family:var(--mono); font-size:.9rem; color:var(--steady); padding-top:.15rem; }
-  .feat-title{ font-family:var(--disp); font-size:1rem; font-weight:600; color:var(--ink); margin-bottom:.5rem; }
-  .feat-body{ font-family:var(--serif); font-size:.95rem; color:var(--muted); line-height:1.68; }
-
-  /* ── INSTRUMENT CARD ── corner-bracket panel motif ── */
-  .icard{
-    position:relative; background:var(--panel);
-    border:1px solid var(--line); padding:1.6rem;
-    transition:transform .25s cubic-bezier(.2,.8,.3,1), border-color .25s, box-shadow .25s;
-  }
-  .icard:hover{
-    transform:translateY(-4px);
-    border-color:var(--line2);
-    box-shadow:0 16px 36px rgba(0,0,0,.35);
-  }
-  .icard::before, .icard::after{
-    content:""; position:absolute; width:11px; height:11px;
-    border:1px solid var(--steady-dim); transition:border-color .25s;
-  }
-  .icard:hover::before, .icard:hover::after{ border-color:var(--steady); }
-  .icard::before{ top:-1px; left:-1px; border-right:none; border-bottom:none; }
-  .icard::after{ bottom:-1px; right:-1px; border-left:none; border-top:none; }
-  .icard .icard-icon{ font-size:1.25rem; margin-bottom:.85rem; transition:transform .3s ease; }
-  .icard:hover .icard-icon{ transform:scale(1.12); }
-  .icard h4{ font-family:var(--disp); font-size:.98rem; color:var(--ink); margin-bottom:.55rem; font-weight:600; }
-  .icard p{ font-family:var(--serif); font-size:.92rem; color:var(--muted); line-height:1.65; }
-
-  /* ── HERO ── */
-  .hero{
-    min-height:100vh; display:flex; flex-direction:column; justify-content:flex-end;
-    padding:0 2.75rem 4.5rem; position:relative; overflow:hidden;
-  }
-  .hero-badge{
-    position:absolute; top:100px; left:2.75rem;
-    font-family:var(--mono); font-size:.66rem; color:var(--dim);
-    letter-spacing:.13em; text-transform:uppercase;
-    border-left:2px solid var(--tremor); padding-left:.75rem; z-index:2;
-  }
-  .hero-wf{ position:absolute; left:0; right:0; top:38%; z-index:0; opacity:.9; }
-  .hero-content{ position:relative; z-index:2; max-width:820px; }
-  .hero h1{
-    font-family:var(--disp); font-weight:700;
-    font-size:clamp(3.4rem, 8.2vw, 6.6rem);
-    letter-spacing:-.02em; line-height:.98; color:var(--ink); margin-bottom:1.8rem;
-  }
-  .hero h1 em{ font-style:normal; color:var(--tremor); }
-  .hero-sub{ font-family:var(--serif); font-size:1.12rem; color:var(--muted); line-height:1.7; max-width:520px; margin-bottom:2.4rem; }
-  .hero-btns{ display:flex; gap:1rem; flex-wrap:wrap; }
-  .hero-caption{
-    position:absolute; right:2.75rem; bottom:4.5rem; z-index:2;
-    font-family:var(--mono); font-size:.66rem; color:var(--dim); text-align:right;
-    line-height:1.8; letter-spacing:.04em; max-width:220px;
-  }
-  .hero-caption b{ color:var(--steady); font-weight:500; }
-
-  /* ── WHO WE ARE ── */
-  /* uses .split / .feat-list above */
-
-  /* ── PRODUCT ── */
-  .product-shell{ background:var(--panel); border:1px solid var(--line); padding:2rem; }
-  .product-tabs{ display:flex; gap:.6rem; flex-wrap:wrap; margin:0 0 1.75rem; border-bottom:1px solid var(--line); padding-bottom:1.5rem;}
-  .product-tab{
-    border:1px solid var(--line); background:transparent; color:var(--muted);
-    padding:.6rem 1rem; cursor:pointer; font-family:var(--mono); font-size:.66rem;
-    letter-spacing:.1em; text-transform:uppercase; transition:all .2s;
-  }
-  .product-tab.active, .product-tab:hover{ color:var(--bg); background:var(--steady); border-color:var(--steady); }
-  .product-panel{ display:none; animation:fadein .3s ease; }
-  .product-panel.active{ display:block; }
-  .product-card-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:1rem; margin-bottom:1.5rem; }
-  .product-quote{ border-left:2px solid var(--tremor); padding-left:1.2rem; color:var(--ink); font-family:var(--serif); font-style:italic; line-height:1.8; font-size:1rem; }
-  .product-hero{ border:1px solid var(--line); padding:1.9rem; background:var(--panel2); margin-bottom:1.5rem; }
-  .product-hero h3{ font-family:var(--disp); font-size:1.25rem; font-weight:600; color:var(--ink); margin-bottom:.75rem; }
-  .product-hero p{ font-family:var(--serif); color:var(--muted); line-height:1.78; }
-  .future-grid{ display:grid; grid-template-columns:repeat(2,1fr); gap:1rem; }
-  .future-item{ border:1px solid var(--line); padding:1.4rem; background:var(--panel2); transition:border-color .25s, transform .25s; }
-  .future-item:hover{ border-color:var(--tremor-dim); transform:translateY(-3px); }
-  .future-tag{ font-family:var(--mono); font-size:.62rem; letter-spacing:.12em; text-transform:uppercase; color:var(--tremor); margin-bottom:.85rem; display:block; }
-  .future-item h4{ font-family:var(--disp); font-size:.98rem; color:var(--ink); margin-bottom:.4rem; font-weight:600; }
-  .future-item p{ font-family:var(--serif); font-size:.9rem; color:var(--muted); line-height:1.65; }
-
-  .steps-grid{ display:grid; grid-template-columns:repeat(4,1fr); border:1px solid var(--line); margin-bottom:1.6rem; }
-  .step-cell{ padding:2rem 1.5rem; border-right:1px solid var(--line); transition:background .25s; }
-  .step-cell:hover{ background:rgba(63,224,192,0.035); }
-  .step-cell:last-child{ border-right:none; }
-  .step-tag{ font-family:var(--mono); font-size:.6rem; color:var(--steady); letter-spacing:.12em; text-transform:uppercase; margin-bottom:.9rem; }
-  .step-title{ font-family:var(--disp); font-weight:600; font-size:.92rem; margin-bottom:.55rem; color:var(--ink); }
-  .step-body{ font-family:var(--serif); font-size:.87rem; color:var(--muted); line-height:1.62; }
-  .live-tag{ display:inline-flex; align-items:center; gap:.5rem; border:1px solid var(--tremor-dim); padding:.45rem 1rem; font-family:var(--mono); font-size:.64rem; color:var(--tremor); text-transform:uppercase; letter-spacing:.1em; }
-  .dot{ width:6px; height:6px; border-radius:50%; background:var(--tremor); animation:pulse 2s infinite; }
-  @keyframes pulse{ 0%,100%{opacity:1;} 50%{opacity:.25;} }
-
-  /* ── TEAM ── */
-  .team-grid{ display:grid; grid-template-columns:repeat(2,1fr); gap:1px; background:var(--line); border:1px solid var(--line); }
-  .member{ background:var(--bg); padding:2.4rem; transition:background .25s; }
-  .member:hover{ background:var(--panel); }
-  .member-init{ font-family:var(--disp); font-weight:700; font-size:2.1rem; color:var(--dim); margin-bottom:1.1rem; letter-spacing:.02em; }
-  .member-name{ font-family:var(--disp); font-weight:600; font-size:1.05rem; margin-bottom:.3rem; color:var(--ink); }
-  .member-role{ font-family:var(--mono); font-size:.66rem; color:var(--steady); letter-spacing:.08em; text-transform:uppercase; margin-bottom:1rem; }
-  .member-bio{ font-family:var(--serif); font-size:.94rem; color:var(--muted); line-height:1.72; }
-  .member-tags{ display:flex; gap:.4rem; flex-wrap:wrap; margin-top:1.1rem; }
-  .tag{ font-family:var(--mono); font-size:.63rem; color:var(--dim); border:1px solid var(--line); padding:.22rem .55rem; }
-
-  .join-cta-block{ border:1px solid var(--line); padding:4.5rem 3.5rem; text-align:center; background:var(--panel); position:relative; }
-  .join-cta-block::before, .join-cta-block::after{ content:""; position:absolute; width:14px; height:14px; border:1px solid var(--steady-dim); }
-  .join-cta-block::before{ top:-1px; left:-1px; border-right:none; border-bottom:none; }
-  .join-cta-block::after{ bottom:-1px; right:-1px; border-left:none; border-top:none; }
-  .join-cta-block h3{ font-family:var(--disp); font-weight:700; font-size:2.4rem; letter-spacing:-.01em; margin-bottom:1rem; }
-  .join-cta-block p{ font-family:var(--serif); color:var(--muted); max-width:420px; margin:0 auto 2.2rem; line-height:1.72; font-size:.98rem; }
-  .join-fine{ margin-top:1.1rem; color:var(--dim); font-size:.72rem; font-family:var(--mono); letter-spacing:.03em; }
-
-  /* ── COMING SOON / STATUS ── */
-  .soon-status{ font-family:var(--mono); font-size:.7rem; color:var(--tremor); letter-spacing:.1em; text-transform:uppercase; display:flex; align-items:center; gap:.5rem; margin-bottom:2rem; }
-  .soon-list{ margin:2.2rem 0; padding:1.9rem; border:1px solid var(--line); background:var(--panel); }
-  .soon-list h4{ font-family:var(--disp); font-weight:600; font-size:.9rem; margin-bottom:1rem; color:var(--ink); }
-  .soon-list ul{ list-style:none; color:var(--muted); font-family:var(--serif); font-size:.94rem; line-height:2; }
-
-  /* ── DETAILS / SOCIAL GRIDS ── */
-  .details-grid, .social-row{ display:grid; grid-template-columns:repeat(3,1fr); gap:1px; background:var(--line); border:1px solid var(--line); margin-bottom:3.5rem; }
-  .detail-cell, .social-cell{ background:var(--bg); padding:2.2rem; transition:background .25s; }
-  .detail-cell:hover, .social-cell:hover{ background:var(--panel); }
-  .social-cell{ text-align:center; text-decoration:none; color:inherit; display:block; }
-  .detail-icon, .sc-icon{ font-size:1.3rem; margin-bottom:.9rem; }
-  .detail-label{ font-family:var(--mono); font-size:.62rem; color:var(--steady); letter-spacing:.1em; text-transform:uppercase; margin-bottom:.4rem; }
-  .detail-val, .sc-name{ font-family:var(--disp); font-weight:600; font-size:.98rem; color:var(--ink); margin-bottom:.55rem; }
-  .detail-body{ font-family:var(--serif); font-size:.88rem; color:var(--muted); line-height:1.65; }
-  .sc-handle{ font-family:var(--mono); font-size:.72rem; color:var(--steady); }
-  .sc-note{ font-family:var(--serif); font-size:.82rem; color:var(--muted); margin-top:.45rem; }
-
-  /* ── FOOTER ── */
-  footer{ border-top:1px solid var(--line); padding:2.75rem; position:relative; z-index:1; }
-  .footer-inner{ max-width:1080px; margin:0 auto; display:grid; grid-template-columns:1fr auto 1fr; align-items:center; gap:2rem; }
-  .footer-logo{ font-family:var(--disp); font-weight:600; font-size:1rem; color:var(--ink); cursor:pointer; }
-  .footer-logo span{ color:var(--tremor); }
-  .footer-nav{ display:flex; gap:1.6rem; justify-content:center; }
-  .footer-nav a{ color:var(--dim); text-decoration:none; font-size:.68rem; cursor:pointer; transition:color .2s; text-transform:uppercase; letter-spacing:.07em; font-family:var(--mono); }
-  .footer-nav a:hover{ color:var(--steady); }
-  .footer-right{ text-align:right; color:var(--dim); font-size:.68rem; font-family:var(--mono); line-height:1.8; }
-  .footer-socials{ display:flex; gap:1rem; justify-content:flex-end; margin-bottom:.5rem; }
-  .footer-socials a{ color:var(--dim); text-decoration:none; font-size:.68rem; transition:color .2s; }
-  .footer-socials a:hover{ color:var(--steady); }
-
-  blockquote{ border-left:2px solid var(--tremor); padding-left:1.75rem; }
-  blockquote p{ font-family:var(--serif); font-size:1.2rem; line-height:1.65; color:var(--ink); font-weight:400; font-style:italic; }
-
-  /* ── RESPONSIVE ── */
-  @media (max-width:900px){
-    .readout-strip{ grid-template-columns:repeat(2,1fr); }
-    .split{ grid-template-columns:1fr; gap:2.75rem; }
-    .split-sticky{ position:static; }
-    .product-card-grid{ grid-template-columns:1fr; }
-    .steps-grid{ grid-template-columns:1fr 1fr; }
-    .step-cell:nth-child(2){ border-right:none; }
-    .step-cell:nth-child(3){ border-top:1px solid var(--line); }
-    .step-cell:nth-child(4){ border-top:1px solid var(--line); border-right:none; }
-    .future-grid{ grid-template-columns:1fr; }
-    .team-grid, .details-grid, .social-row{ grid-template-columns:1fr; }
-    .footer-inner{ grid-template-columns:1fr; text-align:center; gap:1.4rem; }
-    .footer-nav{ flex-wrap:wrap; }
-    .footer-right{ text-align:center; }
-    .footer-socials{ justify-content:center; }
-    .hero{ padding:0 1.4rem 3.5rem; }
-    .hero-badge{ left:1.4rem; }
-    .hero-caption{ display:none; }
-    .section{ padding:5rem 1.4rem; }
-    #nav{ padding:0 1.4rem; }
-    .nav-links{ display:none; position:absolute; top:64px; left:0; right:0; background:rgba(10,12,16,.98); flex-direction:column; padding:1rem 1.4rem; border-bottom:1px solid var(--line); gap:.9rem; }
-    .nav-links.open{ display:flex; }
-    .hamburger{ display:flex; }
-    .join-cta-block{ padding:3rem 1.6rem; }
-  }
-
-  /* ══════════ BOOT / CALIBRATION SEQUENCE ══════════ */
-  #boot-overlay{
-    position:fixed; inset:0; z-index:10000;
-    background:var(--bg); display:flex; align-items:center; justify-content:center;
-    flex-direction:column; gap:1.6rem; transition:opacity .7s ease;
-  }
-  #boot-overlay.hide{ opacity:0; pointer-events:none; }
-  .boot-wf{ width:min(420px, 70vw); height:70px; }
-  .boot-status{
-    font-family:var(--mono); font-size:.72rem; letter-spacing:.16em; text-transform:uppercase;
-    color:var(--muted); min-height:1.2em;
-  }
-  .boot-status .ok{ color:var(--steady); }
-  .boot-bar{ width:min(280px, 60vw); height:2px; background:var(--line); position:relative; overflow:hidden; }
-  .boot-bar-fill{ position:absolute; left:0; top:0; bottom:0; width:0%; background:linear-gradient(90deg,var(--tremor),var(--steady)); transition:width .25s linear; }
-  .boot-pct{ font-family:var(--mono); font-size:.62rem; color:var(--dim); letter-spacing:.1em; }
-
-  /* ══════════ CUSTOM CURSOR ══════════ */
-  body.cc-on, body.cc-on *{ cursor:none !important; }
-  #cc-dot, #cc-ring{
-    position:fixed; top:0; left:0; z-index:9998; pointer-events:none;
-    border-radius:50%; transform:translate(-50%,-50%);
-  }
-  #cc-dot{ width:5px; height:5px; background:var(--steady); }
-  #cc-ring{
-    width:30px; height:30px; border:1px solid var(--steady-dim);
-    transition:width .18s ease, height .18s ease, border-color .18s ease, background .18s ease;
-  }
-  #cc-ring::before, #cc-ring::after{
-    content:""; position:absolute; background:var(--steady-dim);
-  }
-  #cc-ring.active{ width:50px; height:50px; border-color:var(--tremor); background:rgba(255,90,95,.06); }
-
-  /* ══════════ MAGNETIC BUTTONS ══════════ */
-  .btn{ transform:translate(var(--mx,0), var(--my,0)) translateY(0); }
-  .btn:hover{ transform:translate(var(--mx,0), var(--my,0)) translateY(-1px); }
-  .btn:active{ transform:translate(var(--mx,0), var(--my,0)) translateY(0) scale(.97); }
-
-  /* ══════════ COMMAND PALETTE ══════════ */
-  .cmdk-hint{
-    display:flex; align-items:center; gap:.4rem;
-    font-family:var(--mono); font-size:.64rem; color:var(--dim);
-    border:1px solid var(--line); padding:.4rem .65rem; letter-spacing:.05em;
-    cursor:pointer; transition:border-color .2s, color .2s; background:transparent;
-  }
-  .cmdk-hint:hover{ border-color:var(--steady-dim); color:var(--steady); }
-  .cmdk-hint kbd{ font-family:var(--mono); background:var(--panel2); border:1px solid var(--line2); padding:.05rem .3rem; border-radius:2px; font-size:.6rem; }
-  #cmdk-overlay{
-    position:fixed; inset:0; z-index:9999; background:rgba(6,7,9,.72); backdrop-filter:blur(4px);
-    display:none; align-items:flex-start; justify-content:center; padding-top:14vh;
-  }
-  #cmdk-overlay.open{ display:flex; }
-  .cmdk-box{
-    width:min(480px, 90vw); background:var(--panel); border:1px solid var(--line2);
-    box-shadow:0 30px 80px rgba(0,0,0,.55);
-  }
-  .cmdk-input-row{ display:flex; align-items:center; gap:.75rem; padding:1rem 1.2rem; border-bottom:1px solid var(--line); }
-  .cmdk-input-row .glyph{ color:var(--steady); font-family:var(--mono); }
-  #cmdk-input{
-    flex:1; background:none; border:none; outline:none; color:var(--ink);
-    font-family:var(--mono); font-size:.9rem; letter-spacing:.02em;
-  }
-  #cmdk-input::placeholder{ color:var(--dim); }
-  .cmdk-list{ max-height:320px; overflow-y:auto; padding:.5rem; }
-  .cmdk-item{
-    display:flex; align-items:center; justify-content:space-between;
-    padding:.75rem .9rem; cursor:pointer; font-family:var(--disp); font-weight:500;
-    font-size:.9rem; color:var(--muted); border-left:2px solid transparent;
-  }
-  .cmdk-item .k{ font-family:var(--mono); font-size:.62rem; color:var(--dim); text-transform:uppercase; letter-spacing:.08em; }
-  .cmdk-item.sel{ background:rgba(63,224,192,.06); color:var(--ink); border-left-color:var(--steady); }
-  .cmdk-item.sel .k{ color:var(--steady); }
-  .cmdk-empty{ padding:1.5rem; text-align:center; font-family:var(--mono); font-size:.72rem; color:var(--dim); }
-
-  /* ══════════ STABILIZER DEMO ══════════ */
-  .demo-block{ border:1px solid var(--line); background:var(--panel2); padding:1.6rem; margin-bottom:1.6rem; }
-  .demo-head{ display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:1rem; margin-bottom:1rem; }
-  .demo-title{ font-family:var(--disp); font-weight:600; font-size:1rem; color:var(--ink); }
-  .demo-sub{ font-family:var(--serif); font-size:.85rem; color:var(--muted); margin-top:.3rem; }
-  .demo-toggle{
-    display:flex; border:1px solid var(--line2); font-family:var(--mono); font-size:.65rem;
-    text-transform:uppercase; letter-spacing:.08em; overflow:hidden;
-  }
-  .demo-toggle button{
-    background:transparent; border:none; color:var(--muted); padding:.55rem 1rem; cursor:pointer; transition:all .2s;
-  }
-  .demo-toggle button.on{ background:var(--steady); color:#04140f; }
-  .demo-canvas-wrap{ position:relative; border:1px solid var(--line); background:#070a0d; }
-  .demo-canvas-wrap::before{
-    content:""; position:absolute; inset:0; pointer-events:none; opacity:.5;
-    background-image:linear-gradient(rgba(63,224,192,.05) 1px, transparent 1px), linear-gradient(90deg, rgba(63,224,192,.05) 1px, transparent 1px);
-    background-size:24px 24px;
-  }
-  #demo-canvas{ display:block; width:100%; height:220px; touch-action:none; cursor:crosshair; }
-  .demo-placeholder{
-    position:absolute; inset:0; display:flex; align-items:center; justify-content:center;
-    font-family:var(--mono); font-size:.72rem; color:var(--dim); letter-spacing:.06em;
-    text-transform:uppercase; pointer-events:none; text-align:center; padding:1rem;
-  }
-  .demo-placeholder.hidden{ display:none; }
-  .demo-legend{ display:flex; gap:1.5rem; margin-top:1rem; flex-wrap:wrap; }
-  .demo-legend span{ display:flex; align-items:center; gap:.5rem; font-family:var(--mono); font-size:.65rem; color:var(--muted); text-transform:uppercase; letter-spacing:.06em; }
-  .demo-legend .sw{ width:14px; height:2px; display:inline-block; }
-  .sw-tremor{ background:var(--tremor); }
-  .sw-steady{ background:var(--steady); }
-
-  @media (max-width:640px){
-    .cmdk-hint{ display:none; }
-  }
-
-  /* ══════════ AMBIENT SIGNAL FIELD ══════════ */
-  #bg-signal{ position:fixed; inset:0; z-index:0; pointer-events:none; }
-
-  /* ══════════ PAGE TRANSITION SWEEP ══════════ */
-  #sweep{
-    position:fixed; inset:0; z-index:9996; pointer-events:none;
-    opacity:0;
-  }
-  #sweep .line{
-    position:absolute; left:0; right:0; height:2px; top:-2px;
-    background:linear-gradient(90deg, transparent, var(--steady), var(--tremor), transparent);
-    box-shadow:0 0 24px 2px rgba(63,224,192,.5);
-  }
-  #sweep.go{ animation: sweepFade .5s ease forwards; }
-  #sweep.go .line{ animation: sweepMove .5s cubic-bezier(.6,0,.3,1) forwards; }
-  @keyframes sweepFade{ 0%{opacity:0;} 12%{opacity:1;} 88%{opacity:1;} 100%{opacity:0;} }
-  @keyframes sweepMove{ 0%{ top:-2px; } 100%{ top:100%; } }
-
-  /* ══════════ SIGNAL HUD ══════════ */
-  #hud{
-    position:fixed; left:1.25rem; bottom:1.25rem; z-index:500;
-    font-family:var(--mono); font-size:.6rem; color:var(--dim);
-    background:rgba(10,12,16,.72); backdrop-filter:blur(8px);
-    border:1px solid var(--line); padding:.6rem .75rem;
-    display:flex; align-items:center; gap:.65rem;
-    letter-spacing:.05em; user-select:none;
-  }
-  #hud .hud-label{ text-transform:uppercase; color:var(--muted); line-height:1.6; }
-  #hud .hud-label b{ color:var(--steady); font-weight:500; }
-  #hud canvas{ display:block; width:76px; height:26px; }
-  @media (max-width:900px){ #hud{ display:none; } }
-
-  /* ══════════ TEAM VITALS ══════════ */
-  .vitals-row{ display:flex; align-items:center; gap:.6rem; margin-top:1.2rem; padding-top:1.1rem; border-top:1px solid var(--line); }
-  .vitals-row canvas{ width:100px; height:28px; display:block; }
-  .vitals-tag{ font-family:var(--mono); font-size:.6rem; color:var(--dim); text-transform:uppercase; letter-spacing:.08em; display:flex; align-items:center; gap:.4rem; }
-  .vitals-tag .vdot{ width:5px; height:5px; border-radius:50%; background:var(--steady); animation:pulse 2.4s infinite; }
-
-  /* ══════════ PARTICLE BURST LAYER ══════════ */
-  #burst-canvas{ position:fixed; inset:0; z-index:9995; pointer-events:none; }
-
-  /* ══════════ EASTER EGG FLASH ══════════ */
-  #egg-flash{
-    position:fixed; inset:0; z-index:9997; pointer-events:none;
-    display:flex; align-items:center; justify-content:center;
-    opacity:0;
-  }
-  #egg-flash.show{ animation:eggFade 1.7s ease forwards; }
-  #egg-flash span{
-    font-family:var(--mono); font-size:.9rem; letter-spacing:.2em; text-transform:uppercase;
-    color:var(--steady); text-shadow:0 0 20px rgba(63,224,192,.6);
-  }
-  @keyframes eggFade{ 0%{opacity:0;} 15%{opacity:1;} 75%{opacity:1;} 100%{opacity:0;} }
-
-  /* ══════════ ACHIEVEMENT TOAST ══════════ */
-  #achievement-toast{
-    position:fixed; right:1.25rem; bottom:1.25rem; z-index:9994;
-    background:var(--panel); border:1px solid var(--steady-dim);
-    padding:1.1rem 1.4rem; max-width:280px;
-    box-shadow:0 20px 50px rgba(0,0,0,.5);
-    transform:translateX(120%); opacity:0;
-    transition:transform .5s cubic-bezier(.2,.8,.2,1), opacity .5s;
-  }
-  #achievement-toast.show{ transform:translateX(0); opacity:1; }
-  #achievement-toast .ach-title{ font-family:var(--disp); font-weight:600; font-size:.92rem; color:var(--steady); margin-bottom:.4rem; }
-  #achievement-toast .ach-sub{ font-family:var(--serif); font-size:.82rem; color:var(--muted); line-height:1.55; }
-
-  /* ══════════ SOUND TOGGLE STATE ══════════ */
-  #sound-toggle.on kbd{ background:var(--steady); color:#04140f; border-color:var(--steady); }
-
-  /* ══════════ ACCESSIBILITY / DIAGNOSTIC MODE ══════════ */
-  .a11y-btn{
-    display:flex; align-items:center; gap:.4rem;
-    font-family:var(--mono); font-size:.64rem; color:var(--dim);
-    border:1px solid var(--line); padding:.4rem .65rem; letter-spacing:.05em;
-    cursor:pointer; transition:border-color .2s, color .2s; background:transparent;
-  }
-  .a11y-btn:hover{ border-color:var(--tremor-dim); color:var(--tremor); }
-  .a11y-btn.on{ border-color:var(--tremor); color:var(--tremor); background:rgba(255,90,95,.08); }
-
-  body.diagnostic-mode{ --muted:#c2c5d1; --dim:#8b92a6; }
-  body.diagnostic-mode .reveal{ opacity:1 !important; transform:none !important; transition:none !important; }
-  body.diagnostic-mode #bg-signal,
-  body.diagnostic-mode #burst-canvas,
-  body.diagnostic-mode #cc-dot,
-  body.diagnostic-mode #cc-ring,
-  body.diagnostic-mode #hud,
-  body.diagnostic-mode .tremor-line,
-  body.diagnostic-mode .wf-draw{ display:none !important; }
-  body.diagnostic-mode.cc-on, body.diagnostic-mode.cc-on *{ cursor:auto !important; }
-  body.diagnostic-mode{ font-size:105%; }
-  body.diagnostic-mode :focus-visible{ outline:3px solid var(--steady); outline-offset:3px; }
-  body.diagnostic-mode .btn, body.diagnostic-mode a{ text-underline-offset:3px; }
-  #a11y-banner{
-    display:none; position:fixed; top:64px; left:0; right:0; z-index:997;
-    background:var(--steady); color:#04140f; text-align:center;
-    font-family:var(--mono); font-size:.68rem; letter-spacing:.08em; text-transform:uppercase;
-    padding:.5rem; z-index:996;
-  }
-  body.diagnostic-mode #a11y-banner{ display:block; }
-
-  /* ══════════ RESEARCH PAGE ══════════ */
-  .paper-grid{ display:flex; flex-direction:column; gap:1px; background:var(--line); border:1px solid var(--line); margin-bottom:3rem; }
-  .paper-row{ background:var(--bg); padding:1.8rem 2rem; display:grid; grid-template-columns:auto 1fr auto; gap:1.5rem; align-items:center; transition:background .25s; }
-  .paper-row:hover{ background:var(--panel); }
-  .paper-status{ font-family:var(--mono); font-size:.6rem; text-transform:uppercase; letter-spacing:.08em; padding:.35rem .7rem; border:1px solid var(--line2); color:var(--muted); white-space:nowrap; }
-  .paper-status.active{ color:var(--steady); border-color:var(--steady-dim); }
-  .paper-info h4{ font-family:var(--disp); font-weight:600; font-size:.98rem; color:var(--ink); margin-bottom:.35rem; }
-  .paper-info p{ font-family:var(--serif); font-size:.86rem; color:var(--muted); line-height:1.6; }
-  .paper-tags{ display:flex; gap:.4rem; flex-wrap:wrap; justify-self:end; }
-  @media (max-width:700px){ .paper-row{ grid-template-columns:1fr; } .paper-tags{ justify-self:start; } }
-
-  .method-grid{ display:grid; grid-template-columns:repeat(2,1fr); gap:1rem; margin-bottom:3rem; }
-  @media (max-width:700px){ .method-grid{ grid-template-columns:1fr; } }
-</style>
+<link rel="stylesheet" href="styles.css">
 </head>
 <body>
 
@@ -607,7 +17,7 @@
 <div id="achievement-toast"><div class="ach-title">System Fully Calibrated</div><div class="ach-sub">You've explored every module. Signal steady.</div></div>
 <div id="hud">
   <canvas id="hud-canvas"></canvas>
-  <div class="hud-label">MODULE <b id="hud-page">HOME</b><br>VARIANCE <b id="hud-var">0.00</b><br><span id="hud-log">ONLINE · ACTIVE <b id="hud-days">0</b> DAYS</span></div>
+  <div class="hud-label">MODULE <b id="hud-page">HOME</b><br>VARIANCE <b id="hud-var">0.00</b><br><span id="hud-log">ONLINE  ACTIVE <b id="hud-days">0</b> DAYS</span></div>
 </div>
 
 <div id="boot-overlay" aria-hidden="true">
@@ -626,8 +36,8 @@
 <div id="cmdk-overlay">
   <div class="cmdk-box">
     <div class="cmdk-input-row">
-      <span class="glyph">›</span>
-      <input id="cmdk-input" type="text" placeholder="Jump to a page…" autocomplete="off">
+      <span class="glyph">></span>
+      <input id="cmdk-input" type="text" placeholder="Jump to a page" autocomplete="off">
       <span style="font-family:var(--mono);font-size:.62rem;color:var(--dim);">ESC</span>
     </div>
     <div class="cmdk-list" id="cmdk-list"></div>
@@ -654,18 +64,18 @@
     <li><a onclick="go('details')" data-p="details">Club Info</a></li>
     <li><button class="cmdk-hint" onclick="openCmdk()" aria-label="Open command palette">Jump to<kbd>/</kbd></button></li>
     <li><button class="cmdk-hint" id="sound-toggle" onclick="toggleSound()" aria-label="Toggle interface sound">SND<kbd id="sound-state">OFF</kbd></button></li>
-    <li><button class="a11y-btn" id="a11y-toggle" onclick="toggleA11y()" aria-label="Toggle diagnostic accessibility mode">◐ Diagnostic Mode</button></li>
+    <li><button class="a11y-btn" id="a11y-toggle" onclick="toggleA11y()" aria-label="Toggle diagnostic accessibility mode">Diagnostic Mode</button></li>
     <li><a onclick="go('join')" data-p="join" class="nav-apply">Apply</a></li>
   </ul>
 </nav>
-<div id="a11y-banner">Diagnostic Mode active — motion, custom cursor, and background effects disabled for a calmer, higher-contrast view</div>
+<div id="a11y-banner">Diagnostic Mode active - motion, custom cursor, and background effects disabled for a calmer, higher-contrast view</div>
 <div id="scroll-progress"></div>
 
-<!-- ████ HOME ████ -->
+<!--  HOME  -->
 <div class="page active" id="page-home">
   <section class="hero" id="hero">
     <div class="hero-spotlight" id="hero-spotlight"></div>
-    <div class="hero-badge">Oakton High School · Biomedical Engineering Club</div>
+    <div class="hero-badge">Oakton High School  Biomedical Engineering Club</div>
 
     <svg class="hero-wf" viewBox="0 0 1200 220" preserveAspectRatio="none" aria-hidden="true">
       <path class="tremor-line wf-draw" d="M0,110 C15,70 30,155 45,90 C60,25 75,165 90,80 C105,10 120,150 135,95 C150,35 165,130 180,100 C195,155 210,55 225,115 C240,175 255,35 270,105 C285,60 300,145 315,95 C330,25 345,155 360,85 C375,130 390,45 405,110 C420,160 435,50 450,100 C465,25 480,150 495,90 C510,140 525,45 540,105 C555,15 570,150 585,100" fill="none" stroke-width="1.6" opacity="0.55"/>
@@ -674,13 +84,13 @@
 
     <div class="hero-content">
       <h1>ENGINEER<br>THE <em>FUTURE</em><br>OF MEDICINE</h1>
-      <p class="hero-sub">Oakton Enable is a student-led team designing real-world solutions for people living with neurological challenges — starting with Parkinson's disease.</p>
+      <p class="hero-sub">Oakton Enable is a student-led team designing real-world solutions for people living with neurological challenges - starting with Parkinson's disease.</p>
       <div class="hero-btns">
         <button class="btn btn-steady" onclick="go('product')">Our Work</button>
         <button class="btn btn-outline" onclick="go('join')">Join the Club</button>
       </div>
     </div>
-    <div class="hero-caption">TREMOR SIGNAL <b>→</b> CALIBRATED OUTPUT<br>a stray hand made steady</div>
+    <div class="hero-caption">TREMOR SIGNAL <b>-></b> CALIBRATED OUTPUT<br>a stray hand made steady</div>
   </section>
 
   <div class="readout-strip">
@@ -695,20 +105,20 @@
       <div class="split-sticky">
         <span class="eyebrow">Who We Are</span>
         <h2 class="display-sm" style="margin-bottom:1.5rem;">WHERE EMPATHY<br>MEETS ENGINEERING</h2>
-        <p class="body-md" style="margin-bottom:2rem;">We tackle real biomedical challenges through student-driven design, research, and hardware — giving students the platform to create meaningful change before they ever leave high school.</p>
+        <p class="body-md" style="margin-bottom:2rem;">We tackle real biomedical challenges through student-driven design, research, and hardware - giving students the platform to create meaningful change before they ever leave high school.</p>
         <button class="btn btn-outline" onclick="go('about')">Learn More</button>
       </div>
       <div class="feat-list">
-        <div class="feat-item"><div class="feat-mark">›</div><div><div class="feat-title">Full-Pipeline Engineering</div><div class="feat-body">From concept sketch to physical prototype — CAD, 3D printing, embedded electronics, and firmware. We mirror a real product development pipeline.</div></div></div>
-        <div class="feat-item"><div class="feat-mark">›</div><div><div class="feat-title">Research Before We Build</div><div class="feat-body">Before we design anything, we go deep. Medical literature, patient communities, and clinical data shape every engineering decision we make.</div></div></div>
-        <div class="feat-item"><div class="feat-mark">›</div><div><div class="feat-title">Student-Led. Impact-Driven.</div><div class="feat-body">Every design, line of code, and research finding is created by students. The next breakthrough in assistive tech could come from a high school lab.</div></div></div>
-        <div class="feat-item"><div class="feat-mark">›</div><div><div class="feat-title">Open Source Everything</div><div class="feat-body">Our code, schematics, and CAD files are public. We believe accessible technology starts with accessible development.</div></div></div>
+        <div class="feat-item"><div class="feat-mark"></div><div><div class="feat-title">Full-Pipeline Engineering</div><div class="feat-body">From concept sketch to physical prototype - CAD, 3D printing, embedded electronics, and firmware. We mirror a real product development pipeline.</div></div></div>
+        <div class="feat-item"><div class="feat-mark"></div><div><div class="feat-title">Research Before We Build</div><div class="feat-body">Before we design anything, we go deep. Medical literature, patient communities, and clinical data shape every engineering decision we make.</div></div></div>
+        <div class="feat-item"><div class="feat-mark"></div><div><div class="feat-title">Student-Led. Impact-Driven.</div><div class="feat-body">Every design, line of code, and research finding is created by students. The next breakthrough in assistive tech could come from a high school lab.</div></div></div>
+        <div class="feat-item"><div class="feat-mark"></div><div><div class="feat-title">Open Source Everything</div><div class="feat-body">Our code, schematics, and CAD files are public. We believe accessible technology starts with accessible development.</div></div></div>
       </div>
     </div>
   </div>
 </div>
 
-<!-- ████ ABOUT ████ -->
+<!-- ---- ABOUT ---- -->
 <div class="page" id="page-about">
   <div class="section">
     <span class="eyebrow">Who We Are</span>
@@ -718,31 +128,37 @@
     <div class="split" style="margin-bottom:5rem;">
       <div>
         <p class="body-lg" style="margin-bottom:1.5rem;">Oakton Enable is where biology meets engineering, where empathy drives design, and where high school students prove that age is no barrier to solving medicine's hardest problems.</p>
-        <p class="body-md">We operate in the space between clinical need and technical possibility — choosing problems rooted in real human experience, and building solutions with dignity at the center of every design decision.</p>
+        <p class="body-md">We operate in the space between clinical need and technical possibility - choosing problems rooted in real human experience, and building solutions with dignity at the center of every design decision.</p>
       </div>
       <div>
-        <blockquote><p>"We exist to engineer hope — for the patients who wait, for the families who struggle, and for a future where transformative technology is accessible to everyone who needs it."</p></blockquote>
+        <blockquote><p>"We exist to engineer hope - for the patients who wait, for the families who struggle, and for a future where transformative technology is accessible to everyone who needs it."</p></blockquote>
       </div>
+    </div>
+
+    <div class="reveal" style="margin-bottom:3.5rem;">
+      <span class="eyebrow">Design Ethos</span>
+      <h2 class="display-sm" style="margin-bottom:1.25rem;">SUSTAINABLE & ACCESSIBLE</h2>
+      <p class="body-md">We design our products to be biodegradable, environmentally responsible, and economically accessible to the people who need them most. Unlike many commercial devices that remain out of reach because of their high cost, we focus on practical, low-impact solutions that can serve more communities without sacrificing care, quality, or dignity.</p>
     </div>
 
     <span class="eyebrow">Core Philosophy</span>
     <h2 class="display-sm" style="margin-bottom:3rem;">OUR VALUES</h2>
     <div class="feat-list">
-      <div class="feat-item"><div class="feat-mark">💡</div><div><div class="feat-title">Innovation</div><div class="feat-body">Chase creative solutions where others see dead ends. Conventional answers aren't enough when the stakes are someone's quality of life.</div></div></div>
-      <div class="feat-item"><div class="feat-mark">❤</div><div><div class="feat-title">Empathy</div><div class="feat-body">Design with the end user at the heart of every decision — always. We build for people, not portfolios.</div></div></div>
-      <div class="feat-item"><div class="feat-mark">◎</div><div><div class="feat-title">Rigor</div><div class="feat-body">Ground every choice in data, research, and testing. Guesswork isn't design — especially when it affects real patients.</div></div></div>
-      <div class="feat-item"><div class="feat-mark">▲</div><div><div class="feat-title">Action</div><div class="feat-body">Build, test, iterate — never wait for perfection before you begin. Momentum is how real projects get done.</div></div></div>
+      <div class="feat-item"><div class="feat-mark">1</div><div><div class="feat-title">Innovation</div><div class="feat-body">Chase creative solutions where others see dead ends. Conventional answers aren't enough when the stakes are someone's quality of life.</div></div></div>
+      <div class="feat-item"><div class="feat-mark">2</div><div><div class="feat-title">Empathy</div><div class="feat-body">Design with the end user at the heart of every decision - always. We build for people, not portfolios.</div></div></div>
+      <div class="feat-item"><div class="feat-mark">3</div><div><div class="feat-title">Rigor</div><div class="feat-body">Ground every choice in data, research, and testing. Guesswork isn't design - especially when it affects real patients.</div></div></div>
+      <div class="feat-item"><div class="feat-mark">4</div><div><div class="feat-title">Action</div><div class="feat-body">Build, test, iterate - never wait for perfection before you begin. Momentum is how real projects get done.</div></div></div>
     </div>
   </div>
 </div>
 
-<!-- ████ PRODUCT ████ -->
+<!-- ---- PRODUCT ---- -->
 <div class="page" id="page-product">
   <div class="section">
     <div class="reveal">
       <span class="eyebrow">What We Build</span>
       <h1 class="display" style="margin-bottom:1rem;">ASSISTIVE<br>TECHNOLOGY</h1>
-      <p class="body-lg" style="margin-bottom:2.5rem;">We create thoughtful biomedical tools that blend empathy, engineering, and storytelling — starting with IsoWrite and expanding into a wider family of accessible products.</p>
+      <p class="body-lg" style="margin-bottom:2.5rem;">We create thoughtful biomedical tools that blend empathy, engineering, and storytelling - starting with IsoWrite and expanding into a wider family of accessible products.</p>
     </div>
 
     <div class="product-shell reveal delay-1">
@@ -755,12 +171,12 @@
       <div class="product-panel active" id="product-overview">
         <div class="product-hero">
           <h3>We build products that turn constraints into possibility.</h3>
-          <p>Every idea starts with a person, not just a problem statement. We design with dignity, usability, and impact in mind — whether it's a writing aid, assistive interface, or a future daily living tool.</p>
+          <p>Every idea starts with a person, not just a problem statement. We design with dignity, usability, and impact in mind - whether it's a writing aid, assistive interface, or a future daily living tool.</p>
         </div>
         <div class="product-card-grid">
-          <div class="icard"><div class="icard-icon">🧠</div><h4>Empathy First</h4><p>Every concept begins by understanding how someone lives with a challenge day to day.</p></div>
-          <div class="icard"><div class="icard-icon">⚙️</div><h4>Prototype Driven</h4><p>We move from sketches, to CAD, to physical prototypes and improve through iteration.</p></div>
-          <div class="icard"><div class="icard-icon">🌱</div><h4>Built to Grow</h4><p>IsoWrite is our first milestone, but our broader vision is a future ecosystem of inclusive products.</p></div>
+          <div class="icard"><div class="icard-icon"></div><h4>Empathy First</h4><p>Every concept begins by understanding how someone lives with a challenge day to day.</p></div>
+          <div class="icard"><div class="icard-icon"></div><h4>Prototype Driven</h4><p>We move from sketches, to CAD, to physical prototypes and improve through iteration.</p></div>
+          <div class="icard"><div class="icard-icon"></div><h4>Built to Grow</h4><p>IsoWrite is our first milestone, but our broader vision is a future ecosystem of inclusive products.</p></div>
         </div>
         <div class="product-quote">Our goal is not simply to make devices. It is to make dignity, confidence, and independence feel more tangible for the people who use them.</div>
       </div>
@@ -768,14 +184,14 @@
       <div class="product-panel" id="product-isowrite">
         <div class="product-hero">
           <h3>IsoWrite: a smart writing companion for tremor stability</h3>
-          <p>IsoWrite is our flagship project — a student-designed assistive writing tool built to reduce the impact of Parkinson's-related tremor and help users write with steadier, more natural control.</p>
+          <p>IsoWrite is our flagship project - a student-designed assistive writing tool built to reduce the impact of Parkinson's-related tremor and help users write with steadier, more natural control.</p>
         </div>
 
         <div class="demo-block">
           <div class="demo-head">
             <div>
               <div class="demo-title">Try the stabilization concept</div>
-              <div class="demo-sub">Draw across the pad below — a simplified simulation of the filtering logic IsoWrite is built around.</div>
+              <div class="demo-sub">Draw across the pad below - a simplified simulation of the filtering logic IsoWrite is built around.</div>
             </div>
             <div class="demo-toggle" role="group" aria-label="Toggle stabilization">
               <button id="demo-off" onclick="setDemoMode(false)">Raw</button>
@@ -793,13 +209,14 @@
         </div>
 
         <div class="steps-grid">
-          <div class="step-cell"><div class="step-tag">Step 01 — Sensing</div><div class="step-title">Motion Tracking</div><div class="step-body">Embedded sensors monitor hand movement in real time to detect the tremor pattern.</div></div>
-          <div class="step-cell"><div class="step-tag">Step 02 — Processing</div><div class="step-title">Signal Filtering</div><div class="step-body">Real-time logic distinguishes intended motion from the involuntary oscillation of tremor.</div></div>
-          <div class="step-cell"><div class="step-tag">Step 03 — Actuation</div><div class="step-title">Stabilization</div><div class="step-body">A corrective mechanism helps neutralize unwanted movement at the pen tip.</div></div>
-          <div class="step-cell"><div class="step-tag">Step 04 — Output</div><div class="step-title">Steady Writing</div><div class="step-body">The result is cleaner, more controlled handwriting and a stronger sense of independence.</div></div>
+          <div class="step-cell"><div class="step-tag">Step 01 - Sensing</div><div class="step-title">Motion Tracking</div><div class="step-body">Embedded sensors monitor hand movement in real time to detect the tremor pattern.</div></div>
+          <div class="step-cell"><div class="step-tag">Step 02 - Processing</div><div class="step-title">Signal Filtering</div><div class="step-body">Real-time logic distinguishes intended motion from the involuntary oscillation of tremor.</div></div>
+          <div class="step-cell"><div class="step-tag">Step 03 - Actuation</div><div class="step-title">Stabilization</div><div class="step-body">A corrective mechanism helps neutralize unwanted movement at the pen tip.</div></div>
+          <div class="step-cell"><div class="step-tag">Step 04 - Output</div><div class="step-title">Steady Writing</div><div class="step-body">The result is cleaner, more controlled handwriting and a stronger sense of independence.</div></div>
         </div>
         <div style="display:flex;gap:1rem;flex-wrap:wrap;align-items:center;">
           <a class="btn btn-steady" href="https://docs.google.com/document/d/17zHRZP8OW0Wda3QkkGgGZORQD0gJFME8ufDdyHBz6-g/edit?usp=sharing" target="_blank">Explore Prototype</a>
+          <a class="btn btn-outline" href="isowrite-model.html">View 3D Model</a>
           <div class="live-tag"><div class="dot"></div> Active Development</div>
         </div>
       </div>
@@ -820,7 +237,7 @@
   </div>
 </div>
 
-<!-- ████ RESEARCH ████ -->
+<!-- ---- RESEARCH ---- -->
 <div class="page" id="page-research">
   <div class="section">
     <div class="reveal">
@@ -833,24 +250,24 @@
       <span class="eyebrow">Focus Areas</span>
       <div class="method-grid">
         <div class="icard">
-          <div class="icard-icon">📈</div>
+          <div class="icard-icon"></div>
           <h4>Tremor Biomechanics</h4>
-          <p>Understanding the frequency, amplitude, and variability of Parkinsonian hand tremor — the baseline every stabilization mechanism has to be measured against.</p>
+          <p>Understanding the frequency, amplitude, and variability of Parkinsonian hand tremor - the baseline every stabilization mechanism has to be measured against.</p>
         </div>
         <div class="icard">
-          <div class="icard-icon">🎛️</div>
+          <div class="icard-icon"></div>
           <h4>Signal Filtering Methods</h4>
           <p>Comparing approaches to separating intentional motion from involuntary oscillation in real time, from simple smoothing to more adaptive filtering logic.</p>
         </div>
         <div class="icard">
-          <div class="icard-icon">🖊️</div>
+          <div class="icard-icon"></div>
           <h4>Assistive Device Ergonomics</h4>
-          <p>How grip, weight distribution, and feedback affect whether an assistive tool actually gets used day to day — not just whether it works on a bench.</p>
+          <p>How grip, weight distribution, and feedback affect whether an assistive tool actually gets used day to day - not just whether it works on a bench.</p>
         </div>
         <div class="icard">
-          <div class="icard-icon">🗣️</div>
+          <div class="icard-icon"></div>
           <h4>Patient & Caregiver Input</h4>
-          <p>Conversations and community feedback that shape our priorities — making sure we're solving problems people actually have, not ones we assume they have.</p>
+          <p>Conversations and community feedback that shape our priorities - making sure we're solving problems people actually have, not ones we assume they have.</p>
         </div>
       </div>
     </div>
@@ -860,9 +277,9 @@
       <h2 class="display-sm" style="margin-bottom:2rem;">FROM LITERATURE TO PROTOTYPE</h2>
       <div class="steps-grid" style="margin-bottom:3rem;">
         <div class="step-cell"><div class="step-tag">Stage 01</div><div class="step-title">Literature Review</div><div class="step-body">We start with published research and clinical resources to understand what's already known.</div></div>
-        <div class="step-cell"><div class="step-tag">Stage 02</div><div class="step-title">Synthesis</div><div class="step-body">Findings get distilled into design constraints — numbers and patterns our engineering has to respect.</div></div>
+        <div class="step-cell"><div class="step-tag">Stage 02</div><div class="step-title">Synthesis</div><div class="step-body">Findings get distilled into design constraints - numbers and patterns our engineering has to respect.</div></div>
         <div class="step-cell"><div class="step-tag">Stage 03</div><div class="step-title">Applied Testing</div><div class="step-body">We validate assumptions against our own prototypes, not just against the paper they came from.</div></div>
-        <div class="step-cell"><div class="step-tag">Stage 04</div><div class="step-title">Documentation</div><div class="step-body">What we learn — including what didn't work — gets written up for the next iteration.</div></div>
+        <div class="step-cell"><div class="step-tag">Stage 04</div><div class="step-title">Documentation</div><div class="step-body">What we learn - including what didn't work - gets written up for the next iteration.</div></div>
       </div>
     </div>
 
@@ -895,13 +312,13 @@
           <div class="paper-tags"><span class="tag">User Research</span></div>
         </div>
       </div>
-      <p class="body-md" style="margin-bottom:2rem;">We don't publish research findings until they're ready to stand on their own — no placeholder data, no premature conclusions. Check back as these move from drafting to published.</p>
+      <p class="body-md" style="margin-bottom:2rem;">We don't publish research findings until they're ready to stand on their own - no placeholder data, no premature conclusions. Check back as these move from drafting to published.</p>
       <button class="btn btn-outline" onclick="go('join')">Get Notified When Published</button>
     </div>
   </div>
 </div>
 
-<!-- ████ CAD ████ -->
+<!-- ---- CAD ---- -->
 <div class="page" id="page-cad">
   <div class="section section-sm">
     <span class="eyebrow">Design Files</span>
@@ -912,21 +329,21 @@
     <div class="soon-list">
       <h4>What Will Be Published</h4>
       <ul>
-        <li>— Full IsoWrite assembly with component hierarchy</li>
-        <li>— Mechanism schematics and exploded view diagrams</li>
-        <li>— Dimensional drawings, tolerances, and material callouts</li>
-        <li>— Print-ready STL files optimized for FDM 3D printing</li>
-        <li>— Design revision log with rationale for major changes</li>
+        <li>- Full IsoWrite assembly with component hierarchy</li>
+        <li>- Mechanism schematics and exploded view diagrams</li>
+        <li>- Dimensional drawings, tolerances, and material callouts</li>
+        <li>- Print-ready STL files optimized for FDM 3D printing</li>
+        <li>- Design revision log with rationale for major changes</li>
       </ul>
     </div>
     <div style="display:flex;gap:1rem;flex-wrap:wrap;">
       <button class="btn btn-outline" onclick="go('join')">Get Notified</button>
-      <a href="https://github.com/oaktonenable" target="_blank" class="btn btn-steady">GitHub →</a>
+      <a href="https://github.com/oaktonenable" target="_blank" class="btn btn-steady">GitHub '</a>
     </div>
   </div>
 </div>
 
-<!-- ████ CREATIONS ████ -->
+<!-- ---- CREATIONS ---- -->
 <div class="page" id="page-creations">
   <div class="section section-sm">
     <span class="eyebrow">Member Projects</span>
@@ -935,15 +352,15 @@
     <div class="soon-status"><div class="dot"></div>Coming Soon</div>
     <p class="body-md" style="margin-bottom:2.5rem;">Our members are actively working on individual projects spanning programming, electrical design, 3D modeling, and research writing. This gallery will be populated as projects reach shareable milestones.</p>
     <div class="details-grid" style="margin-bottom:2.5rem;">
-      <div class="detail-cell" style="opacity:.35;pointer-events:none;"><div class="detail-icon">💻</div><div class="detail-val">Software Projects</div><div class="detail-body">Code, firmware, and embedded systems work.</div></div>
-      <div class="detail-cell" style="opacity:.35;pointer-events:none;"><div class="detail-icon">🖨️</div><div class="detail-val">3D Designs</div><div class="detail-body">CAD models, prints, and physical prototypes.</div></div>
-      <div class="detail-cell" style="opacity:.35;pointer-events:none;"><div class="detail-icon">📊</div><div class="detail-val">Research Papers</div><div class="detail-body">Medical research and literature reviews.</div></div>
+      <div class="detail-cell" style="opacity:.35;pointer-events:none;"><div class="detail-icon">'</div><div class="detail-val">Software Projects</div><div class="detail-body">Code, firmware, and embedded systems work.</div></div>
+      <div class="detail-cell" style="opacity:.35;pointer-events:none;"><div class="detail-icon">-</div><div class="detail-val">3D Designs</div><div class="detail-body">CAD models, prints, and physical prototypes.</div></div>
+      <div class="detail-cell" style="opacity:.35;pointer-events:none;"><div class="detail-icon">"</div><div class="detail-val">Research Papers</div><div class="detail-body">Medical research and literature reviews.</div></div>
     </div>
     <button class="btn btn-outline" onclick="go('join')">Express Interest</button>
   </div>
 </div>
 
-<!-- ████ TEAM ████ -->
+<!-- ---- TEAM ---- -->
 <div class="page" id="page-team">
   <div class="section">
     <span class="eyebrow">The People Behind the Mission</span>
@@ -955,15 +372,15 @@
         <div class="member-init">AN</div>
         <div class="member-name">Arnav Nair</div>
         <div class="member-role">President</div>
-        <p class="member-bio">As founding president, Arnav provides the vision, strategic direction, and leadership that holds the club together. He coordinates across disciplines — ensuring that programmers, designers, and researchers are working in concert toward a coherent goal. His leadership is defined by inclusivity, rigorous standards, and a personal belief that student innovation can and should matter in the real world.</p>
+        <p class="member-bio">As founding president, Arnav provides the vision, strategic direction, and leadership that holds the club together. He coordinates across disciplines - ensuring that programmers, designers, and researchers are working in concert toward a coherent goal. His leadership is defined by inclusivity, rigorous standards, and a personal belief that student innovation can and should matter in the real world.</p>
         <div class="member-tags"><span class="tag">Leadership</span><span class="tag">Strategy</span><span class="tag">Vision</span></div>
         <div class="vitals-row"><canvas class="vcanvas" data-seed="1"></canvas><span class="vitals-tag"><span class="vdot"></span>Signal</span></div>
       </div>
       <div class="member">
         <div class="member-init">AD</div>
         <div class="member-name">Aditya Nandimandalam</div>
-        <div class="member-role">Head of Outreach & Research · Programmer</div>
-        <p class="member-bio">Aditya serves as the intellectual and external bridge of Oakton Enable. As Head of Outreach and Research, he digs deep into medical literature, connects the club with patient communities, and shapes how the team communicates its work. He also contributes as a core programmer — translating research findings into functional software and control logic for the IsoWrite's sensor systems.</p>
+        <div class="member-role">Head of Outreach & Research  Programmer</div>
+        <p class="member-bio">Aditya serves as the intellectual and external bridge of Oakton Enable. As Head of Outreach and Research, he digs deep into medical literature, connects the club with patient communities, and shapes how the team communicates its work. He also contributes as a core programmer - translating research findings into functional software and control logic for the IsoWrite's sensor systems.</p>
         <div class="member-tags"><span class="tag">Research</span><span class="tag">Outreach</span><span class="tag">Programming</span></div>
         <div class="vitals-row"><canvas class="vcanvas" data-seed="2"></canvas><span class="vitals-tag"><span class="vdot"></span>Signal</span></div>
       </div>
@@ -971,7 +388,7 @@
         <div class="member-init">CC</div>
         <div class="member-name">Christopher Choi</div>
         <div class="member-role">Head of 3D Design</div>
-        <p class="member-bio">Christopher is the creative force behind Oakton Enable's physical product development. Working in professional-grade CAD software, he translates engineering concepts into precise, printable, and ergonomically considered 3D models. His designs balance aesthetics, manufacturability, and function — and his work on the IsoWrite's housing and mechanical stabilization mechanism is central to making the concept real.</p>
+        <p class="member-bio">Christopher is the creative force behind Oakton Enable's physical product development. Working in professional-grade CAD software, he translates engineering concepts into precise, printable, and ergonomically considered 3D models. His designs balance aesthetics, manufacturability, and function - and his work on the IsoWrite's housing and mechanical stabilization mechanism is central to making the concept real.</p>
         <div class="member-tags"><span class="tag">CAD / OnShape</span><span class="tag">3D Printing</span><span class="tag">Product Design</span></div>
         <div class="vitals-row"><canvas class="vcanvas" data-seed="3"></canvas><span class="vitals-tag"><span class="vdot"></span>Signal</span></div>
       </div>
@@ -979,7 +396,7 @@
         <div class="member-init">AA</div>
         <div class="member-name">Arjun Arunkumar</div>
         <div class="member-role">Programmer & Electrical Engineer</div>
-        <p class="member-bio">Arjun is the technical backbone of the IsoWrite's electronics and embedded systems. As both a programmer and circuit designer, he bridges the gap between software and hardware — laying out PCBs, selecting components, and writing the low-level firmware that makes real-time tremor cancellation actually run. Without his expertise in embedded systems and electrical integration, the pen remains a design on a screen.</p>
+        <p class="member-bio">Arjun is the technical backbone of the IsoWrite's electronics and embedded systems. As both a programmer and circuit designer, he bridges the gap between software and hardware - laying out PCBs, selecting components, and writing the low-level firmware that makes real-time tremor cancellation actually run. Without his expertise in embedded systems and electrical integration, the pen remains a design on a screen.</p>
         <div class="member-tags"><span class="tag">Embedded Systems</span><span class="tag">Circuit Design</span><span class="tag">Programming</span></div>
         <div class="vitals-row"><canvas class="vcanvas" data-seed="4"></canvas><span class="vitals-tag"><span class="vdot"></span>Signal</span></div>
       </div>
@@ -990,7 +407,7 @@
         </div>
         <div class="member-name">Samarth Prakash</div>
         <div class="member-role">Head of Media</div>
-        <p class="member-bio">Samarth shapes how Oakton Enable looks and sounds to the outside world. He leads photography, video, and content strategy — documenting builds, testing sessions, and milestones, then turning that raw footage into the story that shows people why IsoWrite matters. His work is what makes the club's progress visible, shareable, and easy to rally behind.</p>
+        <p class="member-bio">Samarth shapes how Oakton Enable looks and sounds to the outside world. He leads photography, video, and content strategy - documenting builds, testing sessions, and milestones, then turning that raw footage into the story that shows people why IsoWrite matters. His work is what makes the club's progress visible, shareable, and easy to rally behind.</p>
         <div class="member-tags"><span class="tag">Photography</span><span class="tag">Video</span><span class="tag">Content Strategy</span></div>
         <div class="vitals-row"><canvas class="vcanvas" data-seed="5"></canvas><span class="vitals-tag"><span class="vdot"></span>Signal</span></div>
       </div>
@@ -998,13 +415,13 @@
 
     <div class="join-cta-block">
       <h3>WANT TO JOIN THE TEAM?</h3>
-      <p>We're always looking for passionate Oakton students. No prior experience required — just curiosity and commitment.</p>
-      <a href="https://docs.google.com/forms/d/e/1FAIpQLSediQK2menlsXeRNVHi76ocW_E3qNm8afyynof9Xd01SNs3rQ/viewform?usp=publish-editor" target="_blank" class="btn btn-steady">Apply Now →</a>
+      <p>We're always looking for passionate Oakton students. No prior experience required - just curiosity and commitment.</p>
+      <a href="https://docs.google.com/forms/d/e/1FAIpQLSediQK2menlsXeRNVHi76ocW_E3qNm8afyynof9Xd01SNs3rQ/viewform?usp=publish-editor" target="_blank" class="btn btn-steady">Apply Now '</a>
     </div>
   </div>
 </div>
 
-<!-- ████ DETAILS ████ -->
+<!-- ---- DETAILS ---- -->
 <div class="page" id="page-details">
   <div class="section">
     <span class="eyebrow">Club Information</span>
@@ -1012,12 +429,12 @@
     <hr class="rule" style="margin-bottom:4rem;">
 
     <div class="details-grid">
-      <div class="detail-cell"><div class="detail-icon">📅</div><div class="detail-label">Meeting Times</div><div class="detail-val">TBA</div><div class="detail-body">Our official meeting schedule is being finalized. Follow our Instagram for announcements the moment times are confirmed.</div></div>
-      <div class="detail-cell"><div class="detail-icon">📍</div><div class="detail-label">Location</div><div class="detail-val">Oakton High School</div><div class="detail-body">We meet on campus. The specific room and schedule details will be released alongside our first meeting announcement.</div></div>
-      <div class="detail-cell"><div class="detail-icon">🎓</div><div class="detail-label">Open To</div><div class="detail-val">All Grade Levels</div><div class="detail-body">Oakton Enable welcomes students from every grade level. No engineering background required — we teach you what you need as we go.</div></div>
-      <div class="detail-cell"><div class="detail-icon">⏱️</div><div class="detail-label">Structure</div><div class="detail-val">Project-Based</div><div class="detail-body">We operate on project cycles. Your time commitment scales with the needs of the project you contribute to.</div></div>
-      <div class="detail-cell"><div class="detail-icon">🛠️</div><div class="detail-label">At Meetings</div><div class="detail-val">Build & Research</div><div class="detail-body">Meetings include design reviews, programming sessions, research presentations, and hands-on prototyping. Every session moves the project forward.</div></div>
-      <div class="detail-cell"><div class="detail-icon">📬</div><div class="detail-label">How to Join</div><div class="detail-val">Interest Form</div><div class="detail-body">Fill out our interest form and a club officer will reach out with next steps once the schedule is locked in.</div></div>
+      <div class="detail-cell"><div class="detail-icon">"</div><div class="detail-label">Meeting Times</div><div class="detail-val">TBA</div><div class="detail-body">Our official meeting schedule is being finalized. Follow our Instagram for announcements the moment times are confirmed.</div></div>
+      <div class="detail-cell"><div class="detail-icon">"</div><div class="detail-label">Location</div><div class="detail-val">Oakton High School</div><div class="detail-body">We meet on campus. The specific room and schedule details will be released alongside our first meeting announcement.</div></div>
+      <div class="detail-cell"><div class="detail-icon">"</div><div class="detail-label">Open To</div><div class="detail-val">All Grade Levels</div><div class="detail-body">Oakton Enable welcomes students from every grade level. No engineering background required - we teach you what you need as we go.</div></div>
+      <div class="detail-cell"><div class="detail-icon"></div><div class="detail-label">Structure</div><div class="detail-val">Project-Based</div><div class="detail-body">We operate on project cycles. Your time commitment scales with the needs of the project you contribute to.</div></div>
+      <div class="detail-cell"><div class="detail-icon"></div><div class="detail-label">At Meetings</div><div class="detail-val">Build & Research</div><div class="detail-body">Meetings include design reviews, programming sessions, research presentations, and hands-on prototyping. Every session moves the project forward.</div></div>
+      <div class="detail-cell"><div class="detail-icon">"</div><div class="detail-label">How to Join</div><div class="detail-val">Interest Form</div><div class="detail-body">Fill out our interest form and a club officer will reach out with next steps once the schedule is locked in.</div></div>
     </div>
 
     <div style="margin-top:4rem; padding:3rem; border:1px solid var(--line); background:var(--panel);">
@@ -1027,22 +444,22 @@
           <h3 class="display-sm" style="margin-bottom:1rem;">DON'T MISS AN ANNOUNCEMENT</h3>
           <p class="body-md" style="margin-bottom:2rem;">Meeting times, project milestones, and news will be posted to our Instagram first. Follow us there to stay current.</p>
           <div style="display:flex;gap:1rem;flex-wrap:wrap;">
-            <a href="https://instagram.com/oaktonenable" target="_blank" class="btn btn-steady">@oaktonenable →</a>
+            <a href="https://instagram.com/oaktonenable" target="_blank" class="btn btn-steady">@oaktonenable '</a>
             <button class="btn btn-outline" onclick="go('join')">Interest Form</button>
           </div>
         </div>
         <div>
           <div style="display:flex;flex-direction:column;gap:1px;background:var(--line);border:1px solid var(--line);">
             <div style="background:var(--bg);padding:1.2rem 1.4rem;display:flex;align-items:center;gap:1rem;">
-              <span style="font-size:1.15rem;">📸</span>
+              <span style="font-size:1.15rem;">"</span>
               <div><div style="font-family:var(--disp);font-weight:600;font-size:.86rem;">Instagram</div><div style="font-family:var(--mono);font-size:.7rem;color:var(--steady);">@oaktonenable</div></div>
             </div>
             <div style="background:var(--bg);padding:1.2rem 1.4rem;display:flex;align-items:center;gap:1rem;">
-              <span style="font-size:1.15rem;">💻</span>
+              <span style="font-size:1.15rem;">'</span>
               <div><div style="font-family:var(--disp);font-weight:600;font-size:.86rem;">GitHub</div><div style="font-family:var(--mono);font-size:.7rem;color:var(--steady);">github.com/oaktonenable</div></div>
             </div>
             <div style="background:var(--bg);padding:1.2rem 1.4rem;display:flex;align-items:center;gap:1rem;opacity:.4;">
-              <span style="font-size:1.15rem;">📐</span>
+              <span style="font-size:1.15rem;">"</span>
               <div><div style="font-family:var(--disp);font-weight:600;font-size:.86rem;">OnShape</div><div style="font-family:var(--mono);font-size:.7rem;color:var(--muted);">Link coming soon</div></div>
             </div>
           </div>
@@ -1052,7 +469,7 @@
   </div>
 </div>
 
-<!-- ████ JOIN ████ -->
+<!-- ---- JOIN ---- -->
 <div class="page" id="page-join">
   <div class="section">
     <span class="eyebrow">Get Connected</span>
@@ -1061,16 +478,16 @@
 
     <h3 style="font-family:var(--mono);font-size:.7rem;color:var(--muted);text-transform:uppercase;letter-spacing:.11em;margin-bottom:1.5rem;">Find Us Online</h3>
     <div class="social-row" style="margin-bottom:4rem;">
-      <a href="https://instagram.com/oaktonenable" target="_blank" class="social-cell"><div class="sc-icon">📸</div><div class="sc-name">Instagram</div><div class="sc-handle">@oaktonenable</div><div class="sc-note">Club updates, photos, and announcements</div></a>
-      <a href="https://github.com/oaktonenable" target="_blank" class="social-cell"><div class="sc-icon">💻</div><div class="sc-name">GitHub</div><div class="sc-handle">github.com/oaktonenable</div><div class="sc-note">Open source code and project repositories</div></a>
-      <div class="social-cell" style="opacity:.4;cursor:default;"><div class="sc-icon">📐</div><div class="sc-name">OnShape</div><div class="sc-handle" style="color:var(--muted);">Coming Soon</div><div class="sc-note">3D CAD models and design files</div></div>
+      <a href="https://instagram.com/oaktonenable" target="_blank" class="social-cell"><div class="sc-icon">"</div><div class="sc-name">Instagram</div><div class="sc-handle">@oaktonenable</div><div class="sc-note">Club updates, photos, and announcements</div></a>
+      <a href="https://github.com/oaktonenable" target="_blank" class="social-cell"><div class="sc-icon">'</div><div class="sc-name">GitHub</div><div class="sc-handle">github.com/oaktonenable</div><div class="sc-note">Open source code and project repositories</div></a>
+      <div class="social-cell" style="opacity:.4;cursor:default;"><div class="sc-icon">"</div><div class="sc-name">OnShape</div><div class="sc-handle" style="color:var(--muted);">Coming Soon</div><div class="sc-note">3D CAD models and design files</div></div>
     </div>
 
     <div class="join-cta-block">
       <h3>READY TO JOIN<br>OAKTON ENABLE?</h3>
-      <p>Fill out our interest form and we'll be in touch. We'd love to hear from you — regardless of your background or skill level.</p>
-      <a href="https://docs.google.com/forms/d/e/1FAIpQLSediQK2menlsXeRNVHi76ocW_E3qNm8afyynof9Xd01SNs3rQ/viewform?usp=publish-editor" target="_blank" class="btn btn-steady" style="font-size:.78rem;padding:1rem 2.25rem;">Fill Out the Interest Form →</a>
-      <p class="join-fine">No experience required · All grades welcome · All interests considered</p>
+      <p>Fill out our interest form and we'll be in touch. We'd love to hear from you - regardless of your background or skill level.</p>
+      <a href="https://docs.google.com/forms/d/e/1FAIpQLSediQK2menlsXeRNVHi76ocW_E3qNm8afyynof9Xd01SNs3rQ/viewform?usp=publish-editor" target="_blank" class="btn btn-steady" style="font-size:.78rem;padding:1rem 2.25rem;">Fill Out the Interest Form '</a>
+      <p class="join-fine">No experience required  All grades welcome  All interests considered</p>
     </div>
   </div>
 </div>
@@ -1094,583 +511,11 @@
         <a href="https://instagram.com/oaktonenable" target="_blank">Instagram</a>
         <a href="https://github.com/oaktonenable" target="_blank">GitHub</a>
       </div>
-      © 2026 Oakton Enable · Oakton High School
+       2026 Oakton Enable  Oakton High School
     </div>
   </div>
 </footer>
 
-<script>
-  const PAGES = ['home','about','product','research','cad','creations','team','details','join'];
-
-  function go(id) {
-    const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
-    const sweepEl = document.getElementById('sweep');
-    if (sweepEl && !reduced) { sweepEl.classList.remove('go'); void sweepEl.offsetWidth; sweepEl.classList.add('go'); }
-    PAGES.forEach(p => {
-      document.getElementById('page-' + p).classList.remove('active');
-      document.querySelectorAll('[data-p="' + p + '"]').forEach(a => a.classList.remove('active'));
-    });
-    document.getElementById('page-' + id).classList.add('active');
-    document.querySelectorAll('[data-p="' + id + '"]').forEach(a => a.classList.add('active'));
-    document.getElementById('nav-links').classList.remove('open');
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-    setTimeout(updateProgress, 50);
-    const hudPage = document.getElementById('hud-page');
-    if (hudPage) hudPage.textContent = id.toUpperCase();
-    if (window.trackVisit) window.trackVisit(id);
-    if (window.playBlip) window.playBlip('nav');
-  }
-
-  function setProductTab(tab) {
-    document.querySelectorAll('.product-tab').forEach(btn => btn.classList.toggle('active', btn.dataset.productTab === tab));
-    document.querySelectorAll('.product-panel').forEach(panel => panel.classList.toggle('active', panel.id === 'product-' + tab));
-    if (tab === 'isowrite' && window.demoResize) requestAnimationFrame(() => requestAnimationFrame(window.demoResize));
-  }
-  document.querySelectorAll('.product-tab').forEach(button => {
-    button.addEventListener('click', () => setProductTab(button.dataset.productTab));
-  });
-
-  function toggleMenu(){ document.getElementById('nav-links').classList.toggle('open'); }
-
-  const revealObserver = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) { entry.target.classList.add('visible'); revealObserver.unobserve(entry.target); }
-    });
-  }, { threshold: 0.18 });
-  document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
-
-  window.addEventListener('scroll', () => {
-    const nav = document.getElementById('nav');
-    nav.style.boxShadow = window.scrollY > 8 ? '0 10px 30px rgba(0,0,0,.3)' : 'none';
-    updateProgress();
-  });
-
-  function updateProgress(){
-    const bar = document.getElementById('scroll-progress');
-    const active = document.querySelector('.page.active');
-    if(!active || !bar) return;
-    const max = active.scrollHeight - window.innerHeight;
-    const pct = max > 0 ? Math.min(100, Math.max(0, (window.scrollY / max) * 100)) : 0;
-    bar.style.width = pct + '%';
-  }
-  updateProgress();
-
-  const heroEl = document.getElementById('hero');
-  const spotlight = document.getElementById('hero-spotlight');
-  if (heroEl && spotlight && matchMedia('(hover: hover)').matches) {
-    heroEl.addEventListener('mousemove', (e) => {
-      const r = heroEl.getBoundingClientRect();
-      spotlight.style.setProperty('--mx', ((e.clientX - r.left) / r.width * 100) + '%');
-      spotlight.style.setProperty('--my', ((e.clientY - r.top) / r.height * 100) + '%');
-    });
-  }
-
-  function runCountUps(scope){
-    scope.querySelectorAll('[data-count]').forEach(el => {
-      if (el.dataset.counted) return;
-      el.dataset.counted = '1';
-      const target = parseInt(el.dataset.count, 10);
-      const pad = el.dataset.pad ? parseInt(el.dataset.pad,10) : 0;
-      const duration = 900;
-      const start = performance.now();
-      function tick(now){
-        const p = Math.min(1, (now - start) / duration);
-        const eased = 1 - Math.pow(1 - p, 3);
-        const val = Math.round(target * eased);
-        el.textContent = pad ? String(val).padStart(pad, '0') : String(val);
-        if (p < 1) requestAnimationFrame(tick); else el.textContent = pad ? String(target).padStart(pad,'0') : String(target);
-      }
-      requestAnimationFrame(tick);
-    });
-  }
-  const countObserver = new IntersectionObserver((entries) => {
-    entries.forEach(entry => { if (entry.isIntersecting) runCountUps(entry.target); });
-  }, { threshold: 0.4 });
-  document.querySelectorAll('.readout-strip, .impact-row').forEach(el => countObserver.observe(el));
-
-  /* ══════════ BOOT / CALIBRATION SEQUENCE ══════════ */
-  (function boot(){
-    const overlay = document.getElementById('boot-overlay');
-    const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
-    if (sessionStorage.getItem('oe-booted') || reduced) { overlay.style.display = 'none'; return; }
-    sessionStorage.setItem('oe-booted', '1');
-    const statusEl = document.getElementById('boot-status');
-    const fill = document.getElementById('boot-bar-fill');
-    const pctEl = document.getElementById('boot-pct');
-    const tremorPath = document.getElementById('boot-tremor');
-    const steadyPath = document.getElementById('boot-steady');
-    const steps = [
-      { t: 'INITIALIZING SENSOR ARRAY', p: 20 },
-      { t: 'READING TREMOR SIGNAL', p: 48 },
-      { t: 'APPLYING STABILIZATION FILTER', p: 78 },
-      { t: 'CALIBRATED', p: 100, ok: true }
-    ];
-    let i = 0;
-    function nextStep(){
-      const s = steps[i];
-      statusEl.innerHTML = s.ok ? '<span class="ok">' + s.t + '</span>' : s.t;
-      fill.style.width = s.p + '%';
-      pctEl.textContent = s.p + '%';
-      if (s.ok) { tremorPath.style.transition = 'opacity .5s'; tremorPath.style.opacity = '0.15'; steadyPath.style.transition = 'opacity .5s'; steadyPath.style.opacity = '1'; }
-      i++;
-      if (i < steps.length) setTimeout(nextStep, 480);
-      else setTimeout(() => {
-        overlay.classList.add('hide');
-        setTimeout(() => overlay.style.display = 'none', 700);
-      }, 550);
-    }
-    setTimeout(nextStep, 350);
-  })();
-
-  /* ══════════ CUSTOM CURSOR ══════════ */
-  (function cursor(){
-    if (!matchMedia('(hover: hover) and (pointer: fine)').matches || matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-    document.body.classList.add('cc-on');
-    const dot = document.getElementById('cc-dot');
-    const ring = document.getElementById('cc-ring');
-    let rx = window.innerWidth/2, ry = window.innerHeight/2;
-    document.addEventListener('mousemove', (e) => {
-      dot.style.left = e.clientX + 'px'; dot.style.top = e.clientY + 'px';
-      rx = e.clientX; ry = e.clientY;
-      const el = e.target.closest('a, button, .icard, .future-item, #demo-canvas, .cmdk-item, input');
-      ring.classList.toggle('active', !!el);
-    });
-    function loop(){
-      const cur = ring.getBoundingClientRect();
-      const cx = cur.left + cur.width/2, cy = cur.top + cur.height/2;
-      const nx = cx + (rx - cx) * 0.22, ny = cy + (ry - cy) * 0.22;
-      ring.style.left = nx + 'px'; ring.style.top = ny + 'px';
-      requestAnimationFrame(loop);
-    }
-    ring.style.left = rx + 'px'; ring.style.top = ry + 'px';
-    loop();
-  })();
-
-  /* ══════════ MAGNETIC BUTTONS ══════════ */
-  (function magnets(){
-    if (!matchMedia('(hover: hover) and (pointer: fine)').matches) return;
-    document.querySelectorAll('.btn').forEach(btn => {
-      btn.addEventListener('mousemove', (e) => {
-        const r = btn.getBoundingClientRect();
-        const mx = (e.clientX - r.left - r.width/2) * 0.22;
-        const my = (e.clientY - r.top - r.height/2) * 0.32;
-        btn.style.setProperty('--mx', mx + 'px');
-        btn.style.setProperty('--my', my + 'px');
-      });
-      btn.addEventListener('mouseleave', () => {
-        btn.style.setProperty('--mx', '0px');
-        btn.style.setProperty('--my', '0px');
-      });
-    });
-  })();
-
-  /* ══════════ COMMAND PALETTE ══════════ */
-  const CMDK_PAGES = [
-    { id:'home', label:'Home', k:'Start' },
-    { id:'about', label:'About', k:'Mission' },
-    { id:'product', label:'Product', k:'IsoWrite' },
-    { id:'research', label:'Research', k:'Literature' },
-    { id:'cad', label:'CAD', k:'Design files' },
-    { id:'creations', label:'Creations', k:'Member work' },
-    { id:'team', label:'Team', k:'People' },
-    { id:'details', label:'Club Info', k:'Meetings' },
-    { id:'join', label:'Apply', k:'Join us' }
-  ];
-  const cmdkOverlay = document.getElementById('cmdk-overlay');
-  const cmdkInput = document.getElementById('cmdk-input');
-  const cmdkList = document.getElementById('cmdk-list');
-  let cmdkSel = 0, cmdkFiltered = CMDK_PAGES.slice();
-
-  function renderCmdk(){
-    const q = cmdkInput.value.trim().toLowerCase();
-    cmdkFiltered = CMDK_PAGES.filter(p => p.label.toLowerCase().includes(q) || p.k.toLowerCase().includes(q));
-    cmdkSel = 0;
-    if (!cmdkFiltered.length) { cmdkList.innerHTML = '<div class="cmdk-empty">No matching page</div>'; return; }
-    cmdkList.innerHTML = cmdkFiltered.map((p,idx) =>
-      '<div class="cmdk-item' + (idx===0 ? ' sel':'') + '" data-id="' + p.id + '" data-idx="' + idx + '"><span>' + p.label + '</span><span class="k">' + p.k + '</span></div>'
-    ).join('');
-    cmdkList.querySelectorAll('.cmdk-item').forEach(el => {
-      el.addEventListener('click', () => { go(el.dataset.id); closeCmdk(); });
-      el.addEventListener('mouseenter', () => { cmdkSel = parseInt(el.dataset.idx,10); paintCmdkSel(); });
-    });
-  }
-  function paintCmdkSel(){
-    cmdkList.querySelectorAll('.cmdk-item').forEach((el) => el.classList.toggle('sel', parseInt(el.dataset.idx,10) === cmdkSel));
-    const selEl = cmdkList.querySelector('.cmdk-item.sel');
-    if (selEl) selEl.scrollIntoView({ block:'nearest' });
-  }
-  function openCmdk(){
-    cmdkOverlay.classList.add('open');
-    cmdkInput.value = '';
-    renderCmdk();
-    setTimeout(() => cmdkInput.focus(), 30);
-  }
-  function closeCmdk(){ cmdkOverlay.classList.remove('open'); }
-
-  cmdkInput.addEventListener('input', renderCmdk);
-  cmdkOverlay.addEventListener('click', (e) => { if (e.target === cmdkOverlay) closeCmdk(); });
-  document.addEventListener('keydown', (e) => {
-    const typing = ['INPUT','TEXTAREA'].includes(document.activeElement.tagName);
-    if ((e.key === '/' && !typing) || ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k')) {
-      e.preventDefault(); openCmdk();
-    } else if (e.key === 'Escape' && cmdkOverlay.classList.contains('open')) {
-      closeCmdk();
-    } else if (cmdkOverlay.classList.contains('open')) {
-      if (e.key === 'ArrowDown') { e.preventDefault(); cmdkSel = Math.min(cmdkSel+1, cmdkFiltered.length-1); paintCmdkSel(); }
-      else if (e.key === 'ArrowUp') { e.preventDefault(); cmdkSel = Math.max(cmdkSel-1, 0); paintCmdkSel(); }
-      else if (e.key === 'Enter' && cmdkFiltered[cmdkSel]) { go(cmdkFiltered[cmdkSel].id); closeCmdk(); }
-    }
-  });
-
-  /* ══════════ STABILIZER DEMO ══════════ */
-  (function demo(){
-    const canvas = document.getElementById('demo-canvas');
-    const placeholder = document.getElementById('demo-placeholder');
-    const ctx = canvas.getContext('2d');
-    let stabilized = true;
-    let raw = [], smoothed = [];
-    let smX = null, smY = null;
-    let drawing = false;
-    let hasDrawn = false;
-
-    function resize(){
-      const rect = canvas.getBoundingClientRect();
-      if (rect.width === 0 || rect.height === 0) return; // panel still hidden, skip
-      canvas.width = rect.width * devicePixelRatio;
-      canvas.height = rect.height * devicePixelRatio;
-      raw = []; smoothed = []; hasDrawn = false;
-      placeholder.classList.remove('hidden');
-    }
-    window.addEventListener('resize', resize);
-    resize();
-    if ('ResizeObserver' in window) {
-      new ResizeObserver(resize).observe(canvas);
-    }
-    window.demoResize = resize;
-
-    function pos(e){
-      const rect = canvas.getBoundingClientRect();
-      const cx = (e.touches ? e.touches[0].clientX : e.clientX) - rect.left;
-      const cy = (e.touches ? e.touches[0].clientY : e.clientY) - rect.top;
-      return { x: cx * devicePixelRatio, y: cy * devicePixelRatio };
-    }
-    function start(e){
-      drawing = true; hasDrawn = true;
-      placeholder.classList.add('hidden');
-      const p = pos(e);
-      raw = [p]; smoothed = [p]; smX = p.x; smY = p.y;
-    }
-    function move(e){
-      if (!drawing) return;
-      const p = pos(e);
-      raw.push(p);
-      const alpha = 0.14;
-      smX += (p.x - smX) * alpha;
-      smY += (p.y - smY) * alpha;
-      smoothed.push({ x: smX, y: smY });
-      if (raw.length > 260) { raw.shift(); smoothed.shift(); }
-    }
-    function end(){ drawing = false; }
-
-    canvas.addEventListener('mousedown', start);
-    canvas.addEventListener('mousemove', move);
-    window.addEventListener('mouseup', end);
-    canvas.addEventListener('touchstart', (e) => { e.preventDefault(); start(e); }, { passive:false });
-    canvas.addEventListener('touchmove', (e) => { e.preventDefault(); move(e); }, { passive:false });
-    canvas.addEventListener('touchend', end);
-
-    function drawPath(pts, color, width){
-      if (pts.length < 2) return;
-      ctx.beginPath();
-      ctx.moveTo(pts[0].x, pts[0].y);
-      for (let i=1;i<pts.length;i++) ctx.lineTo(pts[i].x, pts[i].y);
-      ctx.strokeStyle = color; ctx.lineWidth = width * devicePixelRatio;
-      ctx.lineJoin = 'round'; ctx.lineCap = 'round';
-      ctx.stroke();
-    }
-    function frame(){
-      ctx.clearRect(0,0,canvas.width, canvas.height);
-      if (hasDrawn){
-        if (stabilized){
-          drawPath(raw, 'rgba(255,90,95,0.28)', 1.2);
-          drawPath(smoothed, '#3fe0c0', 2.2);
-        } else {
-          drawPath(raw, '#ff5a5f', 1.6);
-        }
-      }
-      requestAnimationFrame(frame);
-    }
-    frame();
-
-    window.setDemoMode = function(on){
-      stabilized = on;
-      document.getElementById('demo-on').classList.toggle('on', on);
-      document.getElementById('demo-off').classList.toggle('on', !on);
-    };
-  })();
-
-  const REDUCED = matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-  /* ══════════ AMBIENT SIGNAL FIELD ══════════ */
-  (function ambient(){
-    const canvas = document.getElementById('bg-signal');
-    const ctx = canvas.getContext('2d');
-    let w, h, mx = -9999, my = -9999;
-    const traces = [];
-    const N = 6;
-    function build(){
-      w = canvas.width = window.innerWidth * (window.devicePixelRatio || 1);
-      h = canvas.height = window.innerHeight * (window.devicePixelRatio || 1);
-      canvas.style.width = window.innerWidth + 'px';
-      canvas.style.height = window.innerHeight + 'px';
-      traces.length = 0;
-      for (let i=0;i<N;i++){
-        traces.push({
-          y: (h/(N+1)) * (i+1),
-          amp: 6 + Math.random()*14,
-          freq: 0.004 + Math.random()*0.006,
-          speed: 0.4 + Math.random()*0.8,
-          phase: Math.random()*1000,
-          jitter: i % 3 === 0 ? 1 : 0,
-          color: i % 3 === 0 ? '255,90,95' : '63,224,192',
-          alpha: 0.05 + Math.random()*0.05
-        });
-      }
-    }
-    window.addEventListener('resize', build);
-    document.addEventListener('mousemove', (e) => { mx = e.clientX * (window.devicePixelRatio||1); my = e.clientY * (window.devicePixelRatio||1); });
-    build();
-    let t = 0;
-    function draw(){
-      if (document.hidden) { requestAnimationFrame(draw); return; }
-      ctx.clearRect(0,0,w,h);
-      t += 1;
-      traces.forEach(tr => {
-        ctx.beginPath();
-        for (let x=0; x<=w; x+=8){
-          let y = tr.y + Math.sin(x*tr.freq + t*0.01*tr.speed + tr.phase) * tr.amp;
-          if (tr.jitter) y += (Math.sin(x*0.7 + t*0.5) * 3);
-          const dist = Math.hypot(x - mx, y - my);
-          if (dist < 180) y += (y > my ? 1 : -1) * (180-dist) * 0.12;
-          x === 0 ? ctx.moveTo(x,y) : ctx.lineTo(x,y);
-        }
-        ctx.strokeStyle = 'rgba(' + tr.color + ',' + tr.alpha + ')';
-        ctx.lineWidth = 1 * (window.devicePixelRatio||1);
-        ctx.stroke();
-      });
-      requestAnimationFrame(draw);
-    }
-    if (!REDUCED) requestAnimationFrame(draw);
-  })();
-
-  /* ══════════ SIGNAL HUD (live cursor oscilloscope) ══════════ */
-  (function hud(){
-    if (!matchMedia('(hover: hover) and (pointer: fine)').matches) return;
-    const canvas = document.getElementById('hud-canvas');
-    const varEl = document.getElementById('hud-var');
-    if (!canvas) return;
-    const ctx = canvas.getContext('2d');
-    const dpr = window.devicePixelRatio || 1;
-    canvas.width = 76 * dpr; canvas.height = 26 * dpr;
-    let history = new Array(38).fill(0);
-    let lastX = null, lastY = null, lastT = performance.now();
-    document.addEventListener('mousemove', (e) => {
-      const now = performance.now();
-      const dt = Math.max(1, now - lastT);
-      if (lastX !== null){
-        const v = Math.hypot(e.clientX-lastX, e.clientY-lastY) / dt * 20;
-        history.push(Math.min(24, v));
-        history.shift();
-      }
-      lastX = e.clientX; lastY = e.clientY; lastT = now;
-    });
-    function draw(){
-      ctx.clearRect(0,0,canvas.width,canvas.height);
-      ctx.beginPath();
-      history.forEach((v,i) => {
-        const x = (i/(history.length-1)) * canvas.width;
-        const y = canvas.height/2 - v * dpr * 0.7;
-        i === 0 ? ctx.moveTo(x,y) : ctx.lineTo(x,y);
-      });
-      ctx.strokeStyle = '#3fe0c0'; ctx.lineWidth = 1.3 * dpr; ctx.stroke();
-      const avg = history.reduce((a,b)=>a+b,0)/history.length;
-      if (varEl) varEl.textContent = avg.toFixed(2);
-      requestAnimationFrame(draw);
-    }
-    if (!REDUCED) requestAnimationFrame(draw);
-  })();
-
-  /* ══════════ TEAM VITALS ══════════ */
-  (function vitals(){
-    const canvases = Array.from(document.querySelectorAll('.vcanvas'));
-    if (!canvases.length) return;
-    const dpr = window.devicePixelRatio || 1;
-    canvases.forEach(c => { c.width = 100*dpr; c.height = 28*dpr; });
-    let t = 0;
-    function draw(){
-      t += 1;
-      canvases.forEach(c => {
-        const ctx = c.getContext('2d');
-        const seed = parseInt(c.dataset.seed,10);
-        ctx.clearRect(0,0,c.width,c.height);
-        ctx.beginPath();
-        for (let x=0; x<=c.width; x+=3){
-          let y;
-          if (seed === 1) y = c.height/2 + Math.sin(x*0.06 + t*0.03) * (c.height*0.28);
-          else if (seed === 2) y = c.height/2 + Math.sin(x*0.1 + t*0.05) * (c.height*0.2) + Math.sin(x*0.3+t*0.1)*3;
-          else if (seed === 3) y = c.height/2 + Math.sin(x*0.045 + t*0.02) * (c.height*0.32);
-          else if (seed === 5) y = c.height/2 + Math.sin(x*0.16 + t*0.06) * (c.height*0.3) * Math.abs(Math.sin(x*0.02 + t*0.015));
-          else y = c.height/2 + (((Math.floor((x+t*2)/9))%2===0) ? c.height*0.26 : -c.height*0.26) * Math.sin((x+t)*0.02);
-          x === 0 ? ctx.moveTo(x,y) : ctx.lineTo(x,y);
-        }
-        ctx.strokeStyle = '#3fe0c0'; ctx.lineWidth = 1.2*dpr; ctx.lineJoin='round'; ctx.stroke();
-      });
-      requestAnimationFrame(draw);
-    }
-    if (!REDUCED) requestAnimationFrame(draw); else canvases.forEach(c => c.getContext('2d'));
-  })();
-
-  /* ══════════ PARTICLE BURST ══════════ */
-  const burstCanvas = document.getElementById('burst-canvas');
-  const burstCtx = burstCanvas.getContext('2d');
-  let particles = [];
-  function resizeBurst(){ burstCanvas.width = window.innerWidth; burstCanvas.height = window.innerHeight; }
-  window.addEventListener('resize', resizeBurst); resizeBurst();
-  function spawnBurst(x, y, color){
-    for (let i=0;i<22;i++){
-      const a = (Math.PI*2/22)*i + Math.random()*0.3;
-      const speed = 2 + Math.random()*3;
-      particles.push({ x, y, vx:Math.cos(a)*speed, vy:Math.sin(a)*speed, life:1, color });
-    }
-  }
-  function burstLoop(){
-    burstCtx.clearRect(0,0,burstCanvas.width,burstCanvas.height);
-    particles = particles.filter(p => p.life > 0);
-    particles.forEach(p => {
-      p.x += p.vx; p.y += p.vy; p.vx *= 0.96; p.vy *= 0.96; p.life -= 0.02;
-      burstCtx.beginPath();
-      burstCtx.arc(p.x, p.y, 2, 0, Math.PI*2);
-      burstCtx.fillStyle = p.color.replace('ALPHA', p.life);
-      burstCtx.fill();
-    });
-    requestAnimationFrame(burstLoop);
-  }
-  if (!REDUCED) requestAnimationFrame(burstLoop);
-  document.addEventListener('click', (e) => {
-    const btn = e.target.closest('.btn-steady');
-    if (!btn || REDUCED) return;
-    spawnBurst(e.clientX, e.clientY, 'rgba(63,224,192,ALPHA)');
-  });
-
-  /* ══════════ EASTER EGG ══════════ */
-  (function egg(){
-    let buffer = '';
-    document.addEventListener('keydown', (e) => {
-      if (['INPUT','TEXTAREA'].includes(document.activeElement.tagName)) return;
-      if (e.key.length !== 1) return;
-      buffer = (buffer + e.key.toLowerCase()).slice(-6);
-      if (buffer === 'steady'){
-        const flash = document.getElementById('egg-flash');
-        flash.classList.remove('show'); void flash.offsetWidth; flash.classList.add('show');
-        spawnBurst(window.innerWidth/2, window.innerHeight/2, 'rgba(63,224,192,ALPHA)');
-        setTimeout(() => spawnBurst(window.innerWidth/2, window.innerHeight/2, 'rgba(255,90,95,ALPHA)'), 150);
-        if (window.playBlip) window.playBlip('egg');
-      }
-    });
-  })();
-
-  /* ══════════ SOUND SYSTEM ══════════ */
-  (function sound(){
-    let ctx = null;
-    let on = localStorage.getItem('oe-sound') === '1';
-    const stateEl = document.getElementById('sound-state');
-    const toggleBtn = document.getElementById('sound-toggle');
-    function paint(){
-      if (stateEl) stateEl.textContent = on ? 'ON' : 'OFF';
-      if (toggleBtn) toggleBtn.classList.toggle('on', on);
-    }
-    paint();
-    function ensureCtx(){
-      if (!ctx) ctx = new (window.AudioContext || window.webkitAudioContext)();
-      if (ctx.state === 'suspended') ctx.resume();
-      return ctx;
-    }
-    window.toggleSound = function(){
-      on = !on;
-      localStorage.setItem('oe-sound', on ? '1' : '0');
-      paint();
-      if (on) window.playBlip('nav');
-    };
-    window.playBlip = function(kind){
-      if (!on) return;
-      try {
-        const c = ensureCtx();
-        const osc = c.createOscillator();
-        const gain = c.createGain();
-        osc.connect(gain); gain.connect(c.destination);
-        const freqs = { nav: 520, click: 720, egg: 340 };
-        osc.frequency.value = freqs[kind] || 500;
-        osc.type = kind === 'egg' ? 'triangle' : 'sine';
-        gain.gain.setValueAtTime(0.0001, c.currentTime);
-        gain.gain.linearRampToValueAtTime(0.05, c.currentTime + 0.01);
-        gain.gain.exponentialRampToValueAtTime(0.0001, c.currentTime + (kind==='egg'?0.35:0.12));
-        osc.start();
-        osc.stop(c.currentTime + (kind==='egg'?0.4:0.15));
-      } catch(e){ /* audio unavailable, fail silently */ }
-    };
-    document.addEventListener('click', (e) => {
-      if (e.target.closest('.btn, .product-tab, .icard, .future-item')) window.playBlip('click');
-    });
-  })();
-
-  /* ══════════ ACCESSIBILITY / DIAGNOSTIC MODE ══════════ */
-  (function a11y(){
-    const btn = document.getElementById('a11y-toggle');
-    let on = localStorage.getItem('oe-diagnostic') === '1';
-    function paint(){
-      document.body.classList.toggle('diagnostic-mode', on);
-      if (btn) btn.classList.toggle('on', on);
-      if (btn) btn.setAttribute('aria-pressed', on ? 'true' : 'false');
-    }
-    paint();
-    window.toggleA11y = function(){
-      on = !on;
-      localStorage.setItem('oe-diagnostic', on ? '1' : '0');
-      paint();
-    };
-  })();
-
-  /* ══════════ ACHIEVEMENT TRACKER ══════════ */
-  (function achievements(){
-    const KEY = 'oe-visited';
-    let visited = new Set(JSON.parse(sessionStorage.getItem(KEY) || '[]'));
-    window.trackVisit = function(id){
-      if (visited.has('__all_shown__')) return;
-      visited.add(id);
-      sessionStorage.setItem(KEY, JSON.stringify(Array.from(visited)));
-      const allDone = PAGES.every(p => visited.has(p));
-      if (allDone && !visited.has('__all_shown__')){
-        visited.add('__all_shown__');
-        sessionStorage.setItem(KEY, JSON.stringify(Array.from(visited)));
-        setTimeout(() => {
-          const toast = document.getElementById('achievement-toast');
-          toast.classList.add('show');
-          spawnBurst(window.innerWidth - 60, window.innerHeight - 60, 'rgba(63,224,192,ALPHA)');
-          setTimeout(() => toast.classList.remove('show'), 5000);
-        }, 600);
-      }
-    };
-    if (PAGES && PAGES.length) window.trackVisit('home');
-  })();
-
-  /* ══════════ HUD DAYS-ACTIVE COUNTER ══════════ */
-  (function hudDays(){
-    const el = document.getElementById('hud-days');
-    if (!el) return;
-    const founded = new Date('2025-01-01T00:00:00Z');
-    const days = Math.max(0, Math.floor((Date.now() - founded.getTime()) / 86400000));
-    el.textContent = days;
-  })();
-</script>
+<script src="script.js"></script>
 </body>
 </html>
