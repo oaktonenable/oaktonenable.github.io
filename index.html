@@ -62,10 +62,10 @@
     <li><a onclick="go('creations')" data-p="creations">Creations</a></li>
     <li><a onclick="go('team')" data-p="team">Team</a></li>
     <li><a onclick="go('details')" data-p="details">Club Info</a></li>
+    <li><button class="nav-apply" onclick="go('join')" data-p="join" type="button">Apply</button></li>
     <li><button class="cmdk-hint" onclick="openCmdk()" aria-label="Open command palette">Jump to<kbd>/</kbd></button></li>
     <li><button class="cmdk-hint" id="sound-toggle" onclick="toggleSound()" aria-label="Toggle interface sound">SND<kbd id="sound-state">OFF</kbd></button></li>
     <li><button class="a11y-btn" id="a11y-toggle" onclick="toggleA11y()" aria-label="Toggle diagnostic accessibility mode">Diagnostic Mode</button></li>
-    <li><a onclick="go('join')" data-p="join" class="nav-apply">Apply</a></li>
   </ul>
 </nav>
 <div id="a11y-banner">Diagnostic Mode active - motion, custom cursor, and background effects disabled for a calmer, higher-contrast view</div>
@@ -478,7 +478,7 @@
 
     <div class="join-tabs" role="tablist" aria-label="Join and contact tabs">
       <button class="join-tab active" data-join-tab="connect" type="button">Join & Connect</button>
-      <button class="join-tab" data-join-tab="contact" type="button">Contact Us</button>
+      <button class="join-tab" data-join-tab="contact" type="button">Contact Us (Sponsors)</button>
     </div>
 
     <div class="join-tab-panels">
