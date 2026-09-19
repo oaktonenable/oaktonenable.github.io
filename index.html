@@ -476,18 +476,92 @@
     <h1 class="display" style="margin-bottom:3rem;">JOIN &<br>CONNECT</h1>
     <hr class="rule" style="margin-bottom:4rem;">
 
-    <h3 style="font-family:var(--mono);font-size:.7rem;color:var(--muted);text-transform:uppercase;letter-spacing:.11em;margin-bottom:1.5rem;">Find Us Online</h3>
-    <div class="social-row" style="margin-bottom:4rem;">
-      <a href="https://instagram.com/oaktonenable" target="_blank" class="social-cell"><div class="sc-icon">"</div><div class="sc-name">Instagram</div><div class="sc-handle">@oaktonenable</div><div class="sc-note">Club updates, photos, and announcements</div></a>
-      <a href="https://github.com/oaktonenable" target="_blank" class="social-cell"><div class="sc-icon">'</div><div class="sc-name">GitHub</div><div class="sc-handle">github.com/oaktonenable</div><div class="sc-note">Open source code and project repositories</div></a>
-      <div class="social-cell" style="opacity:.4;cursor:default;"><div class="sc-icon">"</div><div class="sc-name">OnShape</div><div class="sc-handle" style="color:var(--muted);">Coming Soon</div><div class="sc-note">3D CAD models and design files</div></div>
+    <div class="join-tabs" role="tablist" aria-label="Join and contact tabs">
+      <button class="join-tab active" data-join-tab="connect" type="button">Join & Connect</button>
+      <button class="join-tab" data-join-tab="contact" type="button">Contact Us</button>
     </div>
 
-    <div class="join-cta-block">
-      <h3>READY TO JOIN<br>OAKTON ENABLE?</h3>
-      <p>Fill out our interest form and we'll be in touch. We'd love to hear from you - regardless of your background or skill level.</p>
-      <a href="https://docs.google.com/forms/d/e/1FAIpQLSediQK2menlsXeRNVHi76ocW_E3qNm8afyynof9Xd01SNs3rQ/viewform?usp=publish-editor" target="_blank" class="btn btn-steady" style="font-size:.78rem;padding:1rem 2.25rem;">Fill Out the Interest Form '</a>
-      <p class="join-fine">No experience required  All grades welcome  All interests considered</p>
+    <div class="join-tab-panels">
+      <div class="join-tab-panel active" id="join-connect-panel">
+        <h3 style="font-family:var(--mono);font-size:.7rem;color:var(--muted);text-transform:uppercase;letter-spacing:.11em;margin-bottom:1.5rem;">Find Us Online</h3>
+        <div class="social-row" style="margin-bottom:4rem;">
+          <a href="https://instagram.com/oaktonenable" target="_blank" class="social-cell"><div class="sc-icon">"</div><div class="sc-name">Instagram</div><div class="sc-handle">@oaktonenable</div><div class="sc-note">Club updates, photos, and announcements</div></a>
+          <a href="https://github.com/oaktonenable" target="_blank" class="social-cell"><div class="sc-icon">'</div><div class="sc-name">GitHub</div><div class="sc-handle">github.com/oaktonenable</div><div class="sc-note">Open source code and project repositories</div></a>
+          <div class="social-cell" style="opacity:.4;cursor:default;"><div class="sc-icon">"</div><div class="sc-name">OnShape</div><div class="sc-handle" style="color:var(--muted);">Coming Soon</div><div class="sc-note">3D CAD models and design files</div></div>
+        </div>
+
+        <div class="join-cta-block">
+          <h3>READY TO JOIN<br>OAKTON ENABLE?</h3>
+          <p>Fill out our interest form and we'll be in touch. We'd love to hear from you - regardless of your background or skill level.</p>
+          <a href="https://docs.google.com/forms/d/e/1FAIpQLSediQK2menlsXeRNVHi76ocW_E3qNm8afyynof9Xd01SNs3rQ/viewform?usp=publish-editor" target="_blank" class="btn btn-steady" style="font-size:.78rem;padding:1rem 2.25rem;">Fill Out the Interest Form '</a>
+          <p class="join-fine">No experience required  All grades welcome  All interests considered</p>
+        </div>
+      </div>
+
+      <div class="join-tab-panel" id="join-contact-panel">
+        <div class="sponsor-panel reveal delay-1">
+          <div class="sponsor-intro">
+            <span class="eyebrow">Sponsors & Partners</span>
+            <h3>SUPPORT THE NEXT GENERATION OF HEALTHCARE INNOVATION</h3>
+            <p>We are building a student-led biomedical engineering program that turns curiosity into real-world medical impact. If your organization is interested in supporting research, mentorship, equipment, or community outreach, we'd love to connect.</p>
+          </div>
+
+          <form id="sponsor-form" class="sponsor-form" novalidate>
+            <div class="form-grid">
+              <label>
+                <span>Full Name</span>
+                <input type="text" name="name" placeholder="Your name" required>
+              </label>
+              <label>
+                <span>Email</span>
+                <input type="email" name="email" placeholder="you@example.com" required>
+              </label>
+              <label>
+                <span>Phone</span>
+                <input type="tel" name="phone" placeholder="(555) 123-4567">
+              </label>
+              <label>
+                <span>Organization</span>
+                <input type="text" name="organization" placeholder="Company or school" required>
+              </label>
+              <label>
+                <span>Inquiry Type</span>
+                <select name="type" required>
+                  <option value="">Select one</option>
+                  <option value="Sponsorship">Sponsorship</option>
+                  <option value="Partnership">Partnership</option>
+                  <option value="Mentorship">Mentorship</option>
+                  <option value="Donation">Donation</option>
+                  <option value="Other">Other</option>
+                </select>
+              </label>
+              <label>
+                <span>Preferred Timeline</span>
+                <select name="timeline">
+                  <option value="">Select one</option>
+                  <option value="ASAP">ASAP</option>
+                  <option value="This Semester">This Semester</option>
+                  <option value="Next Quarter">Next Quarter</option>
+                  <option value="This School Year">This School Year</option>
+                  <option value="Not sure yet">Not sure yet</option>
+                </select>
+              </label>
+            </div>
+            <label class="full-width">
+              <span>Areas of Interest</span>
+              <input type="text" name="interests" placeholder="Research support, equipment, mentorship, event sponsorship...">
+            </label>
+            <label class="full-width">
+              <span>Project Details</span>
+              <textarea name="message" rows="7" placeholder="Tell us how you'd like to support or collaborate, what kind of help you're offering, and what you'd like to learn more about..." required></textarea>
+            </label>
+            <div class="form-actions">
+              <button type="submit" class="btn btn-steady">Send Inquiry</button>
+              <div id="sponsor-form-status" class="form-status" aria-live="polite"></div>
+            </div>
+          </form>
+        </div>
+      </div>
     </div>
   </div>
 </div>

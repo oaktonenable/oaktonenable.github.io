@@ -221,6 +221,58 @@
     }
   });
 
+  document.querySelectorAll('.join-tab').forEach((button) => {
+    button.addEventListener('click', () => {
+      const tab = button.dataset.joinTab;
+      document.querySelectorAll('.join-tab').forEach(btn => btn.classList.toggle('active', btn === button));
+      document.querySelectorAll('.join-tab-panel').forEach(panel => panel.classList.toggle('active', panel.id === 'join-' + tab + '-panel'));
+    });
+  });
+
+  const sponsorForm = document.getElementById('sponsor-form');
+  const sponsorStatus = document.getElementById('sponsor-form-status');
+
+  if (sponsorForm && sponsorStatus) {
+    sponsorForm.addEventListener('submit', (event) => {
+      event.preventDefault();
+      const formData = new FormData(sponsorForm);
+      const name = String(formData.get('name') || '').trim();
+      const organization = String(formData.get('organization') || '').trim();
+      const email = String(formData.get('email') || '').trim();
+      const phone = String(formData.get('phone') || '').trim();
+      const type = String(formData.get('type') || '').trim();
+      const timeline = String(formData.get('timeline') || '').trim();
+      const interests = String(formData.get('interests') || '').trim();
+      const message = String(formData.get('message') || '').trim();
+
+      if (!name || !organization || !email || !type || !message) {
+        sponsorStatus.textContent = 'Please complete all required fields before sending.';
+        sponsorStatus.classList.add('error');
+        return;
+      }
+
+      const subject = encodeURIComponent('Oakton Enable contact inquiry from ' + name);
+      const body = encodeURIComponent(
+        'Name: ' + name + '\n' +
+        'Email: ' + email + '\n' +
+        'Phone: ' + (phone || 'Not provided') + '\n' +
+        'Organization: ' + organization + '\n' +
+        'Inquiry Type: ' + type + '\n' +
+        'Preferred Timeline: ' + (timeline || 'Not provided') + '\n' +
+        'Areas of Interest: ' + (interests || 'Not provided') + '\n\n' +
+        'Message:\n' + message
+      );
+
+      sponsorStatus.classList.remove('error');
+      sponsorStatus.textContent = 'Opening your email app...';
+      sponsorForm.reset();
+      window.location.href = 'mailto:oaktonenable@gmail.com?subject=' + subject + '&body=' + body;
+      setTimeout(() => {
+        sponsorStatus.textContent = 'Thanks! Your inquiry has been prepared for email.';
+      }, 600);
+    });
+  }
+
   /*  STABILIZER DEMO  */
   (function demo(){
     const canvas = document.getElementById('demo-canvas');
