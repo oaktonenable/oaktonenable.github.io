@@ -1,5 +1,5 @@
 
-  const PAGES = ['home','about','product','research','cad','creations','team','details','join'];
+  const PAGES = ['home','about','product','try','research','cad','creations','team','details','join'];
 
   function go(id) {
     const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -168,6 +168,7 @@
     { id:'home', label:'Home', k:'Start' },
     { id:'about', label:'About', k:'Mission' },
     { id:'product', label:'Product', k:'IsoWrite' },
+    { id:'try', label:'Try', k:'Signal demo' },
     { id:'research', label:'Research', k:'Literature' },
     { id:'cad', label:'CAD', k:'Design files' },
     { id:'creations', label:'Creations', k:'Member work' },

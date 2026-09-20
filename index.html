@@ -15,11 +15,6 @@
 <canvas id="burst-canvas"></canvas>
 <div id="egg-flash"><span id="egg-flash-text">Calibration Complete</span></div>
 <div id="achievement-toast"><div class="ach-title">System Fully Calibrated</div><div class="ach-sub">You've explored every module. Signal steady.</div></div>
-<div id="hud">
-  <canvas id="hud-canvas"></canvas>
-  <div class="hud-label">MODULE <b id="hud-page">HOME</b><br>VARIANCE <b id="hud-var">0.00</b><br><span id="hud-log">ONLINE  ACTIVE <b id="hud-days">0</b> DAYS</span></div>
-</div>
-
 <div id="boot-overlay" aria-hidden="true">
   <svg class="boot-wf" viewBox="0 0 400 80" preserveAspectRatio="none" aria-hidden="true">
     <path id="boot-tremor" d="M0,40 C8,20 16,60 24,30 C32,5 40,58 48,26 C56,4 64,55 72,32 C80,10 88,50 96,35 C104,60 112,15 120,40 C128,65 136,10 144,38 C152,58 160,18 168,40 C176,20 184,55 192,30 C200,8 208,50 216,35 C224,55 232,20 240,40" fill="none" stroke="#ff5a5f" stroke-width="2" stroke-linecap="round"/>
@@ -57,6 +52,7 @@
     <li><a onclick="go('home')" data-p="home" class="active">Home</a></li>
     <li><a onclick="go('about')" data-p="about">About</a></li>
     <li><a onclick="go('product')" data-p="product">Product</a></li>
+    <li><a onclick="go('try')" data-p="try">Try</a></li>
     <li><a onclick="go('research')" data-p="research">Research</a></li>
     <li><a onclick="go('cad')" data-p="cad">CAD</a></li>
     <li><a onclick="go('creations')" data-p="creations">Creations</a></li>
@@ -113,6 +109,33 @@
         <div class="feat-item"><div class="feat-mark"></div><div><div class="feat-title">Research Before We Build</div><div class="feat-body">Before we design anything, we go deep. Medical literature, patient communities, and clinical data shape every engineering decision we make.</div></div></div>
         <div class="feat-item"><div class="feat-mark"></div><div><div class="feat-title">Student-Led. Impact-Driven.</div><div class="feat-body">Every design, line of code, and research finding is created by students. The next breakthrough in assistive tech could come from a high school lab.</div></div></div>
         <div class="feat-item"><div class="feat-mark"></div><div><div class="feat-title">Open Source Everything</div><div class="feat-body">Our code, schematics, and CAD files are public. We believe accessible technology starts with accessible development.</div></div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ---- TRY ---- -->
+<div class="page" id="page-try">
+  <div class="section">
+    <span class="eyebrow">Try</span>
+    <h1 class="display" style="margin-bottom:1rem;">TRY<br>THE SIGNAL</h1>
+    <p class="body-lg" style="margin-bottom:2.5rem;">Experience the assistive technology concept as a standalone page instead of a floating bottom-left panel. This is where the system behavior and signal readout live.</p>
+
+    <div class="try-shell">
+      <div class="try-stack">
+        <div id="hud" class="hud-card">
+          <canvas id="hud-canvas"></canvas>
+          <div class="hud-label">MODULE <b id="hud-page">TRY</b><br>VARIANCE <b id="hud-var">0.00</b><br><span id="hud-log">ONLINE  ACTIVE <b id="hud-days">0</b> DAYS</span></div>
+        </div>
+
+        <div class="try-copy">
+          <h2 class="display-sm" style="margin-bottom:1rem;">STABILIZE THE MOTION</h2>
+          <p class="body-md">This concept translates tremor motion into a calmer, more deliberate output. The goal is not to remove motion entirely, but to make the signal steadier and easier for the user to control.</p>
+          <div class="hero-btns" style="margin-top:1.5rem;">
+            <a href="isowrite-model.html" target="_blank" class="btn btn-steady">Open model preview</a>
+            <button class="btn btn-outline" onclick="go('product')">Back to product</button>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -574,6 +597,7 @@
       <a onclick="go('home')">Home</a>
       <a onclick="go('about')">About</a>
       <a onclick="go('product')">Product</a>
+      <a onclick="go('try')">Try</a>
       <a onclick="go('research')">Research</a>
       <a onclick="go('cad')">CAD</a>
       <a onclick="go('team')">Team</a>

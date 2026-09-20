@@ -547,17 +547,28 @@
 
   /*  SIGNAL HUD  */
   #hud{
-    position:fixed; left:1.25rem; bottom:1.25rem; z-index:500;
+    display:none;
+  }
+  #page-try #hud{
+    position:relative; left:auto; bottom:auto; z-index:1;
     font-family:var(--mono); font-size:.6rem; color:var(--dim);
     background:rgba(10,12,16,.72); backdrop-filter:blur(8px);
-    border:1px solid var(--line); padding:.6rem .75rem;
+    border:1px solid var(--line); padding:.8rem 1rem;
     display:flex; align-items:center; gap:.65rem;
-    letter-spacing:.05em; user-select:none;
+    letter-spacing:.05em; user-select:none; width:max-content;
+    margin-bottom:1.5rem;
   }
   #hud .hud-label{ text-transform:uppercase; color:var(--muted); line-height:1.6; }
   #hud .hud-label b{ color:var(--steady); font-weight:500; }
   #hud canvas{ display:block; width:76px; height:26px; }
-  @media (max-width:900px){ #hud{ display:none; } }
+  @media (max-width:900px){ #page-try #hud{ display:none; } }
+
+  .try-shell{
+    border:1px solid var(--line); background:var(--panel); padding:2rem; max-width:900px;
+  }
+  .try-stack{ display:grid; grid-template-columns:auto 1fr; gap:2rem; align-items:center; }
+  .try-copy{ max-width:540px; }
+  @media (max-width:900px){ .try-stack{ grid-template-columns:1fr; } }
 
   /*  TEAM VITALS  */
   .vitals-row{ display:flex; align-items:center; gap:.6rem; margin-top:1.2rem; padding-top:1.1rem; border-top:1px solid var(--line); }
