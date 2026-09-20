@@ -1,11 +1,12 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Oakton Enable — Biomedical Engineering Club</title>
+<title>Oakton Enable - Biomedical Engineering Club</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
 <style>
   *,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
 
@@ -749,11 +750,6 @@
 <canvas id="burst-canvas"></canvas>
 <div id="egg-flash"><span id="egg-flash-text">Calibration Complete</span></div>
 <div id="achievement-toast"><div class="ach-title">System Fully Calibrated</div><div class="ach-sub">You've explored every module. Signal steady.</div></div>
-<div id="hud">
-  <canvas id="hud-canvas"></canvas>
-  <div class="hud-label">MODULE <b id="hud-page">HOME</b><br>VARIANCE <b id="hud-var">0.00</b><br><span id="hud-log">ONLINE · ACTIVE <b id="hud-days">0</b> DAYS</span></div>
-</div>
-
 <div id="boot-overlay" aria-hidden="true">
   <svg class="boot-wf" viewBox="0 0 400 80" preserveAspectRatio="none" aria-hidden="true">
     <path id="boot-tremor" d="M0,40 C8,20 16,60 24,30 C32,5 40,58 48,26 C56,4 64,55 72,32 C80,10 88,50 96,35 C104,60 112,15 120,40 C128,65 136,10 144,38 C152,58 160,18 168,40 C176,20 184,55 192,30 C200,8 208,50 216,35 C224,55 232,20 240,40" fill="none" stroke="#ff5a5f" stroke-width="2" stroke-linecap="round"/>
@@ -770,8 +766,8 @@
 <div id="cmdk-overlay">
   <div class="cmdk-box">
     <div class="cmdk-input-row">
-      <span class="glyph">›</span>
-      <input id="cmdk-input" type="text" placeholder="Jump to a page…" autocomplete="off">
+      <span class="glyph">></span>
+      <input id="cmdk-input" type="text" placeholder="Jump to a page" autocomplete="off">
       <span style="font-family:var(--mono);font-size:.62rem;color:var(--dim);">ESC</span>
     </div>
     <div class="cmdk-list" id="cmdk-list"></div>
@@ -791,25 +787,26 @@
     <li><a onclick="go('home')" data-p="home" class="active">Home</a></li>
     <li><a onclick="go('about')" data-p="about">About</a></li>
     <li><a onclick="go('product')" data-p="product">Product</a></li>
+    <li><a onclick="go('try')" data-p="try">Try</a></li>
     <li><a onclick="go('research')" data-p="research">Research</a></li>
     <li><a onclick="go('cad')" data-p="cad">CAD</a></li>
     <li><a onclick="go('creations')" data-p="creations">Creations</a></li>
     <li><a onclick="go('team')" data-p="team">Team</a></li>
     <li><a onclick="go('details')" data-p="details">Club Info</a></li>
+    <li><button class="nav-apply" onclick="go('join')" data-p="join" type="button">Apply</button></li>
     <li><button class="cmdk-hint" onclick="openCmdk()" aria-label="Open command palette">Jump to<kbd>/</kbd></button></li>
     <li><button class="cmdk-hint" id="sound-toggle" onclick="toggleSound()" aria-label="Toggle interface sound">SND<kbd id="sound-state">OFF</kbd></button></li>
-    <li><button class="a11y-btn" id="a11y-toggle" onclick="toggleA11y()" aria-label="Toggle diagnostic accessibility mode">◐ Diagnostic Mode</button></li>
-    <li><a onclick="go('join')" data-p="join" class="nav-apply">Apply</a></li>
+    <li><button class="a11y-btn" id="a11y-toggle" onclick="toggleA11y()" aria-label="Toggle diagnostic accessibility mode">Diagnostic Mode</button></li>
   </ul>
 </nav>
-<div id="a11y-banner">Diagnostic Mode active — motion, custom cursor, and background effects disabled for a calmer, higher-contrast view</div>
+<div id="a11y-banner">Diagnostic Mode active - motion, custom cursor, and background effects disabled for a calmer, higher-contrast view</div>
 <div id="scroll-progress"></div>
 
-<!-- ████ HOME ████ -->
+<!--  HOME  -->
 <div class="page active" id="page-home">
   <section class="hero" id="hero">
     <div class="hero-spotlight" id="hero-spotlight"></div>
-    <div class="hero-badge">Oakton High School · Biomedical Engineering Club</div>
+    <div class="hero-badge">Oakton High School  Biomedical Engineering Club</div>
 
     <svg class="hero-wf" viewBox="0 0 1200 220" preserveAspectRatio="none" aria-hidden="true">
       <path class="tremor-line wf-draw" d="M0,110 C15,70 30,155 45,90 C60,25 75,165 90,80 C105,10 120,150 135,95 C150,35 165,130 180,100 C195,155 210,55 225,115 C240,175 255,35 270,105 C285,60 300,145 315,95 C330,25 345,155 360,85 C375,130 390,45 405,110 C420,160 435,50 450,100 C465,25 480,150 495,90 C510,140 525,45 540,105 C555,15 570,150 585,100" fill="none" stroke-width="1.6" opacity="0.55"/>
@@ -818,20 +815,20 @@
 
     <div class="hero-content">
       <h1>ENGINEER<br>THE <em>FUTURE</em><br>OF MEDICINE</h1>
-      <p class="hero-sub">Oakton Enable is a student-led team designing real-world solutions for people living with neurological challenges — starting with Parkinson's disease.</p>
+      <p class="hero-sub">Oakton Enable is a student-led team designing real-world solutions for people living with neurological challenges - starting with Parkinson's disease.</p>
       <div class="hero-btns">
         <button class="btn btn-steady" onclick="go('product')">Our Work</button>
         <button class="btn btn-outline" onclick="go('join')">Join the Club</button>
       </div>
     </div>
-    <div class="hero-caption">TREMOR SIGNAL <b>→</b> CALIBRATED OUTPUT<br>a stray hand made steady</div>
+    <div class="hero-caption">TREMOR SIGNAL <b>-></b> CALIBRATED OUTPUT<br>a stray hand made steady</div>
   </section>
 
   <div class="readout-strip">
     <div class="readout-cell"><div class="readout-tag">Core Members</div><div class="readout-num" data-count="5" data-pad="2">00</div></div>
     <div class="readout-cell"><div class="readout-tag">Active Project</div><div class="readout-num" data-count="1" data-pad="2">00</div></div>
-    <div class="readout-cell"><div class="readout-tag">Lives We Aim to Impact</div><div class="readout-num"><span data-count="10">0</span><span class="u">M+</span></div></div>
-    <div class="readout-cell"><div class="readout-tag">Founded</div><div class="readout-num" data-count="2025" data-nopad="1">0000</div></div>
+    <div class="readout-cell"><div class="readout-tag">Lives We Aim to Impact</div><div class="readout-num"><span>10M+</span></div></div>
+    <div class="readout-cell"><div class="readout-tag">Founded</div><div class="readout-num" data-count="2026" data-nopad="1">0000</div></div>
   </div>
 
   <div class="section">
@@ -839,20 +836,47 @@
       <div class="split-sticky">
         <span class="eyebrow">Who We Are</span>
         <h2 class="display-sm" style="margin-bottom:1.5rem;">WHERE EMPATHY<br>MEETS ENGINEERING</h2>
-        <p class="body-md" style="margin-bottom:2rem;">We tackle real biomedical challenges through student-driven design, research, and hardware — giving students the platform to create meaningful change before they ever leave high school.</p>
+        <p class="body-md" style="margin-bottom:2rem;">We tackle real biomedical challenges through student-driven design, research, and hardware - giving students the platform to create meaningful change before they ever leave high school.</p>
         <button class="btn btn-outline" onclick="go('about')">Learn More</button>
       </div>
       <div class="feat-list">
-        <div class="feat-item"><div class="feat-mark">›</div><div><div class="feat-title">Full-Pipeline Engineering</div><div class="feat-body">From concept sketch to physical prototype — CAD, 3D printing, embedded electronics, and firmware. We mirror a real product development pipeline.</div></div></div>
-        <div class="feat-item"><div class="feat-mark">›</div><div><div class="feat-title">Research Before We Build</div><div class="feat-body">Before we design anything, we go deep. Medical literature, patient communities, and clinical data shape every engineering decision we make.</div></div></div>
-        <div class="feat-item"><div class="feat-mark">›</div><div><div class="feat-title">Student-Led. Impact-Driven.</div><div class="feat-body">Every design, line of code, and research finding is created by students. The next breakthrough in assistive tech could come from a high school lab.</div></div></div>
-        <div class="feat-item"><div class="feat-mark">›</div><div><div class="feat-title">Open Source Everything</div><div class="feat-body">Our code, schematics, and CAD files are public. We believe accessible technology starts with accessible development.</div></div></div>
+        <div class="feat-item"><div class="feat-mark"></div><div><div class="feat-title">Full-Pipeline Engineering</div><div class="feat-body">From concept sketch to physical prototype - CAD, 3D printing, embedded electronics, and firmware. We mirror a real product development pipeline.</div></div></div>
+        <div class="feat-item"><div class="feat-mark"></div><div><div class="feat-title">Research Before We Build</div><div class="feat-body">Before we design anything, we go deep. Medical literature, patient communities, and clinical data shape every engineering decision we make.</div></div></div>
+        <div class="feat-item"><div class="feat-mark"></div><div><div class="feat-title">Student-Led. Impact-Driven.</div><div class="feat-body">Every design, line of code, and research finding is created by students. The next breakthrough in assistive tech could come from a high school lab.</div></div></div>
+        <div class="feat-item"><div class="feat-mark"></div><div><div class="feat-title">Open Source Everything</div><div class="feat-body">Our code, schematics, and CAD files are public. We believe accessible technology starts with accessible development.</div></div></div>
       </div>
     </div>
   </div>
 </div>
 
-<!-- ████ ABOUT ████ -->
+<!-- ---- TRY ---- -->
+<div class="page" id="page-try">
+  <div class="section">
+    <span class="eyebrow">Try</span>
+    <h1 class="display" style="margin-bottom:1rem;">TRY<br>THE SIGNAL</h1>
+    <p class="body-lg" style="margin-bottom:2.5rem;">Experience the assistive technology concept as a standalone page instead of a floating bottom-left panel. This is where the system behavior and signal readout live.</p>
+
+    <div class="try-shell">
+      <div class="try-stack">
+        <div id="hud" class="hud-card">
+          <canvas id="hud-canvas"></canvas>
+          <div class="hud-label">MODULE <b id="hud-page">TRY</b><br>VARIANCE <b id="hud-var">0.00</b><br><span id="hud-log">ONLINE  ACTIVE <b id="hud-days">0</b> DAYS</span></div>
+        </div>
+
+        <div class="try-copy">
+          <h2 class="display-sm" style="margin-bottom:1rem;">STABILIZE THE MOTION</h2>
+          <p class="body-md">This concept translates tremor motion into a calmer, more deliberate output. The goal is not to remove motion entirely, but to make the signal steadier and easier for the user to control.</p>
+          <div class="hero-btns" style="margin-top:1.5rem;">
+            <a href="isowrite-model.html" target="_blank" class="btn btn-steady">Open model preview</a>
+            <button class="btn btn-outline" onclick="go('product')">Back to product</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ---- ABOUT ---- -->
 <div class="page" id="page-about">
   <div class="section">
     <span class="eyebrow">Who We Are</span>
@@ -862,31 +886,37 @@
     <div class="split" style="margin-bottom:5rem;">
       <div>
         <p class="body-lg" style="margin-bottom:1.5rem;">Oakton Enable is where biology meets engineering, where empathy drives design, and where high school students prove that age is no barrier to solving medicine's hardest problems.</p>
-        <p class="body-md">We operate in the space between clinical need and technical possibility — choosing problems rooted in real human experience, and building solutions with dignity at the center of every design decision.</p>
+        <p class="body-md">We operate in the space between clinical need and technical possibility - choosing problems rooted in real human experience, and building solutions with dignity at the center of every design decision.</p>
       </div>
       <div>
-        <blockquote><p>"We exist to engineer hope — for the patients who wait, for the families who struggle, and for a future where transformative technology is accessible to everyone who needs it."</p></blockquote>
+        <blockquote><p>"We exist to engineer hope - for the patients who wait, for the families who struggle, and for a future where transformative technology is accessible to everyone who needs it."</p></blockquote>
       </div>
+    </div>
+
+    <div class="reveal" style="margin-bottom:3.5rem;">
+      <span class="eyebrow">Design Ethos</span>
+      <h2 class="display-sm" style="margin-bottom:1.25rem;">SUSTAINABLE & ACCESSIBLE</h2>
+      <p class="body-md">We design our products to be biodegradable, environmentally responsible, and economically accessible to the people who need them most. Unlike many commercial devices that remain out of reach because of their high cost, we focus on practical, low-impact solutions that can serve more communities without sacrificing care, quality, or dignity.</p>
     </div>
 
     <span class="eyebrow">Core Philosophy</span>
     <h2 class="display-sm" style="margin-bottom:3rem;">OUR VALUES</h2>
     <div class="feat-list">
-      <div class="feat-item"><div class="feat-mark">💡</div><div><div class="feat-title">Innovation</div><div class="feat-body">Chase creative solutions where others see dead ends. Conventional answers aren't enough when the stakes are someone's quality of life.</div></div></div>
-      <div class="feat-item"><div class="feat-mark">❤</div><div><div class="feat-title">Empathy</div><div class="feat-body">Design with the end user at the heart of every decision — always. We build for people, not portfolios.</div></div></div>
-      <div class="feat-item"><div class="feat-mark">◎</div><div><div class="feat-title">Rigor</div><div class="feat-body">Ground every choice in data, research, and testing. Guesswork isn't design — especially when it affects real patients.</div></div></div>
-      <div class="feat-item"><div class="feat-mark">▲</div><div><div class="feat-title">Action</div><div class="feat-body">Build, test, iterate — never wait for perfection before you begin. Momentum is how real projects get done.</div></div></div>
+      <div class="feat-item"><div class="feat-mark">1</div><div><div class="feat-title">Innovation</div><div class="feat-body">Chase creative solutions where others see dead ends. Conventional answers aren't enough when the stakes are someone's quality of life.</div></div></div>
+      <div class="feat-item"><div class="feat-mark">2</div><div><div class="feat-title">Empathy</div><div class="feat-body">Design with the end user at the heart of every decision - always. We build for people, not portfolios.</div></div></div>
+      <div class="feat-item"><div class="feat-mark">3</div><div><div class="feat-title">Rigor</div><div class="feat-body">Ground every choice in data, research, and testing. Guesswork isn't design - especially when it affects real patients.</div></div></div>
+      <div class="feat-item"><div class="feat-mark">4</div><div><div class="feat-title">Action</div><div class="feat-body">Build, test, iterate - never wait for perfection before you begin. Momentum is how real projects get done.</div></div></div>
     </div>
   </div>
 </div>
 
-<!-- ████ PRODUCT ████ -->
+<!-- ---- PRODUCT ---- -->
 <div class="page" id="page-product">
   <div class="section">
     <div class="reveal">
       <span class="eyebrow">What We Build</span>
       <h1 class="display" style="margin-bottom:1rem;">ASSISTIVE<br>TECHNOLOGY</h1>
-      <p class="body-lg" style="margin-bottom:2.5rem;">We create thoughtful biomedical tools that blend empathy, engineering, and storytelling — starting with IsoWrite and expanding into a wider family of accessible products.</p>
+      <p class="body-lg" style="margin-bottom:2.5rem;">We create thoughtful biomedical tools that blend empathy, engineering, and storytelling - starting with IsoWrite and expanding into a wider family of accessible products.</p>
     </div>
 
     <div class="product-shell reveal delay-1">
@@ -899,12 +929,12 @@
       <div class="product-panel active" id="product-overview">
         <div class="product-hero">
           <h3>We build products that turn constraints into possibility.</h3>
-          <p>Every idea starts with a person, not just a problem statement. We design with dignity, usability, and impact in mind — whether it's a writing aid, assistive interface, or a future daily living tool.</p>
+          <p>Every idea starts with a person, not just a problem statement. We design with dignity, usability, and impact in mind - whether it's a writing aid, assistive interface, or a future daily living tool.</p>
         </div>
         <div class="product-card-grid">
-          <div class="icard"><div class="icard-icon">🧠</div><h4>Empathy First</h4><p>Every concept begins by understanding how someone lives with a challenge day to day.</p></div>
-          <div class="icard"><div class="icard-icon">⚙️</div><h4>Prototype Driven</h4><p>We move from sketches, to CAD, to physical prototypes and improve through iteration.</p></div>
-          <div class="icard"><div class="icard-icon">🌱</div><h4>Built to Grow</h4><p>IsoWrite is our first milestone, but our broader vision is a future ecosystem of inclusive products.</p></div>
+          <div class="icard"><div class="icard-icon"></div><h4>Empathy First</h4><p>Every concept begins by understanding how someone lives with a challenge day to day.</p></div>
+          <div class="icard"><div class="icard-icon"></div><h4>Prototype Driven</h4><p>We move from sketches, to CAD, to physical prototypes and improve through iteration.</p></div>
+          <div class="icard"><div class="icard-icon"></div><h4>Built to Grow</h4><p>IsoWrite is our first milestone, but our broader vision is a future ecosystem of inclusive products.</p></div>
         </div>
         <div class="product-quote">Our goal is not simply to make devices. It is to make dignity, confidence, and independence feel more tangible for the people who use them.</div>
       </div>
@@ -912,14 +942,14 @@
       <div class="product-panel" id="product-isowrite">
         <div class="product-hero">
           <h3>IsoWrite: a smart writing companion for tremor stability</h3>
-          <p>IsoWrite is our flagship project — a student-designed assistive writing tool built to reduce the impact of Parkinson's-related tremor and help users write with steadier, more natural control.</p>
+          <p>IsoWrite is our flagship project - a student-designed assistive writing tool built to reduce the impact of Parkinson's-related tremor and help users write with steadier, more natural control.</p>
         </div>
 
         <div class="demo-block">
           <div class="demo-head">
             <div>
               <div class="demo-title">Try the stabilization concept</div>
-              <div class="demo-sub">Draw across the pad below — a simplified simulation of the filtering logic IsoWrite is built around.</div>
+              <div class="demo-sub">Draw across the pad below - a simplified simulation of the filtering logic IsoWrite is built around.</div>
             </div>
             <div class="demo-toggle" role="group" aria-label="Toggle stabilization">
               <button id="demo-off" onclick="setDemoMode(false)">Raw</button>
@@ -937,13 +967,14 @@
         </div>
 
         <div class="steps-grid">
-          <div class="step-cell"><div class="step-tag">Step 01 — Sensing</div><div class="step-title">Motion Tracking</div><div class="step-body">Embedded sensors monitor hand movement in real time to detect the tremor pattern.</div></div>
-          <div class="step-cell"><div class="step-tag">Step 02 — Processing</div><div class="step-title">Signal Filtering</div><div class="step-body">Real-time logic distinguishes intended motion from the involuntary oscillation of tremor.</div></div>
-          <div class="step-cell"><div class="step-tag">Step 03 — Actuation</div><div class="step-title">Stabilization</div><div class="step-body">A corrective mechanism helps neutralize unwanted movement at the pen tip.</div></div>
-          <div class="step-cell"><div class="step-tag">Step 04 — Output</div><div class="step-title">Steady Writing</div><div class="step-body">The result is cleaner, more controlled handwriting and a stronger sense of independence.</div></div>
+          <div class="step-cell"><div class="step-tag">Step 01 - Sensing</div><div class="step-title">Motion Tracking</div><div class="step-body">Embedded sensors monitor hand movement in real time to detect the tremor pattern.</div></div>
+          <div class="step-cell"><div class="step-tag">Step 02 - Processing</div><div class="step-title">Signal Filtering</div><div class="step-body">Real-time logic distinguishes intended motion from the involuntary oscillation of tremor.</div></div>
+          <div class="step-cell"><div class="step-tag">Step 03 - Actuation</div><div class="step-title">Stabilization</div><div class="step-body">A corrective mechanism helps neutralize unwanted movement at the pen tip.</div></div>
+          <div class="step-cell"><div class="step-tag">Step 04 - Output</div><div class="step-title">Steady Writing</div><div class="step-body">The result is cleaner, more controlled handwriting and a stronger sense of independence.</div></div>
         </div>
         <div style="display:flex;gap:1rem;flex-wrap:wrap;align-items:center;">
           <a class="btn btn-steady" href="https://docs.google.com/document/d/17zHRZP8OW0Wda3QkkGgGZORQD0gJFME8ufDdyHBz6-g/edit?usp=sharing" target="_blank">Explore Prototype</a>
+          <a class="btn btn-outline" href="isowrite-model.html">View 3D Model</a>
           <div class="live-tag"><div class="dot"></div> Active Development</div>
         </div>
       </div>
@@ -964,7 +995,7 @@
   </div>
 </div>
 
-<!-- ████ RESEARCH ████ -->
+<!-- ---- RESEARCH ---- -->
 <div class="page" id="page-research">
   <div class="section">
     <div class="reveal">
@@ -977,24 +1008,24 @@
       <span class="eyebrow">Focus Areas</span>
       <div class="method-grid">
         <div class="icard">
-          <div class="icard-icon">📈</div>
+          <div class="icard-icon"></div>
           <h4>Tremor Biomechanics</h4>
-          <p>Understanding the frequency, amplitude, and variability of Parkinsonian hand tremor — the baseline every stabilization mechanism has to be measured against.</p>
+          <p>Understanding the frequency, amplitude, and variability of Parkinsonian hand tremor - the baseline every stabilization mechanism has to be measured against.</p>
         </div>
         <div class="icard">
-          <div class="icard-icon">🎛️</div>
+          <div class="icard-icon"></div>
           <h4>Signal Filtering Methods</h4>
           <p>Comparing approaches to separating intentional motion from involuntary oscillation in real time, from simple smoothing to more adaptive filtering logic.</p>
         </div>
         <div class="icard">
-          <div class="icard-icon">🖊️</div>
+          <div class="icard-icon"></div>
           <h4>Assistive Device Ergonomics</h4>
-          <p>How grip, weight distribution, and feedback affect whether an assistive tool actually gets used day to day — not just whether it works on a bench.</p>
+          <p>How grip, weight distribution, and feedback affect whether an assistive tool actually gets used day to day - not just whether it works on a bench.</p>
         </div>
         <div class="icard">
-          <div class="icard-icon">🗣️</div>
+          <div class="icard-icon"></div>
           <h4>Patient & Caregiver Input</h4>
-          <p>Conversations and community feedback that shape our priorities — making sure we're solving problems people actually have, not ones we assume they have.</p>
+          <p>Conversations and community feedback that shape our priorities - making sure we're solving problems people actually have, not ones we assume they have.</p>
         </div>
       </div>
     </div>
@@ -1004,9 +1035,9 @@
       <h2 class="display-sm" style="margin-bottom:2rem;">FROM LITERATURE TO PROTOTYPE</h2>
       <div class="steps-grid" style="margin-bottom:3rem;">
         <div class="step-cell"><div class="step-tag">Stage 01</div><div class="step-title">Literature Review</div><div class="step-body">We start with published research and clinical resources to understand what's already known.</div></div>
-        <div class="step-cell"><div class="step-tag">Stage 02</div><div class="step-title">Synthesis</div><div class="step-body">Findings get distilled into design constraints — numbers and patterns our engineering has to respect.</div></div>
+        <div class="step-cell"><div class="step-tag">Stage 02</div><div class="step-title">Synthesis</div><div class="step-body">Findings get distilled into design constraints - numbers and patterns our engineering has to respect.</div></div>
         <div class="step-cell"><div class="step-tag">Stage 03</div><div class="step-title">Applied Testing</div><div class="step-body">We validate assumptions against our own prototypes, not just against the paper they came from.</div></div>
-        <div class="step-cell"><div class="step-tag">Stage 04</div><div class="step-title">Documentation</div><div class="step-body">What we learn — including what didn't work — gets written up for the next iteration.</div></div>
+        <div class="step-cell"><div class="step-tag">Stage 04</div><div class="step-title">Documentation</div><div class="step-body">What we learn - including what didn't work - gets written up for the next iteration.</div></div>
       </div>
     </div>
 
@@ -1039,13 +1070,13 @@
           <div class="paper-tags"><span class="tag">User Research</span></div>
         </div>
       </div>
-      <p class="body-md" style="margin-bottom:2rem;">We don't publish research findings until they're ready to stand on their own — no placeholder data, no premature conclusions. Check back as these move from drafting to published.</p>
+      <p class="body-md" style="margin-bottom:2rem;">We don't publish research findings until they're ready to stand on their own - no placeholder data, no premature conclusions. Check back as these move from drafting to published.</p>
       <button class="btn btn-outline" onclick="go('join')">Get Notified When Published</button>
     </div>
   </div>
 </div>
 
-<!-- ████ CAD ████ -->
+<!-- ---- CAD ---- -->
 <div class="page" id="page-cad">
   <div class="section section-sm">
     <span class="eyebrow">Design Files</span>
@@ -1056,21 +1087,21 @@
     <div class="soon-list">
       <h4>What Will Be Published</h4>
       <ul>
-        <li>— Full IsoWrite assembly with component hierarchy</li>
-        <li>— Mechanism schematics and exploded view diagrams</li>
-        <li>— Dimensional drawings, tolerances, and material callouts</li>
-        <li>— Print-ready STL files optimized for FDM 3D printing</li>
-        <li>— Design revision log with rationale for major changes</li>
+        <li>- Full IsoWrite assembly with component hierarchy</li>
+        <li>- Mechanism schematics and exploded view diagrams</li>
+        <li>- Dimensional drawings, tolerances, and material callouts</li>
+        <li>- Print-ready STL files optimized for FDM 3D printing</li>
+        <li>- Design revision log with rationale for major changes</li>
       </ul>
     </div>
     <div style="display:flex;gap:1rem;flex-wrap:wrap;">
       <button class="btn btn-outline" onclick="go('join')">Get Notified</button>
-      <a href="https://github.com/oaktonenable" target="_blank" class="btn btn-steady">GitHub →</a>
+      <a href="https://github.com/oaktonenable" target="_blank" class="btn btn-steady">GitHub '</a>
     </div>
   </div>
 </div>
 
-<!-- ████ CREATIONS ████ -->
+<!-- ---- CREATIONS ---- -->
 <div class="page" id="page-creations">
   <div class="section section-sm">
     <span class="eyebrow">Member Projects</span>
@@ -1079,15 +1110,15 @@
     <div class="soon-status"><div class="dot"></div>Coming Soon</div>
     <p class="body-md" style="margin-bottom:2.5rem;">Our members are actively working on individual projects spanning programming, electrical design, 3D modeling, and research writing. This gallery will be populated as projects reach shareable milestones.</p>
     <div class="details-grid" style="margin-bottom:2.5rem;">
-      <div class="detail-cell" style="opacity:.35;pointer-events:none;"><div class="detail-icon">💻</div><div class="detail-val">Software Projects</div><div class="detail-body">Code, firmware, and embedded systems work.</div></div>
-      <div class="detail-cell" style="opacity:.35;pointer-events:none;"><div class="detail-icon">🖨️</div><div class="detail-val">3D Designs</div><div class="detail-body">CAD models, prints, and physical prototypes.</div></div>
-      <div class="detail-cell" style="opacity:.35;pointer-events:none;"><div class="detail-icon">📊</div><div class="detail-val">Research Papers</div><div class="detail-body">Medical research and literature reviews.</div></div>
+      <div class="detail-cell" style="opacity:.35;pointer-events:none;"><div class="detail-icon">'</div><div class="detail-val">Software Projects</div><div class="detail-body">Code, firmware, and embedded systems work.</div></div>
+      <div class="detail-cell" style="opacity:.35;pointer-events:none;"><div class="detail-icon">-</div><div class="detail-val">3D Designs</div><div class="detail-body">CAD models, prints, and physical prototypes.</div></div>
+      <div class="detail-cell" style="opacity:.35;pointer-events:none;"><div class="detail-icon">"</div><div class="detail-val">Research Papers</div><div class="detail-body">Medical research and literature reviews.</div></div>
     </div>
     <button class="btn btn-outline" onclick="go('join')">Express Interest</button>
   </div>
 </div>
 
-<!-- ████ TEAM ████ -->
+<!-- ---- TEAM ---- -->
 <div class="page" id="page-team">
   <div class="section">
     <span class="eyebrow">The People Behind the Mission</span>
@@ -1099,15 +1130,15 @@
         <div class="member-init">AN</div>
         <div class="member-name">Arnav Nair</div>
         <div class="member-role">President</div>
-        <p class="member-bio">As founding president, Arnav provides the vision, strategic direction, and leadership that holds the club together. He coordinates across disciplines — ensuring that programmers, designers, and researchers are working in concert toward a coherent goal. His leadership is defined by inclusivity, rigorous standards, and a personal belief that student innovation can and should matter in the real world.</p>
+        <p class="member-bio">As founding president, Arnav provides the vision, strategic direction, and leadership that holds the club together. He coordinates across disciplines - ensuring that programmers, designers, and researchers are working in concert toward a coherent goal. His leadership is defined by inclusivity, rigorous standards, and a personal belief that student innovation can and should matter in the real world.</p>
         <div class="member-tags"><span class="tag">Leadership</span><span class="tag">Strategy</span><span class="tag">Vision</span></div>
         <div class="vitals-row"><canvas class="vcanvas" data-seed="1"></canvas><span class="vitals-tag"><span class="vdot"></span>Signal</span></div>
       </div>
       <div class="member">
         <div class="member-init">AD</div>
         <div class="member-name">Aditya Nandimandalam</div>
-        <div class="member-role">Head of Outreach & Research · Programmer</div>
-        <p class="member-bio">Aditya serves as the intellectual and external bridge of Oakton Enable. As Head of Outreach and Research, he digs deep into medical literature, connects the club with patient communities, and shapes how the team communicates its work. He also contributes as a core programmer — translating research findings into functional software and control logic for the IsoWrite's sensor systems.</p>
+        <div class="member-role">Head of Outreach & Research  Programmer</div>
+        <p class="member-bio">Aditya serves as the intellectual and external bridge of Oakton Enable. As Head of Outreach and Research, he digs deep into medical literature, connects the club with patient communities, and shapes how the team communicates its work. He also contributes as a core programmer - translating research findings into functional software and control logic for the IsoWrite's sensor systems.</p>
         <div class="member-tags"><span class="tag">Research</span><span class="tag">Outreach</span><span class="tag">Programming</span></div>
         <div class="vitals-row"><canvas class="vcanvas" data-seed="2"></canvas><span class="vitals-tag"><span class="vdot"></span>Signal</span></div>
       </div>
@@ -1115,7 +1146,7 @@
         <div class="member-init">CC</div>
         <div class="member-name">Christopher Choi</div>
         <div class="member-role">Head of 3D Design</div>
-        <p class="member-bio">Christopher is the creative force behind Oakton Enable's physical product development. Working in professional-grade CAD software, he translates engineering concepts into precise, printable, and ergonomically considered 3D models. His designs balance aesthetics, manufacturability, and function — and his work on the IsoWrite's housing and mechanical stabilization mechanism is central to making the concept real.</p>
+        <p class="member-bio">Christopher is the creative force behind Oakton Enable's physical product development. Working in professional-grade CAD software, he translates engineering concepts into precise, printable, and ergonomically considered 3D models. His designs balance aesthetics, manufacturability, and function - and his work on the IsoWrite's housing and mechanical stabilization mechanism is central to making the concept real.</p>
         <div class="member-tags"><span class="tag">CAD / OnShape</span><span class="tag">3D Printing</span><span class="tag">Product Design</span></div>
         <div class="vitals-row"><canvas class="vcanvas" data-seed="3"></canvas><span class="vitals-tag"><span class="vdot"></span>Signal</span></div>
       </div>
@@ -1123,7 +1154,7 @@
         <div class="member-init">AA</div>
         <div class="member-name">Arjun Arunkumar</div>
         <div class="member-role">Programmer & Electrical Engineer</div>
-        <p class="member-bio">Arjun is the technical backbone of the IsoWrite's electronics and embedded systems. As both a programmer and circuit designer, he bridges the gap between software and hardware — laying out PCBs, selecting components, and writing the low-level firmware that makes real-time tremor cancellation actually run. Without his expertise in embedded systems and electrical integration, the pen remains a design on a screen.</p>
+        <p class="member-bio">Arjun is the technical backbone of the IsoWrite's electronics and embedded systems. As both a programmer and circuit designer, he bridges the gap between software and hardware - laying out PCBs, selecting components, and writing the low-level firmware that makes real-time tremor cancellation actually run. Without his expertise in embedded systems and electrical integration, the pen remains a design on a screen.</p>
         <div class="member-tags"><span class="tag">Embedded Systems</span><span class="tag">Circuit Design</span><span class="tag">Programming</span></div>
         <div class="vitals-row"><canvas class="vcanvas" data-seed="4"></canvas><span class="vitals-tag"><span class="vdot"></span>Signal</span></div>
       </div>
@@ -1134,7 +1165,7 @@
         </div>
         <div class="member-name">Samarth Prakash</div>
         <div class="member-role">Head of Media</div>
-        <p class="member-bio">Samarth shapes how Oakton Enable looks and sounds to the outside world. He leads photography, video, and content strategy — documenting builds, testing sessions, and milestones, then turning that raw footage into the story that shows people why IsoWrite matters. His work is what makes the club's progress visible, shareable, and easy to rally behind.</p>
+        <p class="member-bio">Samarth shapes how Oakton Enable looks and sounds to the outside world. He leads photography, video, and content strategy - documenting builds, testing sessions, and milestones, then turning that raw footage into the story that shows people why IsoWrite matters. His work is what makes the club's progress visible, shareable, and easy to rally behind.</p>
         <div class="member-tags"><span class="tag">Photography</span><span class="tag">Video</span><span class="tag">Content Strategy</span></div>
         <div class="vitals-row"><canvas class="vcanvas" data-seed="5"></canvas><span class="vitals-tag"><span class="vdot"></span>Signal</span></div>
       </div>
@@ -1142,13 +1173,13 @@
 
     <div class="join-cta-block">
       <h3>WANT TO JOIN THE TEAM?</h3>
-      <p>We're always looking for passionate Oakton students. No prior experience required — just curiosity and commitment.</p>
-      <a href="https://docs.google.com/forms/d/e/1FAIpQLSediQK2menlsXeRNVHi76ocW_E3qNm8afyynof9Xd01SNs3rQ/viewform?usp=publish-editor" target="_blank" class="btn btn-steady">Apply Now →</a>
+      <p>We're always looking for passionate Oakton students. No prior experience required - just curiosity and commitment.</p>
+      <a href="https://docs.google.com/forms/d/e/1FAIpQLSediQK2menlsXeRNVHi76ocW_E3qNm8afyynof9Xd01SNs3rQ/viewform?usp=publish-editor" target="_blank" class="btn btn-steady">Apply Now '</a>
     </div>
   </div>
 </div>
 
-<!-- ████ DETAILS ████ -->
+<!-- ---- DETAILS ---- -->
 <div class="page" id="page-details">
   <div class="section">
     <span class="eyebrow">Club Information</span>
@@ -1156,12 +1187,12 @@
     <hr class="rule" style="margin-bottom:4rem;">
 
     <div class="details-grid">
-      <div class="detail-cell"><div class="detail-icon">📅</div><div class="detail-label">Meeting Times</div><div class="detail-val">TBA</div><div class="detail-body">Our official meeting schedule is being finalized. Follow our Instagram for announcements the moment times are confirmed.</div></div>
-      <div class="detail-cell"><div class="detail-icon">📍</div><div class="detail-label">Location</div><div class="detail-val">Oakton High School</div><div class="detail-body">We meet on campus. The specific room and schedule details will be released alongside our first meeting announcement.</div></div>
-      <div class="detail-cell"><div class="detail-icon">🎓</div><div class="detail-label">Open To</div><div class="detail-val">All Grade Levels</div><div class="detail-body">Oakton Enable welcomes students from every grade level. No engineering background required — we teach you what you need as we go.</div></div>
-      <div class="detail-cell"><div class="detail-icon">⏱️</div><div class="detail-label">Structure</div><div class="detail-val">Project-Based</div><div class="detail-body">We operate on project cycles. Your time commitment scales with the needs of the project you contribute to.</div></div>
-      <div class="detail-cell"><div class="detail-icon">🛠️</div><div class="detail-label">At Meetings</div><div class="detail-val">Build & Research</div><div class="detail-body">Meetings include design reviews, programming sessions, research presentations, and hands-on prototyping. Every session moves the project forward.</div></div>
-      <div class="detail-cell"><div class="detail-icon">📬</div><div class="detail-label">How to Join</div><div class="detail-val">Interest Form</div><div class="detail-body">Fill out our interest form and a club officer will reach out with next steps once the schedule is locked in.</div></div>
+      <div class="detail-cell"><div class="detail-icon">"</div><div class="detail-label">Meeting Times</div><div class="detail-val">TBA</div><div class="detail-body">Our official meeting schedule is being finalized. Follow our Instagram for announcements the moment times are confirmed.</div></div>
+      <div class="detail-cell"><div class="detail-icon">"</div><div class="detail-label">Location</div><div class="detail-val">Oakton High School</div><div class="detail-body">We meet on campus. The specific room and schedule details will be released alongside our first meeting announcement.</div></div>
+      <div class="detail-cell"><div class="detail-icon">"</div><div class="detail-label">Open To</div><div class="detail-val">All Grade Levels</div><div class="detail-body">Oakton Enable welcomes students from every grade level. No engineering background required - we teach you what you need as we go.</div></div>
+      <div class="detail-cell"><div class="detail-icon"></div><div class="detail-label">Structure</div><div class="detail-val">Project-Based</div><div class="detail-body">We operate on project cycles. Your time commitment scales with the needs of the project you contribute to.</div></div>
+      <div class="detail-cell"><div class="detail-icon"></div><div class="detail-label">At Meetings</div><div class="detail-val">Build & Research</div><div class="detail-body">Meetings include design reviews, programming sessions, research presentations, and hands-on prototyping. Every session moves the project forward.</div></div>
+      <div class="detail-cell"><div class="detail-icon">"</div><div class="detail-label">How to Join</div><div class="detail-val">Interest Form</div><div class="detail-body">Fill out our interest form and a club officer will reach out with next steps once the schedule is locked in.</div></div>
     </div>
 
     <div style="margin-top:4rem; padding:3rem; border:1px solid var(--line); background:var(--panel);">
@@ -1171,22 +1202,22 @@
           <h3 class="display-sm" style="margin-bottom:1rem;">DON'T MISS AN ANNOUNCEMENT</h3>
           <p class="body-md" style="margin-bottom:2rem;">Meeting times, project milestones, and news will be posted to our Instagram first. Follow us there to stay current.</p>
           <div style="display:flex;gap:1rem;flex-wrap:wrap;">
-            <a href="https://instagram.com/oaktonenable" target="_blank" class="btn btn-steady">@oaktonenable →</a>
+            <a href="https://instagram.com/oaktonenable" target="_blank" class="btn btn-steady">@oaktonenable '</a>
             <button class="btn btn-outline" onclick="go('join')">Interest Form</button>
           </div>
         </div>
         <div>
           <div style="display:flex;flex-direction:column;gap:1px;background:var(--line);border:1px solid var(--line);">
             <div style="background:var(--bg);padding:1.2rem 1.4rem;display:flex;align-items:center;gap:1rem;">
-              <span style="font-size:1.15rem;">📸</span>
+              <span style="font-size:1.15rem;">"</span>
               <div><div style="font-family:var(--disp);font-weight:600;font-size:.86rem;">Instagram</div><div style="font-family:var(--mono);font-size:.7rem;color:var(--steady);">@oaktonenable</div></div>
             </div>
             <div style="background:var(--bg);padding:1.2rem 1.4rem;display:flex;align-items:center;gap:1rem;">
-              <span style="font-size:1.15rem;">💻</span>
+              <span style="font-size:1.15rem;">'</span>
               <div><div style="font-family:var(--disp);font-weight:600;font-size:.86rem;">GitHub</div><div style="font-family:var(--mono);font-size:.7rem;color:var(--steady);">github.com/oaktonenable</div></div>
             </div>
             <div style="background:var(--bg);padding:1.2rem 1.4rem;display:flex;align-items:center;gap:1rem;opacity:.4;">
-              <span style="font-size:1.15rem;">📐</span>
+              <span style="font-size:1.15rem;">"</span>
               <div><div style="font-family:var(--disp);font-weight:600;font-size:.86rem;">OnShape</div><div style="font-family:var(--mono);font-size:.7rem;color:var(--muted);">Link coming soon</div></div>
             </div>
           </div>
@@ -1196,25 +1227,99 @@
   </div>
 </div>
 
-<!-- ████ JOIN ████ -->
+<!-- ---- JOIN ---- -->
 <div class="page" id="page-join">
   <div class="section">
     <span class="eyebrow">Get Connected</span>
     <h1 class="display" style="margin-bottom:3rem;">JOIN &<br>CONNECT</h1>
     <hr class="rule" style="margin-bottom:4rem;">
 
-    <h3 style="font-family:var(--mono);font-size:.7rem;color:var(--muted);text-transform:uppercase;letter-spacing:.11em;margin-bottom:1.5rem;">Find Us Online</h3>
-    <div class="social-row" style="margin-bottom:4rem;">
-      <a href="https://instagram.com/oaktonenable" target="_blank" class="social-cell"><div class="sc-icon">📸</div><div class="sc-name">Instagram</div><div class="sc-handle">@oaktonenable</div><div class="sc-note">Club updates, photos, and announcements</div></a>
-      <a href="https://github.com/oaktonenable" target="_blank" class="social-cell"><div class="sc-icon">💻</div><div class="sc-name">GitHub</div><div class="sc-handle">github.com/oaktonenable</div><div class="sc-note">Open source code and project repositories</div></a>
-      <div class="social-cell" style="opacity:.4;cursor:default;"><div class="sc-icon">📐</div><div class="sc-name">OnShape</div><div class="sc-handle" style="color:var(--muted);">Coming Soon</div><div class="sc-note">3D CAD models and design files</div></div>
+    <div class="join-tabs" role="tablist" aria-label="Join and contact tabs">
+      <button class="join-tab active" data-join-tab="connect" type="button">Join & Connect</button>
+      <button class="join-tab" data-join-tab="contact" type="button">Contact Us (Sponsors)</button>
     </div>
 
-    <div class="join-cta-block">
-      <h3>READY TO JOIN<br>OAKTON ENABLE?</h3>
-      <p>Fill out our interest form and we'll be in touch. We'd love to hear from you — regardless of your background or skill level.</p>
-      <a href="https://docs.google.com/forms/d/e/1FAIpQLSediQK2menlsXeRNVHi76ocW_E3qNm8afyynof9Xd01SNs3rQ/viewform?usp=publish-editor" target="_blank" class="btn btn-steady" style="font-size:.78rem;padding:1rem 2.25rem;">Fill Out the Interest Form →</a>
-      <p class="join-fine">No experience required · All grades welcome · All interests considered</p>
+    <div class="join-tab-panels">
+      <div class="join-tab-panel active" id="join-connect-panel">
+        <h3 style="font-family:var(--mono);font-size:.7rem;color:var(--muted);text-transform:uppercase;letter-spacing:.11em;margin-bottom:1.5rem;">Find Us Online</h3>
+        <div class="social-row" style="margin-bottom:4rem;">
+          <a href="https://instagram.com/oaktonenable" target="_blank" class="social-cell"><div class="sc-icon">"</div><div class="sc-name">Instagram</div><div class="sc-handle">@oaktonenable</div><div class="sc-note">Club updates, photos, and announcements</div></a>
+          <a href="https://github.com/oaktonenable" target="_blank" class="social-cell"><div class="sc-icon">'</div><div class="sc-name">GitHub</div><div class="sc-handle">github.com/oaktonenable</div><div class="sc-note">Open source code and project repositories</div></a>
+          <div class="social-cell" style="opacity:.4;cursor:default;"><div class="sc-icon">"</div><div class="sc-name">OnShape</div><div class="sc-handle" style="color:var(--muted);">Coming Soon</div><div class="sc-note">3D CAD models and design files</div></div>
+        </div>
+
+        <div class="join-cta-block">
+          <h3>READY TO JOIN<br>OAKTON ENABLE?</h3>
+          <p>Fill out our interest form and we'll be in touch. We'd love to hear from you - regardless of your background or skill level.</p>
+          <a href="https://docs.google.com/forms/d/e/1FAIpQLSediQK2menlsXeRNVHi76ocW_E3qNm8afyynof9Xd01SNs3rQ/viewform?usp=publish-editor" target="_blank" class="btn btn-steady" style="font-size:.78rem;padding:1rem 2.25rem;">Fill Out the Interest Form '</a>
+          <p class="join-fine">No experience required  All grades welcome  All interests considered</p>
+        </div>
+      </div>
+
+      <div class="join-tab-panel" id="join-contact-panel">
+        <div class="sponsor-panel reveal delay-1">
+          <div class="sponsor-intro">
+            <span class="eyebrow">Sponsors & Partners</span>
+            <h3>SUPPORT THE NEXT GENERATION OF HEALTHCARE INNOVATION</h3>
+            <p>We are building a student-led biomedical engineering program that turns curiosity into real-world medical impact. If your organization is interested in supporting research, mentorship, equipment, or community outreach, we'd love to connect.</p>
+          </div>
+
+          <form id="sponsor-form" class="sponsor-form" novalidate>
+            <div class="form-grid">
+              <label>
+                <span>Full Name</span>
+                <input type="text" name="name" placeholder="Your name" required>
+              </label>
+              <label>
+                <span>Email</span>
+                <input type="email" name="email" placeholder="you@example.com" required>
+              </label>
+              <label>
+                <span>Phone</span>
+                <input type="tel" name="phone" placeholder="(555) 123-4567">
+              </label>
+              <label>
+                <span>Organization</span>
+                <input type="text" name="organization" placeholder="Company or school" required>
+              </label>
+              <label>
+                <span>Inquiry Type</span>
+                <select name="type" required>
+                  <option value="">Select one</option>
+                  <option value="Sponsorship">Sponsorship</option>
+                  <option value="Partnership">Partnership</option>
+                  <option value="Mentorship">Mentorship</option>
+                  <option value="Donation">Donation</option>
+                  <option value="Other">Other</option>
+                </select>
+              </label>
+              <label>
+                <span>Preferred Timeline</span>
+                <select name="timeline">
+                  <option value="">Select one</option>
+                  <option value="ASAP">ASAP</option>
+                  <option value="This Semester">This Semester</option>
+                  <option value="Next Quarter">Next Quarter</option>
+                  <option value="This School Year">This School Year</option>
+                  <option value="Not sure yet">Not sure yet</option>
+                </select>
+              </label>
+            </div>
+            <label class="full-width">
+              <span>Areas of Interest</span>
+              <input type="text" name="interests" placeholder="Research support, equipment, mentorship, event sponsorship...">
+            </label>
+            <label class="full-width">
+              <span>Project Details</span>
+              <textarea name="message" rows="7" placeholder="Tell us how you'd like to support or collaborate, what kind of help you're offering, and what you'd like to learn more about..." required></textarea>
+            </label>
+            <div class="form-actions">
+              <button type="submit" class="btn btn-steady">Send Inquiry</button>
+              <div id="sponsor-form-status" class="form-status" aria-live="polite"></div>
+            </div>
+          </form>
+        </div>
+      </div>
     </div>
   </div>
 </div>
@@ -1227,6 +1332,7 @@
       <a onclick="go('home')">Home</a>
       <a onclick="go('about')">About</a>
       <a onclick="go('product')">Product</a>
+      <a onclick="go('try')">Try</a>
       <a onclick="go('research')">Research</a>
       <a onclick="go('cad')">CAD</a>
       <a onclick="go('team')">Team</a>
@@ -1238,583 +1344,11 @@
         <a href="https://instagram.com/oaktonenable" target="_blank">Instagram</a>
         <a href="https://github.com/oaktonenable" target="_blank">GitHub</a>
       </div>
-      © 2026 Oakton Enable · Oakton High School
+       2026 Oakton Enable  Oakton High School
     </div>
   </div>
 </footer>
 
-<script>
-  const PAGES = ['home','about','product','research','cad','creations','team','details','join'];
-
-  function go(id) {
-    const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
-    const sweepEl = document.getElementById('sweep');
-    if (sweepEl && !reduced) { sweepEl.classList.remove('go'); void sweepEl.offsetWidth; sweepEl.classList.add('go'); }
-    PAGES.forEach(p => {
-      document.getElementById('page-' + p).classList.remove('active');
-      document.querySelectorAll('[data-p="' + p + '"]').forEach(a => a.classList.remove('active'));
-    });
-    document.getElementById('page-' + id).classList.add('active');
-    document.querySelectorAll('[data-p="' + id + '"]').forEach(a => a.classList.add('active'));
-    document.getElementById('nav-links').classList.remove('open');
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-    setTimeout(updateProgress, 50);
-    const hudPage = document.getElementById('hud-page');
-    if (hudPage) hudPage.textContent = id.toUpperCase();
-    if (window.trackVisit) window.trackVisit(id);
-    if (window.playBlip) window.playBlip('nav');
-  }
-
-  function setProductTab(tab) {
-    document.querySelectorAll('.product-tab').forEach(btn => btn.classList.toggle('active', btn.dataset.productTab === tab));
-    document.querySelectorAll('.product-panel').forEach(panel => panel.classList.toggle('active', panel.id === 'product-' + tab));
-    if (tab === 'isowrite' && window.demoResize) requestAnimationFrame(() => requestAnimationFrame(window.demoResize));
-  }
-  document.querySelectorAll('.product-tab').forEach(button => {
-    button.addEventListener('click', () => setProductTab(button.dataset.productTab));
-  });
-
-  function toggleMenu(){ document.getElementById('nav-links').classList.toggle('open'); }
-
-  const revealObserver = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) { entry.target.classList.add('visible'); revealObserver.unobserve(entry.target); }
-    });
-  }, { threshold: 0.18 });
-  document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
-
-  window.addEventListener('scroll', () => {
-    const nav = document.getElementById('nav');
-    nav.style.boxShadow = window.scrollY > 8 ? '0 10px 30px rgba(0,0,0,.3)' : 'none';
-    updateProgress();
-  });
-
-  function updateProgress(){
-    const bar = document.getElementById('scroll-progress');
-    const active = document.querySelector('.page.active');
-    if(!active || !bar) return;
-    const max = active.scrollHeight - window.innerHeight;
-    const pct = max > 0 ? Math.min(100, Math.max(0, (window.scrollY / max) * 100)) : 0;
-    bar.style.width = pct + '%';
-  }
-  updateProgress();
-
-  const heroEl = document.getElementById('hero');
-  const spotlight = document.getElementById('hero-spotlight');
-  if (heroEl && spotlight && matchMedia('(hover: hover)').matches) {
-    heroEl.addEventListener('mousemove', (e) => {
-      const r = heroEl.getBoundingClientRect();
-      spotlight.style.setProperty('--mx', ((e.clientX - r.left) / r.width * 100) + '%');
-      spotlight.style.setProperty('--my', ((e.clientY - r.top) / r.height * 100) + '%');
-    });
-  }
-
-  function runCountUps(scope){
-    scope.querySelectorAll('[data-count]').forEach(el => {
-      if (el.dataset.counted) return;
-      el.dataset.counted = '1';
-      const target = parseInt(el.dataset.count, 10);
-      const pad = el.dataset.pad ? parseInt(el.dataset.pad,10) : 0;
-      const duration = 900;
-      const start = performance.now();
-      function tick(now){
-        const p = Math.min(1, (now - start) / duration);
-        const eased = 1 - Math.pow(1 - p, 3);
-        const val = Math.round(target * eased);
-        el.textContent = pad ? String(val).padStart(pad, '0') : String(val);
-        if (p < 1) requestAnimationFrame(tick); else el.textContent = pad ? String(target).padStart(pad,'0') : String(target);
-      }
-      requestAnimationFrame(tick);
-    });
-  }
-  const countObserver = new IntersectionObserver((entries) => {
-    entries.forEach(entry => { if (entry.isIntersecting) runCountUps(entry.target); });
-  }, { threshold: 0.4 });
-  document.querySelectorAll('.readout-strip, .impact-row').forEach(el => countObserver.observe(el));
-
-  /* ══════════ BOOT / CALIBRATION SEQUENCE ══════════ */
-  (function boot(){
-    const overlay = document.getElementById('boot-overlay');
-    const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
-    if (sessionStorage.getItem('oe-booted') || reduced) { overlay.style.display = 'none'; return; }
-    sessionStorage.setItem('oe-booted', '1');
-    const statusEl = document.getElementById('boot-status');
-    const fill = document.getElementById('boot-bar-fill');
-    const pctEl = document.getElementById('boot-pct');
-    const tremorPath = document.getElementById('boot-tremor');
-    const steadyPath = document.getElementById('boot-steady');
-    const steps = [
-      { t: 'INITIALIZING SENSOR ARRAY', p: 20 },
-      { t: 'READING TREMOR SIGNAL', p: 48 },
-      { t: 'APPLYING STABILIZATION FILTER', p: 78 },
-      { t: 'CALIBRATED', p: 100, ok: true }
-    ];
-    let i = 0;
-    function nextStep(){
-      const s = steps[i];
-      statusEl.innerHTML = s.ok ? '<span class="ok">' + s.t + '</span>' : s.t;
-      fill.style.width = s.p + '%';
-      pctEl.textContent = s.p + '%';
-      if (s.ok) { tremorPath.style.transition = 'opacity .5s'; tremorPath.style.opacity = '0.15'; steadyPath.style.transition = 'opacity .5s'; steadyPath.style.opacity = '1'; }
-      i++;
-      if (i < steps.length) setTimeout(nextStep, 480);
-      else setTimeout(() => {
-        overlay.classList.add('hide');
-        setTimeout(() => overlay.style.display = 'none', 700);
-      }, 550);
-    }
-    setTimeout(nextStep, 350);
-  })();
-
-  /* ══════════ CUSTOM CURSOR ══════════ */
-  (function cursor(){
-    if (!matchMedia('(hover: hover) and (pointer: fine)').matches || matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-    document.body.classList.add('cc-on');
-    const dot = document.getElementById('cc-dot');
-    const ring = document.getElementById('cc-ring');
-    let rx = window.innerWidth/2, ry = window.innerHeight/2;
-    document.addEventListener('mousemove', (e) => {
-      dot.style.left = e.clientX + 'px'; dot.style.top = e.clientY + 'px';
-      rx = e.clientX; ry = e.clientY;
-      const el = e.target.closest('a, button, .icard, .future-item, #demo-canvas, .cmdk-item, input');
-      ring.classList.toggle('active', !!el);
-    });
-    function loop(){
-      const cur = ring.getBoundingClientRect();
-      const cx = cur.left + cur.width/2, cy = cur.top + cur.height/2;
-      const nx = cx + (rx - cx) * 0.22, ny = cy + (ry - cy) * 0.22;
-      ring.style.left = nx + 'px'; ring.style.top = ny + 'px';
-      requestAnimationFrame(loop);
-    }
-    ring.style.left = rx + 'px'; ring.style.top = ry + 'px';
-    loop();
-  })();
-
-  /* ══════════ MAGNETIC BUTTONS ══════════ */
-  (function magnets(){
-    if (!matchMedia('(hover: hover) and (pointer: fine)').matches) return;
-    document.querySelectorAll('.btn').forEach(btn => {
-      btn.addEventListener('mousemove', (e) => {
-        const r = btn.getBoundingClientRect();
-        const mx = (e.clientX - r.left - r.width/2) * 0.22;
-        const my = (e.clientY - r.top - r.height/2) * 0.32;
-        btn.style.setProperty('--mx', mx + 'px');
-        btn.style.setProperty('--my', my + 'px');
-      });
-      btn.addEventListener('mouseleave', () => {
-        btn.style.setProperty('--mx', '0px');
-        btn.style.setProperty('--my', '0px');
-      });
-    });
-  })();
-
-  /* ══════════ COMMAND PALETTE ══════════ */
-  const CMDK_PAGES = [
-    { id:'home', label:'Home', k:'Start' },
-    { id:'about', label:'About', k:'Mission' },
-    { id:'product', label:'Product', k:'IsoWrite' },
-    { id:'research', label:'Research', k:'Literature' },
-    { id:'cad', label:'CAD', k:'Design files' },
-    { id:'creations', label:'Creations', k:'Member work' },
-    { id:'team', label:'Team', k:'People' },
-    { id:'details', label:'Club Info', k:'Meetings' },
-    { id:'join', label:'Apply', k:'Join us' }
-  ];
-  const cmdkOverlay = document.getElementById('cmdk-overlay');
-  const cmdkInput = document.getElementById('cmdk-input');
-  const cmdkList = document.getElementById('cmdk-list');
-  let cmdkSel = 0, cmdkFiltered = CMDK_PAGES.slice();
-
-  function renderCmdk(){
-    const q = cmdkInput.value.trim().toLowerCase();
-    cmdkFiltered = CMDK_PAGES.filter(p => p.label.toLowerCase().includes(q) || p.k.toLowerCase().includes(q));
-    cmdkSel = 0;
-    if (!cmdkFiltered.length) { cmdkList.innerHTML = '<div class="cmdk-empty">No matching page</div>'; return; }
-    cmdkList.innerHTML = cmdkFiltered.map((p,idx) =>
-      '<div class="cmdk-item' + (idx===0 ? ' sel':'') + '" data-id="' + p.id + '" data-idx="' + idx + '"><span>' + p.label + '</span><span class="k">' + p.k + '</span></div>'
-    ).join('');
-    cmdkList.querySelectorAll('.cmdk-item').forEach(el => {
-      el.addEventListener('click', () => { go(el.dataset.id); closeCmdk(); });
-      el.addEventListener('mouseenter', () => { cmdkSel = parseInt(el.dataset.idx,10); paintCmdkSel(); });
-    });
-  }
-  function paintCmdkSel(){
-    cmdkList.querySelectorAll('.cmdk-item').forEach((el) => el.classList.toggle('sel', parseInt(el.dataset.idx,10) === cmdkSel));
-    const selEl = cmdkList.querySelector('.cmdk-item.sel');
-    if (selEl) selEl.scrollIntoView({ block:'nearest' });
-  }
-  function openCmdk(){
-    cmdkOverlay.classList.add('open');
-    cmdkInput.value = '';
-    renderCmdk();
-    setTimeout(() => cmdkInput.focus(), 30);
-  }
-  function closeCmdk(){ cmdkOverlay.classList.remove('open'); }
-
-  cmdkInput.addEventListener('input', renderCmdk);
-  cmdkOverlay.addEventListener('click', (e) => { if (e.target === cmdkOverlay) closeCmdk(); });
-  document.addEventListener('keydown', (e) => {
-    const typing = ['INPUT','TEXTAREA'].includes(document.activeElement.tagName);
-    if ((e.key === '/' && !typing) || ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k')) {
-      e.preventDefault(); openCmdk();
-    } else if (e.key === 'Escape' && cmdkOverlay.classList.contains('open')) {
-      closeCmdk();
-    } else if (cmdkOverlay.classList.contains('open')) {
-      if (e.key === 'ArrowDown') { e.preventDefault(); cmdkSel = Math.min(cmdkSel+1, cmdkFiltered.length-1); paintCmdkSel(); }
-      else if (e.key === 'ArrowUp') { e.preventDefault(); cmdkSel = Math.max(cmdkSel-1, 0); paintCmdkSel(); }
-      else if (e.key === 'Enter' && cmdkFiltered[cmdkSel]) { go(cmdkFiltered[cmdkSel].id); closeCmdk(); }
-    }
-  });
-
-  /* ══════════ STABILIZER DEMO ══════════ */
-  (function demo(){
-    const canvas = document.getElementById('demo-canvas');
-    const placeholder = document.getElementById('demo-placeholder');
-    const ctx = canvas.getContext('2d');
-    let stabilized = true;
-    let raw = [], smoothed = [];
-    let smX = null, smY = null;
-    let drawing = false;
-    let hasDrawn = false;
-
-    function resize(){
-      const rect = canvas.getBoundingClientRect();
-      if (rect.width === 0 || rect.height === 0) return; // panel still hidden, skip
-      canvas.width = rect.width * devicePixelRatio;
-      canvas.height = rect.height * devicePixelRatio;
-      raw = []; smoothed = []; hasDrawn = false;
-      placeholder.classList.remove('hidden');
-    }
-    window.addEventListener('resize', resize);
-    resize();
-    if ('ResizeObserver' in window) {
-      new ResizeObserver(resize).observe(canvas);
-    }
-    window.demoResize = resize;
-
-    function pos(e){
-      const rect = canvas.getBoundingClientRect();
-      const cx = (e.touches ? e.touches[0].clientX : e.clientX) - rect.left;
-      const cy = (e.touches ? e.touches[0].clientY : e.clientY) - rect.top;
-      return { x: cx * devicePixelRatio, y: cy * devicePixelRatio };
-    }
-    function start(e){
-      drawing = true; hasDrawn = true;
-      placeholder.classList.add('hidden');
-      const p = pos(e);
-      raw = [p]; smoothed = [p]; smX = p.x; smY = p.y;
-    }
-    function move(e){
-      if (!drawing) return;
-      const p = pos(e);
-      raw.push(p);
-      const alpha = 0.14;
-      smX += (p.x - smX) * alpha;
-      smY += (p.y - smY) * alpha;
-      smoothed.push({ x: smX, y: smY });
-      if (raw.length > 260) { raw.shift(); smoothed.shift(); }
-    }
-    function end(){ drawing = false; }
-
-    canvas.addEventListener('mousedown', start);
-    canvas.addEventListener('mousemove', move);
-    window.addEventListener('mouseup', end);
-    canvas.addEventListener('touchstart', (e) => { e.preventDefault(); start(e); }, { passive:false });
-    canvas.addEventListener('touchmove', (e) => { e.preventDefault(); move(e); }, { passive:false });
-    canvas.addEventListener('touchend', end);
-
-    function drawPath(pts, color, width){
-      if (pts.length < 2) return;
-      ctx.beginPath();
-      ctx.moveTo(pts[0].x, pts[0].y);
-      for (let i=1;i<pts.length;i++) ctx.lineTo(pts[i].x, pts[i].y);
-      ctx.strokeStyle = color; ctx.lineWidth = width * devicePixelRatio;
-      ctx.lineJoin = 'round'; ctx.lineCap = 'round';
-      ctx.stroke();
-    }
-    function frame(){
-      ctx.clearRect(0,0,canvas.width, canvas.height);
-      if (hasDrawn){
-        if (stabilized){
-          drawPath(raw, 'rgba(255,90,95,0.28)', 1.2);
-          drawPath(smoothed, '#3fe0c0', 2.2);
-        } else {
-          drawPath(raw, '#ff5a5f', 1.6);
-        }
-      }
-      requestAnimationFrame(frame);
-    }
-    frame();
-
-    window.setDemoMode = function(on){
-      stabilized = on;
-      document.getElementById('demo-on').classList.toggle('on', on);
-      document.getElementById('demo-off').classList.toggle('on', !on);
-    };
-  })();
-
-  const REDUCED = matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-  /* ══════════ AMBIENT SIGNAL FIELD ══════════ */
-  (function ambient(){
-    const canvas = document.getElementById('bg-signal');
-    const ctx = canvas.getContext('2d');
-    let w, h, mx = -9999, my = -9999;
-    const traces = [];
-    const N = 6;
-    function build(){
-      w = canvas.width = window.innerWidth * (window.devicePixelRatio || 1);
-      h = canvas.height = window.innerHeight * (window.devicePixelRatio || 1);
-      canvas.style.width = window.innerWidth + 'px';
-      canvas.style.height = window.innerHeight + 'px';
-      traces.length = 0;
-      for (let i=0;i<N;i++){
-        traces.push({
-          y: (h/(N+1)) * (i+1),
-          amp: 6 + Math.random()*14,
-          freq: 0.004 + Math.random()*0.006,
-          speed: 0.4 + Math.random()*0.8,
-          phase: Math.random()*1000,
-          jitter: i % 3 === 0 ? 1 : 0,
-          color: i % 3 === 0 ? '255,90,95' : '63,224,192',
-          alpha: 0.05 + Math.random()*0.05
-        });
-      }
-    }
-    window.addEventListener('resize', build);
-    document.addEventListener('mousemove', (e) => { mx = e.clientX * (window.devicePixelRatio||1); my = e.clientY * (window.devicePixelRatio||1); });
-    build();
-    let t = 0;
-    function draw(){
-      if (document.hidden) { requestAnimationFrame(draw); return; }
-      ctx.clearRect(0,0,w,h);
-      t += 1;
-      traces.forEach(tr => {
-        ctx.beginPath();
-        for (let x=0; x<=w; x+=8){
-          let y = tr.y + Math.sin(x*tr.freq + t*0.01*tr.speed + tr.phase) * tr.amp;
-          if (tr.jitter) y += (Math.sin(x*0.7 + t*0.5) * 3);
-          const dist = Math.hypot(x - mx, y - my);
-          if (dist < 180) y += (y > my ? 1 : -1) * (180-dist) * 0.12;
-          x === 0 ? ctx.moveTo(x,y) : ctx.lineTo(x,y);
-        }
-        ctx.strokeStyle = 'rgba(' + tr.color + ',' + tr.alpha + ')';
-        ctx.lineWidth = 1 * (window.devicePixelRatio||1);
-        ctx.stroke();
-      });
-      requestAnimationFrame(draw);
-    }
-    if (!REDUCED) requestAnimationFrame(draw);
-  })();
-
-  /* ══════════ SIGNAL HUD (live cursor oscilloscope) ══════════ */
-  (function hud(){
-    if (!matchMedia('(hover: hover) and (pointer: fine)').matches) return;
-    const canvas = document.getElementById('hud-canvas');
-    const varEl = document.getElementById('hud-var');
-    if (!canvas) return;
-    const ctx = canvas.getContext('2d');
-    const dpr = window.devicePixelRatio || 1;
-    canvas.width = 76 * dpr; canvas.height = 26 * dpr;
-    let history = new Array(38).fill(0);
-    let lastX = null, lastY = null, lastT = performance.now();
-    document.addEventListener('mousemove', (e) => {
-      const now = performance.now();
-      const dt = Math.max(1, now - lastT);
-      if (lastX !== null){
-        const v = Math.hypot(e.clientX-lastX, e.clientY-lastY) / dt * 20;
-        history.push(Math.min(24, v));
-        history.shift();
-      }
-      lastX = e.clientX; lastY = e.clientY; lastT = now;
-    });
-    function draw(){
-      ctx.clearRect(0,0,canvas.width,canvas.height);
-      ctx.beginPath();
-      history.forEach((v,i) => {
-        const x = (i/(history.length-1)) * canvas.width;
-        const y = canvas.height/2 - v * dpr * 0.7;
-        i === 0 ? ctx.moveTo(x,y) : ctx.lineTo(x,y);
-      });
-      ctx.strokeStyle = '#3fe0c0'; ctx.lineWidth = 1.3 * dpr; ctx.stroke();
-      const avg = history.reduce((a,b)=>a+b,0)/history.length;
-      if (varEl) varEl.textContent = avg.toFixed(2);
-      requestAnimationFrame(draw);
-    }
-    if (!REDUCED) requestAnimationFrame(draw);
-  })();
-
-  /* ══════════ TEAM VITALS ══════════ */
-  (function vitals(){
-    const canvases = Array.from(document.querySelectorAll('.vcanvas'));
-    if (!canvases.length) return;
-    const dpr = window.devicePixelRatio || 1;
-    canvases.forEach(c => { c.width = 100*dpr; c.height = 28*dpr; });
-    let t = 0;
-    function draw(){
-      t += 1;
-      canvases.forEach(c => {
-        const ctx = c.getContext('2d');
-        const seed = parseInt(c.dataset.seed,10);
-        ctx.clearRect(0,0,c.width,c.height);
-        ctx.beginPath();
-        for (let x=0; x<=c.width; x+=3){
-          let y;
-          if (seed === 1) y = c.height/2 + Math.sin(x*0.06 + t*0.03) * (c.height*0.28);
-          else if (seed === 2) y = c.height/2 + Math.sin(x*0.1 + t*0.05) * (c.height*0.2) + Math.sin(x*0.3+t*0.1)*3;
-          else if (seed === 3) y = c.height/2 + Math.sin(x*0.045 + t*0.02) * (c.height*0.32);
-          else if (seed === 5) y = c.height/2 + Math.sin(x*0.16 + t*0.06) * (c.height*0.3) * Math.abs(Math.sin(x*0.02 + t*0.015));
-          else y = c.height/2 + (((Math.floor((x+t*2)/9))%2===0) ? c.height*0.26 : -c.height*0.26) * Math.sin((x+t)*0.02);
-          x === 0 ? ctx.moveTo(x,y) : ctx.lineTo(x,y);
-        }
-        ctx.strokeStyle = '#3fe0c0'; ctx.lineWidth = 1.2*dpr; ctx.lineJoin='round'; ctx.stroke();
-      });
-      requestAnimationFrame(draw);
-    }
-    if (!REDUCED) requestAnimationFrame(draw); else canvases.forEach(c => c.getContext('2d'));
-  })();
-
-  /* ══════════ PARTICLE BURST ══════════ */
-  const burstCanvas = document.getElementById('burst-canvas');
-  const burstCtx = burstCanvas.getContext('2d');
-  let particles = [];
-  function resizeBurst(){ burstCanvas.width = window.innerWidth; burstCanvas.height = window.innerHeight; }
-  window.addEventListener('resize', resizeBurst); resizeBurst();
-  function spawnBurst(x, y, color){
-    for (let i=0;i<22;i++){
-      const a = (Math.PI*2/22)*i + Math.random()*0.3;
-      const speed = 2 + Math.random()*3;
-      particles.push({ x, y, vx:Math.cos(a)*speed, vy:Math.sin(a)*speed, life:1, color });
-    }
-  }
-  function burstLoop(){
-    burstCtx.clearRect(0,0,burstCanvas.width,burstCanvas.height);
-    particles = particles.filter(p => p.life > 0);
-    particles.forEach(p => {
-      p.x += p.vx; p.y += p.vy; p.vx *= 0.96; p.vy *= 0.96; p.life -= 0.02;
-      burstCtx.beginPath();
-      burstCtx.arc(p.x, p.y, 2, 0, Math.PI*2);
-      burstCtx.fillStyle = p.color.replace('ALPHA', p.life);
-      burstCtx.fill();
-    });
-    requestAnimationFrame(burstLoop);
-  }
-  if (!REDUCED) requestAnimationFrame(burstLoop);
-  document.addEventListener('click', (e) => {
-    const btn = e.target.closest('.btn-steady');
-    if (!btn || REDUCED) return;
-    spawnBurst(e.clientX, e.clientY, 'rgba(63,224,192,ALPHA)');
-  });
-
-  /* ══════════ EASTER EGG ══════════ */
-  (function egg(){
-    let buffer = '';
-    document.addEventListener('keydown', (e) => {
-      if (['INPUT','TEXTAREA'].includes(document.activeElement.tagName)) return;
-      if (e.key.length !== 1) return;
-      buffer = (buffer + e.key.toLowerCase()).slice(-6);
-      if (buffer === 'steady'){
-        const flash = document.getElementById('egg-flash');
-        flash.classList.remove('show'); void flash.offsetWidth; flash.classList.add('show');
-        spawnBurst(window.innerWidth/2, window.innerHeight/2, 'rgba(63,224,192,ALPHA)');
-        setTimeout(() => spawnBurst(window.innerWidth/2, window.innerHeight/2, 'rgba(255,90,95,ALPHA)'), 150);
-        if (window.playBlip) window.playBlip('egg');
-      }
-    });
-  })();
-
-  /* ══════════ SOUND SYSTEM ══════════ */
-  (function sound(){
-    let ctx = null;
-    let on = localStorage.getItem('oe-sound') === '1';
-    const stateEl = document.getElementById('sound-state');
-    const toggleBtn = document.getElementById('sound-toggle');
-    function paint(){
-      if (stateEl) stateEl.textContent = on ? 'ON' : 'OFF';
-      if (toggleBtn) toggleBtn.classList.toggle('on', on);
-    }
-    paint();
-    function ensureCtx(){
-      if (!ctx) ctx = new (window.AudioContext || window.webkitAudioContext)();
-      if (ctx.state === 'suspended') ctx.resume();
-      return ctx;
-    }
-    window.toggleSound = function(){
-      on = !on;
-      localStorage.setItem('oe-sound', on ? '1' : '0');
-      paint();
-      if (on) window.playBlip('nav');
-    };
-    window.playBlip = function(kind){
-      if (!on) return;
-      try {
-        const c = ensureCtx();
-        const osc = c.createOscillator();
-        const gain = c.createGain();
-        osc.connect(gain); gain.connect(c.destination);
-        const freqs = { nav: 520, click: 720, egg: 340 };
-        osc.frequency.value = freqs[kind] || 500;
-        osc.type = kind === 'egg' ? 'triangle' : 'sine';
-        gain.gain.setValueAtTime(0.0001, c.currentTime);
-        gain.gain.linearRampToValueAtTime(0.05, c.currentTime + 0.01);
-        gain.gain.exponentialRampToValueAtTime(0.0001, c.currentTime + (kind==='egg'?0.35:0.12));
-        osc.start();
-        osc.stop(c.currentTime + (kind==='egg'?0.4:0.15));
-      } catch(e){ /* audio unavailable, fail silently */ }
-    };
-    document.addEventListener('click', (e) => {
-      if (e.target.closest('.btn, .product-tab, .icard, .future-item')) window.playBlip('click');
-    });
-  })();
-
-  /* ══════════ ACCESSIBILITY / DIAGNOSTIC MODE ══════════ */
-  (function a11y(){
-    const btn = document.getElementById('a11y-toggle');
-    let on = localStorage.getItem('oe-diagnostic') === '1';
-    function paint(){
-      document.body.classList.toggle('diagnostic-mode', on);
-      if (btn) btn.classList.toggle('on', on);
-      if (btn) btn.setAttribute('aria-pressed', on ? 'true' : 'false');
-    }
-    paint();
-    window.toggleA11y = function(){
-      on = !on;
-      localStorage.setItem('oe-diagnostic', on ? '1' : '0');
-      paint();
-    };
-  })();
-
-  /* ══════════ ACHIEVEMENT TRACKER ══════════ */
-  (function achievements(){
-    const KEY = 'oe-visited';
-    let visited = new Set(JSON.parse(sessionStorage.getItem(KEY) || '[]'));
-    window.trackVisit = function(id){
-      if (visited.has('__all_shown__')) return;
-      visited.add(id);
-      sessionStorage.setItem(KEY, JSON.stringify(Array.from(visited)));
-      const allDone = PAGES.every(p => visited.has(p));
-      if (allDone && !visited.has('__all_shown__')){
-        visited.add('__all_shown__');
-        sessionStorage.setItem(KEY, JSON.stringify(Array.from(visited)));
-        setTimeout(() => {
-          const toast = document.getElementById('achievement-toast');
-          toast.classList.add('show');
-          spawnBurst(window.innerWidth - 60, window.innerHeight - 60, 'rgba(63,224,192,ALPHA)');
-          setTimeout(() => toast.classList.remove('show'), 5000);
-        }, 600);
-      }
-    };
-    if (PAGES && PAGES.length) window.trackVisit('home');
-  })();
-
-  /* ══════════ HUD DAYS-ACTIVE COUNTER ══════════ */
-  (function hudDays(){
-    const el = document.getElementById('hud-days');
-    if (!el) return;
-    const founded = new Date('2025-01-01T00:00:00Z');
-    const days = Math.max(0, Math.floor((Date.now() - founded.getTime()) / 86400000));
-    el.textContent = days;
-  })();
-</script>
+<script src="script.js"></script>
 </body>
 </html>
