@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Oakton Enable - Biomedical Engineering Startup</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=DM+Mono:wght@400;500&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="styles.css">
 <style>
   *,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
@@ -928,6 +928,180 @@
   @media (max-width:900px){
     .hero::before{left:1.4rem;top:22%;width:34px;height:34px;}
   }
+
+  /* ── OAKTON PRODUCT-FILM HERO ── */
+  :root{
+    --bg:#090b0f;
+    --panel:#11151b;
+    --panel2:#171d25;
+    --ink:#f5f5f0;
+    --muted:#a4a9b0;
+    --dim:#6e747e;
+    --line:rgba(245,245,240,.12);
+    --line2:rgba(245,245,240,.24);
+    --steady:#f2f0e9;
+    --steady-dim:rgba(242,240,233,.35);
+    --tremor:#ff6b91;
+    --tremor-dim:rgba(255,107,145,.4);
+    --disp:'DM Sans',sans-serif;
+    --serif:'DM Serif Display',Georgia,serif;
+    --mono:'DM Mono',monospace;
+  }
+  body{background:var(--bg);color:var(--ink);}
+  .page{background:var(--bg);}
+  #nav{
+    height:58px;padding:0 max(2rem, calc((100vw - 920px) / 2));
+    background:rgba(9,11,15,.82);border-bottom:1px solid rgba(245,245,240,.09);
+    backdrop-filter:blur(14px);
+  }
+  .nav-logo{font-family:var(--mono);font-size:.8rem;letter-spacing:.08em;color:var(--ink);text-transform:uppercase;}
+  .nav-logo::before{content:'OE';display:grid;place-items:center;width:auto;height:auto;background:none;box-shadow:none;color:var(--ink);font-size:.76rem;font-weight:500;}
+  .nav-logo .sub{color:var(--dim);font-size:.68rem;letter-spacing:.05em;}
+  .nav-links{gap:1.25rem;}
+  .nav-links a{font-family:var(--disp);font-size:.68rem;color:var(--muted);}
+  .nav-links a:hover,.nav-links a.active{color:var(--ink);}
+  .nav-apply{background:var(--ink);border-color:var(--ink)!important;color:var(--bg)!important;padding:.42rem .8rem!important;border-radius:999px;}
+  .nav-apply:hover{background:var(--tremor)!important;border-color:var(--tremor)!important;color:#fff!important;}
+  .hamburger span{background:var(--ink);}
+  #scroll-progress{top:58px;background:var(--tremor);}
+
+  .hero{
+    min-height:calc(100vh - 58px);padding:7rem max(2rem, calc((100vw - 920px) / 2)) 5rem;
+    align-items:flex-start;text-align:left;justify-content:center;overflow:hidden;
+    background:
+      radial-gradient(ellipse 35% 60% at 78% 50%,rgba(47,59,78,.22),transparent 72%),
+      radial-gradient(ellipse 30% 40% at 20% 70%,rgba(255,107,145,.06),transparent 70%),
+      var(--bg);
+    border-bottom:0;
+  }
+  .hero::before{display:none;}
+  .hero::after{
+    content:'';position:absolute;z-index:0;right:-3vw;bottom:-12vh;width:min(53vw,720px);height:96vh;
+    border:0;border-radius:0;box-shadow:none;opacity:1;mix-blend-mode:screen;filter:grayscale(1) contrast(1.12) brightness(.7);
+    background:linear-gradient(90deg,var(--bg) 0%,transparent 28%),url('Oakton_Enable_Image.jpg') center/contain no-repeat;
+  }
+  .hero-badge{top:calc(50% - 190px);left:max(2rem, calc((100vw - 920px) / 2));transform:none;color:var(--dim);font-size:.55rem;letter-spacing:.18em;}
+  .hero-content{z-index:2;max-width:560px;width:auto;}
+  .hero h1{
+    max-width:560px;margin:0 0 1.6rem;font-family:var(--serif);font-size:clamp(3.5rem,6vw,6.5rem);
+    line-height:.94;letter-spacing:-.045em;font-weight:400;color:var(--ink);
+  }
+  .hero h1 em{color:var(--ink);font-style:normal;}
+  .hero h1 em::after{content:'_';position:static;background:none;height:auto;color:var(--tremor);}
+  .hero-sub{max-width:450px;margin:0 0 1.8rem;font-size:.92rem;line-height:1.65;color:var(--muted);}
+  .hero-btns{justify-content:flex-start;gap:.5rem;}
+  .btn{border-radius:999px;padding:.68rem 1rem;font-size:.7rem;}
+  .btn-steady{background:var(--ink);color:var(--bg);box-shadow:none;}
+  .btn-steady:hover{background:var(--tremor);box-shadow:none;}
+  .btn-outline{background:rgba(245,245,240,.06);border-color:var(--line);color:var(--ink);}
+  .btn-outline:hover{background:var(--ink);border-color:var(--ink);color:var(--bg);}
+  .hero-caption{display:none;}
+  .readout-strip{max-width:920px;padding:0;grid-template-columns:repeat(4,1fr);border:1px solid var(--line);background:var(--panel);}
+  .readout-cell{padding:1.3rem 1rem;border-color:var(--line);}
+  .readout-tag{font-size:.52rem;letter-spacing:.11em;color:var(--dim);}
+  .readout-num{font-size:1.65rem;color:var(--ink);}
+  .readout-num .u{color:var(--tremor);}
+  .section{max-width:920px;padding:7rem 0;}
+  .page:not(#page-home) .section{padding-top:8rem;}
+  .display,.display-sm{font-family:var(--serif);font-weight:400;letter-spacing:-.04em;}
+  .display{font-size:clamp(3rem,6vw,6rem);}
+  .display-sm{font-size:clamp(2rem,4vw,3.6rem);}
+  .display em{color:var(--ink);}
+  .eyebrow{font-size:.55rem;letter-spacing:.16em;color:var(--tremor);}
+  .body-lg,.body-md,.feat-body,.icard p,.product-hero p,.future-item p,.step-body,.member-bio,.detail-body,.sc-note,.join-cta-block p,.soon-list ul,.paper-info p{color:var(--muted);}
+  .feat-list{border-top:1px solid var(--line);}
+  .feat-item,.rule{border-color:var(--line);}
+  .feat-mark{background:var(--tremor);box-shadow:0 0 0 4px rgba(255,107,145,.1);}
+  .feat-title,.icard h4,.product-hero h3,.future-item h4,.step-title,.member-name,.detail-val,.sc-name,.paper-info h4{color:var(--ink);}
+  .product-shell{background:var(--panel);border-color:var(--line);}
+  .product-hero,.demo-block,.soon-list{background:var(--panel2);border-color:var(--line);}
+  .icard,.future-item,.paper-row,.detail-cell,.social-cell,.member,.step-cell{background:var(--panel);border-color:var(--line);}
+  .product-tab{background:transparent;border-color:var(--line);color:var(--muted);border-radius:999px;}
+  .product-tab.active,.product-tab:hover{background:var(--ink);border-color:var(--ink);color:var(--bg);}
+  .steps-grid,.team-grid,.details-grid,.social-row,.paper-grid{background:var(--line);border-color:var(--line);}
+  .step-cell:hover,.detail-cell:hover,.social-cell:hover,.member:hover,.paper-row:hover{background:#151b22;}
+  .step-tag,.future-tag,.detail-label{color:var(--tremor);}
+  .join-cta-block{background:var(--panel2);border:1px solid var(--line);}
+  footer{background:var(--bg);border-color:var(--line);}
+  .footer-logo,.footer-nav a,.footer-right,.footer-socials a{color:var(--muted);}
+  .footer-logo span{color:var(--tremor);}
+  blockquote{border-color:var(--tremor);}
+  blockquote p{font-family:var(--serif);color:var(--ink);}
+  .demo-canvas-wrap{background:#050609;border-color:var(--line);}
+  .hero + .readout-strip{position:relative;z-index:3;}
+  #page-home > .section{padding-top:8rem;padding-bottom:8rem;}
+  #page-home > .section .split{align-items:start;}
+
+  .launch-bubble{
+    position:fixed;right:1.25rem;bottom:1.25rem;z-index:700;display:flex;flex-direction:column;gap:.35rem;align-items:flex-end;
+  }
+  .launch-bubble a{display:inline-flex;align-items:center;gap:.55rem;padding:.55rem .8rem;border-radius:999px;background:var(--ink);color:var(--bg);font:500 .64rem var(--disp);text-decoration:none;box-shadow:0 8px 25px rgba(0,0,0,.22);transition:transform .2s,background .2s;}
+  .launch-bubble a:hover{transform:translateX(-4px);background:var(--tremor);color:#fff;}
+  .launch-bubble a::after{content:'->';font-family:var(--mono);}
+
+  @media (max-width:900px){
+    #nav{height:62px;padding:0 1.4rem;}
+    #scroll-progress{top:62px;}
+    .hero{min-height:calc(100vh - 62px);padding:8rem 1.4rem 5rem;}
+    .hero-badge{top:100px;left:1.4rem;}
+    .hero::after{right:-25vw;bottom:-4vh;width:90vw;height:58vh;opacity:.42;}
+    .hero-content{max-width:520px;}
+    .section{padding:5rem 1.4rem;}
+    .readout-strip{margin:0 1.4rem;}
+  }
+  @media (max-width:560px){
+    .hero{padding-top:7.5rem;}
+    .hero h1{font-size:clamp(3.5rem,15vw,5.2rem);}
+    .hero-sub{font-size:.88rem;max-width:330px;}
+    .hero::after{right:-34vw;width:110vw;height:48vh;opacity:.28;}
+    .readout-strip{grid-template-columns:repeat(2,1fr);}
+    .launch-bubble{right:.75rem;bottom:.75rem;}
+  }
+
+  /* TechnologyWire-inspired startup landing treatment */
+  :root{--bg:#fafbff;--panel:#fff;--panel2:#f0f3ff;--ink:#1b1d36;--muted:#6d7187;--dim:#9ba0b2;--line:#e3e6f1;--line2:#c8ccdc;--steady:#2867dc;--steady-dim:rgba(40,103,220,.28);--tremor:#7557e8;--tremor-dim:rgba(117,87,232,.3);--serif:'DM Serif Display',Georgia,serif;}
+  body,.page{background:var(--bg);color:var(--ink);}body{overflow-x:hidden;}
+  #nav{height:66px;padding:0 max(2rem,calc((100vw - 1080px)/2));background:rgba(250,251,255,.9);border-bottom:1px solid var(--line);}
+  .nav-logo{font-family:var(--disp);font-size:.84rem;letter-spacing:-.02em;text-transform:none;color:var(--ink);}
+  .nav-logo::before{content:'+';display:grid;place-items:center;width:24px;height:24px;border-radius:7px;background:var(--steady);box-shadow:none;color:#fff;font:700 1rem var(--disp);}
+  .nav-logo .sub{font-size:.72rem;color:var(--dim);}
+  .nav-links{gap:1.25rem;}.nav-links a{font:500 .68rem var(--disp);color:var(--muted);}.nav-links a:hover,.nav-links a.active{color:var(--steady);}
+  .nav-apply{background:var(--steady);border-color:var(--steady)!important;color:#fff!important;border-radius:999px;padding:.5rem .9rem!important;}.nav-apply:hover{background:#1d52b8!important;border-color:#1d52b8!important;}
+  .hamburger span{background:var(--ink);}.page:not(#page-home) .section{padding-top:8rem;}.section{max-width:1080px;padding:7rem max(2rem,4vw);}
+  #scroll-progress{top:66px;background:var(--steady);}
+  .hero{min-height:780px;padding:8rem max(1.4rem,4vw) 0;align-items:center;text-align:center;justify-content:flex-start;background:radial-gradient(ellipse 60% 44% at 50% 38%,#fff 0%,#fafbff 70%);overflow:hidden;}
+  .hero::before{display:none;}.hero-badge{top:116px;left:50%;transform:translateX(-50%);color:var(--tremor);font-size:.53rem;letter-spacing:.18em;white-space:nowrap;}.hero-content{z-index:2;max-width:780px;width:100%;}
+  .hero h1{max-width:780px;margin:0 auto 1rem;font-family:var(--serif);font-size:clamp(3.7rem,6.6vw,6.7rem);line-height:.93;letter-spacing:-.045em;font-weight:400;color:var(--ink);}.hero h1 em{color:var(--ink);}.hero h1 em::after{display:none;}
+  .hero-sub{max-width:560px;margin:0 auto 1.3rem;font:.91rem/1.6 var(--disp);color:var(--muted);}.hero-btns{justify-content:center;gap:.35rem;padding:.25rem;border:1px solid var(--line2);border-radius:999px;background:#fff;box-shadow:0 8px 24px rgba(49,73,130,.08);width:max-content;margin:0 auto;}
+  .btn{border-radius:999px;padding:.62rem 1rem;font:600 .68rem var(--disp);}.btn-steady{background:var(--steady);color:#fff;box-shadow:none;}.btn-steady:hover{background:#1d52b8;box-shadow:none;}.btn-outline{background:#fff;border:0;color:var(--muted);}.btn-outline:hover{background:var(--panel2);border:0;color:var(--ink);}
+  .hero::after{content:'';position:absolute;z-index:1;left:50%;right:auto;top:430px;transform:translateX(-50%);width:min(760px,84vw);height:390px;border:10px solid #20243b;border-bottom:0;border-radius:18px 18px 0 0;box-shadow:0 30px 70px rgba(41,62,125,.24);filter:none;opacity:1;mix-blend-mode:normal;background:linear-gradient(180deg,rgba(255,255,255,.92) 0 28px,transparent 28px),url('Oakton_Enable_Image.jpg') center/cover no-repeat;}
+  .readout-strip{position:relative;z-index:3;max-width:900px;margin:0 auto;padding:0;grid-template-columns:repeat(4,1fr);border:1px solid var(--line);background:#fff;box-shadow:0 12px 28px rgba(49,73,130,.08);}.readout-cell{padding:1.25rem 1rem;border-color:var(--line);}.readout-tag{font-size:.5rem;letter-spacing:.1em;color:var(--dim);}.readout-num{font-size:1.65rem;color:var(--ink);}.readout-num .u{color:var(--steady);}
+  .trust-strip{position:relative;z-index:3;display:flex;justify-content:center;gap:clamp(1rem,4vw,4rem);flex-wrap:wrap;max-width:850px;margin:1.1rem auto 0;color:#a2a6b4;font:500 .62rem var(--disp);letter-spacing:.04em;text-transform:uppercase;}.trust-strip span{display:inline-flex;align-items:center;gap:.4rem;}.trust-strip span::before{content:'+';display:grid;place-items:center;width:15px;height:15px;border:1px solid #b8bdd0;border-radius:4px;color:var(--steady);}
+  #page-home>.section{max-width:1080px;padding-top:8rem;}.display,.display-sm{font-family:var(--serif);font-weight:400;letter-spacing:-.04em;color:var(--ink);}.display{font-size:clamp(3rem,6vw,6.2rem);}.display-sm{font-size:clamp(2rem,4vw,3.6rem);}.eyebrow{font:500 .55rem var(--mono);letter-spacing:.15em;color:var(--steady);}.body-lg,.body-md,.feat-body,.icard p,.product-hero p,.future-item p,.step-body,.member-bio,.detail-body,.sc-note,.join-cta-block p,.soon-list ul,.paper-info p{color:var(--muted);}.feat-list,.feat-item,.rule{border-color:var(--line);}.feat-mark{background:var(--tremor);box-shadow:0 0 0 4px #eeeaff;}.feat-title,.icard h4,.product-hero h3,.future-item h4,.step-title,.member-name,.detail-val,.sc-name,.paper-info h4{color:var(--ink);}
+  .product-shell{background:#fff;border-color:var(--line);box-shadow:0 16px 35px rgba(49,73,130,.07);}.product-hero,.demo-block,.soon-list{background:var(--panel2);border-color:var(--line);}.icard,.future-item,.paper-row,.detail-cell,.social-cell,.member,.step-cell{background:#fff;border-color:var(--line);}.product-tab{background:#fff;border-color:var(--line);color:var(--muted);border-radius:999px;}.product-tab.active,.product-tab:hover{background:var(--ink);border-color:var(--ink);color:#fff;}.steps-grid,.team-grid,.details-grid,.social-row,.paper-grid{background:var(--line);border-color:var(--line);}.step-cell:hover,.detail-cell:hover,.social-cell:hover,.member:hover,.paper-row:hover{background:#f5f7ff;}.step-tag,.future-tag,.detail-label{color:var(--steady);}.join-cta-block{background:var(--ink);border:0;border-radius:18px;box-shadow:0 18px 40px rgba(27,29,54,.2);}.join-cta-block p{color:#c9ccda;}footer{background:#f0f3ff;border-color:var(--line);}.footer-logo,.footer-nav a,.footer-right,.footer-socials a{color:var(--muted);}.footer-logo span{color:var(--steady);}.blockquote,blockquote{border-color:var(--tremor);}blockquote p{font-family:var(--serif);color:var(--ink);}.demo-canvas-wrap{background:#15182b;border-color:var(--line);}.launch-bubble{display:none;}
+  @media (max-width:900px){#nav{height:64px;padding:0 1.4rem;}#scroll-progress{top:64px;}.hero{min-height:700px;padding-top:7.5rem;}.hero-badge{top:102px;}.hero::after{top:390px;width:92vw;height:310px;}.readout-strip{margin:0 1.4rem;}}
+  @media (max-width:560px){.hero{min-height:650px;}.hero h1{font-size:clamp(3.2rem,14vw,5rem);}.hero-sub{font-size:.84rem;max-width:330px;}.hero::after{top:375px;width:105vw;height:245px;border-width:7px;}.readout-strip{grid-template-columns:repeat(2,1fr);}.trust-strip{gap:.7rem 1rem;font-size:.52rem;}}
+
+  /* Keep the hero readable: copy, preview, trust row, and metrics occupy separate bands. */
+  .hero{min-height:960px;padding-top:8rem;}
+  .hero-content{margin-bottom:430px;}
+  .hero::after{top:500px;height:380px;}
+  .trust-strip{margin-top:1.5rem;}
+  .readout-strip{margin-top:1.4rem;}
+  @media (min-width:901px){
+    .hero{min-height:1120px;}
+    .hero::after{top:650px;height:360px;}
+  }
+  @media (max-width:900px){
+    .hero{min-height:820px;padding-top:7.5rem;}
+    .hero-content{margin-bottom:320px;}
+    .hero::after{top:455px;height:300px;}
+  }
+  @media (max-width:560px){
+    .hero{min-height:770px;}
+    .hero-content{margin-bottom:255px;}
+    .hero::after{top:435px;height:235px;}
+  }
 </style>
 </head>
 <body>
@@ -1010,6 +1184,13 @@
     </div>
     <div class="hero-caption">TREMOR SIGNAL <b>-></b> CALIBRATED OUTPUT<br>a stray hand made steady</div>
   </section>
+
+  <div class="trust-strip" aria-label="Oakton Enable focus areas">
+    <span>Biomedical design</span>
+    <span>Patient-centered research</span>
+    <span>Open technology</span>
+    <span>Built for impact</span>
+  </div>
 
   <div class="readout-strip">
     <div class="readout-cell"><div class="readout-tag">Core Members</div><div class="readout-num" data-count="5" data-pad="2">00</div></div>
