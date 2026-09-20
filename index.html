@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Oakton Enable - Biomedical Engineering Club</title>
+<title>Oakton Enable - Biomedical Engineering Startup</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="styles.css">
@@ -11,21 +11,21 @@
   *,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
 
   :root{
-    --bg:#0a0c10;
-    --panel:#12161d;
-    --panel2:#161b23;
-    --ink:#eceef3;
-    --muted:#8b92a6;
-    --dim:#525869;
-    --line: rgba(236,238,243,0.09);
-    --line2: rgba(236,238,243,0.17);
-    --tremor:#ff5a5f;
-    --tremor-dim: rgba(255,90,95,0.5);
-    --steady:#3fe0c0;
-    --steady-dim: rgba(63,224,192,0.5);
-    --disp: 'Space Grotesk', sans-serif;
-    --serif: 'Newsreader', serif;
-    --mono: 'IBM Plex Mono', monospace;
+    --bg:#eef4f2;
+    --panel:#f8fbfa;
+    --panel2:#dfeae7;
+    --ink:#102c3d;
+    --muted:#536873;
+    --dim:#71848b;
+    --line:#cbdad7;
+    --line2:#9fb6b6;
+    --tremor:#9b3348;
+    --tremor-dim:rgba(155,51,72,.32);
+    --steady:#087f78;
+    --steady-dim:rgba(8,127,120,.35);
+    --disp:'DM Sans',sans-serif;
+    --serif:'DM Sans',sans-serif;
+    --mono:'DM Mono',monospace;
   }
 
   html{scroll-behavior:smooth;}
@@ -600,18 +600,18 @@
 
   /* ── OAKTON ENABLE / STARTUP SYSTEM ── */
   :root{
-    --bg:#fbfaf7;
-    --panel:#ffffff;
-    --panel2:#f4f1eb;
-    --ink:#171717;
-    --muted:#625f59;
-    --dim:#8e8a82;
-    --line:#e4e0d8;
-    --line2:#c8c2b8;
-    --tremor:#8b172b;
-    --tremor-dim:rgba(139,23,43,.32);
-    --steady:#f26522;
-    --steady-dim:rgba(242,101,34,.35);
+    --bg:#eef4f2;
+    --panel:#f8fbfa;
+    --panel2:#dfeae7;
+    --ink:#102c3d;
+    --muted:#536873;
+    --dim:#71848b;
+    --line:#cbdad7;
+    --line2:#9fb6b6;
+    --tremor:#9b3348;
+    --tremor-dim:rgba(155,51,72,.32);
+    --steady:#087f78;
+    --steady-dim:rgba(8,127,120,.35);
     --disp:'DM Sans',sans-serif;
     --serif:'DM Sans',sans-serif;
     --mono:'DM Mono',monospace;
@@ -622,6 +622,7 @@
     color:var(--ink);
     letter-spacing:0;
   }
+  html{overflow-x:hidden;}
   body::before, body::after, #bg-signal, #burst-canvas, #hud, #cc-dot, #cc-ring, #egg-flash, #achievement-toast{display:none!important;}
   body.cc-on, body.cc-on *{cursor:auto!important;}
   ::selection{background:var(--steady);color:#fff;}
@@ -718,7 +719,7 @@
   .join-cta-block h3{font-family:var(--disp);letter-spacing:-.05em;}
   .join-cta-block p{color:#c7c3bd;}
   .join-fine{color:#918c84;}
-  footer{background:#f1eee8;border-color:var(--line);padding:2.2rem max(2rem,4vw);}
+  footer{background:var(--panel2);border-color:var(--line);padding:2.2rem max(2rem,4vw);}
   .footer-logo{font-family:var(--disp);}
   .footer-logo span{color:var(--steady);}
   .footer-nav a,.footer-right,.footer-socials a{font-family:var(--disp);font-size:.75rem;color:var(--muted);text-transform:none;letter-spacing:0;}
@@ -741,6 +742,192 @@
     .hero h1{font-size:clamp(3.35rem,16vw,5rem);}
     .join-cta-block{padding:3rem 1.5rem;}
   }
+
+  /* ── OAKTON ENABLE BRAND PALETTE ── */
+  :root{
+    --bg:#eef4f2;
+    --panel:#f8fbfa;
+    --panel2:#dfeae7;
+    --ink:#102c3d;
+    --muted:#536873;
+    --dim:#71848b;
+    --line:#cbdad7;
+    --line2:#9fb6b6;
+    --tremor:#9b3348;
+    --tremor-dim:rgba(155,51,72,.32);
+    --steady:#087f78;
+    --steady-dim:rgba(8,127,120,.35);
+  }
+  body{background:var(--bg);}
+  ::selection{background:var(--steady);color:#f8fbfa;}
+  .nav-logo::before{background:var(--steady);}
+  #nav{background:rgba(238,244,242,.96);}
+  .nav-apply{background:var(--steady);border-color:var(--steady)!important;}
+  .nav-apply:hover{background:#066962!important;}
+  .btn-steady{background:var(--steady);}
+  .btn-steady:hover{background:#066962;box-shadow:0 8px 18px rgba(8,127,120,.2);}
+  .display em,.hero h1 em{color:var(--steady);}
+  .hero h1 em::after{background:var(--steady);}
+  .product-hero,.demo-block,.soon-list{background:var(--panel2);}
+  .readout-strip{background:#dfeae7;}
+  .readout-cell{border-color:#c1d2cf;}
+  .readout-cell:hover{background:#d4e4e0;}
+  .product-card-grid .icard{background:var(--panel);}
+  .join-cta-block{background:var(--ink);}
+  footer{background:#dfeae7;}
+  .hero::after{filter:none;mix-blend-mode:multiply;}
+
+  /* ── PROCEPTION-INSPIRED PRODUCT PRESENTATION ── */
+  #nav .nav-links [data-p="creations"],
+  #nav .nav-links [data-p="cad"],
+  #nav .nav-links [data-p="details"]{display:none;}
+  #nav .nav-links li:has([data-p="creations"]),
+  #nav .nav-links li:has([data-p="cad"]),
+  #nav .nav-links li:has([data-p="details"]),
+  #nav .nav-links li:has(.cmdk-hint),
+  #nav .nav-links li:has(.a11y-btn){display:none;}
+  #nav .nav-links{gap:1.7rem;}
+  #nav .nav-logo::before{width:10px;height:10px;border-radius:50%;}
+  #nav .nav-logo{font-size:1.05rem;}
+
+  .hero{
+    min-height:calc(100vh - 72px);
+    padding:8rem max(2rem, 5vw) 6rem;
+    align-items:center;
+    text-align:center;
+    border-bottom:1px solid var(--line);
+  }
+  .hero-badge{
+    top:112px;left:50%;transform:translateX(-50%);
+    white-space:nowrap;color:var(--steady);font-size:.62rem;
+    letter-spacing:.12em;text-transform:uppercase;
+  }
+  .hero-content{max-width:1120px;width:100%;}
+  .hero h1{
+    max-width:1080px;margin:0 auto 1.5rem;
+    font-size:clamp(4rem,10vw,9.2rem);
+    line-height:.84;letter-spacing:-.085em;
+  }
+  .hero h1 em{display:inline-block;position:relative;}
+  .hero h1 em::after{
+    content:'';position:absolute;left:0;right:0;bottom:-.05em;height:4px;
+    background:var(--steady);transform:rotate(-1deg);
+  }
+  .hero-sub{margin:0 auto 2rem;max-width:610px;font-size:1.08rem;}
+  .hero-btns{justify-content:center;}
+  .hero::after{
+    right:2.5rem;bottom:2rem;width:130px;opacity:.75;
+    filter:grayscale(1);border-radius:50%;
+  }
+
+  .readout-strip{
+    max-width:none;padding:0 max(2rem, 5vw);
+    grid-template-columns:repeat(4,1fr);
+    border-top:0;background:var(--panel2);
+  }
+  .readout-cell{padding:1.6rem 1.25rem;border-right:1px solid #d9d4ca;}
+  .readout-tag{font-size:.58rem;text-transform:uppercase;}
+  .readout-num{font-size:2rem;}
+
+  .page:not(#page-home) .section{padding-top:9rem;}
+  #page-home > .section{max-width:1240px;padding-top:9rem;padding-bottom:9rem;}
+  #page-home > .section .split{align-items:center;}
+  #page-home > .section .split-sticky{padding-right:2rem;}
+  #page-home > .section .display-sm{font-size:clamp(2.5rem,4.5vw,4.4rem);}
+  .feat-list{border-top:1px solid var(--line);}
+  .feat-item{padding:1.65rem 0;}
+  .feat-mark{width:7px;height:7px;margin-top:.35rem;border-radius:50%;background:var(--steady);font-size:0;}
+
+  .section > .display,.section > .reveal > .display{
+    max-width:950px;font-size:clamp(4rem,8vw,8rem);
+  }
+  .product-shell{border:0;border-top:1px solid var(--line);box-shadow:none;padding:2rem 0 0;}
+  .product-hero{padding:2.2rem;background:var(--panel2);}
+  .product-card-grid{gap:0;border:1px solid var(--line);}
+  .product-card-grid .icard{border:0;border-right:1px solid var(--line);}
+  .product-card-grid .icard:last-child{border-right:0;}
+  .join-cta-block{border-radius:0;}
+  footer{margin-top:0;}
+
+  @media (max-width:900px){
+    .hero{min-height:calc(100vh - 72px);padding-top:8rem;}
+    .hero-badge{top:105px;}
+    .hero::after{right:1.4rem;bottom:1.5rem;width:90px;opacity:.35;}
+    .readout-strip{padding:0 1.4rem;}
+    #page-home > .section{padding-top:6rem;padding-bottom:6rem;}
+  }
+  @media (max-width:560px){
+    .hero{padding-top:7.5rem;}
+    .hero-badge{font-size:.55rem;}
+    .hero h1{font-size:clamp(3.3rem,16vw,5.7rem);}
+    .hero h1 em::after{height:3px;}
+    .hero-sub{font-size:1rem;}
+    .readout-strip{padding:0 1.4rem;}
+    .readout-cell{padding:1.3rem .8rem;}
+    .product-card-grid .icard{border-right:0;border-bottom:1px solid var(--line);}
+    .product-card-grid .icard:last-child{border-bottom:0;}
+  }
+
+  /* ── BRIGHTER OAKTON ENABLE FINISH ── */
+  :root{
+    --bg:#ffffff;
+    --panel:#ffffff;
+    --panel2:#e2f7f1;
+    --ink:#102c3d;
+    --muted:#536873;
+    --dim:#71848b;
+    --line:#d4e5e2;
+    --line2:#9bbfbb;
+    --tremor:#b33a5b;
+    --tremor-dim:rgba(179,58,91,.3);
+    --steady:#079b91;
+    --steady-dim:rgba(7,155,145,.35);
+  }
+  body{background:#fff;}
+  .page{background:#fff;}
+  #nav{background:rgba(255,255,255,.94);}
+  .nav-logo::before{background:var(--steady);box-shadow:0 0 0 5px #dff8f2;}
+  .nav-links a:hover,.nav-links a.active{color:var(--steady);}
+  .hero{
+    background:
+      radial-gradient(ellipse 48% 45% at 50% 22%,rgba(226,247,241,.95),transparent 72%),
+      radial-gradient(ellipse 25% 32% at 83% 70%,rgba(228,240,255,.72),transparent 72%),
+      #fff;
+  }
+  .hero::before{
+    content:'';position:absolute;left:5vw;top:25%;width:54px;height:54px;
+    border:1px solid var(--tremor);border-radius:50%;opacity:.8;
+  }
+  .hero::after{
+    border:10px solid #e2f7f1;
+    box-shadow:0 0 0 1px var(--line),0 18px 42px rgba(16,44,61,.12);
+  }
+  .hero h1 em{color:var(--steady);}
+  .hero h1 em::after{background:var(--tremor);height:5px;}
+  .hero-badge{color:var(--tremor);}
+  .btn-steady{background:var(--steady);box-shadow:0 7px 18px rgba(7,155,145,.18);}
+  .btn-steady:hover{background:#057e77;box-shadow:0 10px 25px rgba(7,155,145,.28);}
+  .btn-outline{border-color:#a9c7c4;background:#fff;}
+  .btn-outline:hover{border-color:var(--steady);color:var(--steady);background:#effcf9;}
+  .readout-strip{background:#e2f7f1;}
+  .readout-cell{border-color:#c5e4df;}
+  .readout-cell:hover{background:#d3f1ea;}
+  .readout-cell:nth-child(3) .readout-num{color:var(--tremor);}
+  .feat-item:hover{background:#f4fbfa;}
+  .feat-mark{background:var(--tremor);box-shadow:0 0 0 4px #fdebf0;}
+  .product-hero,.demo-block,.soon-list{background:#e2f7f1;}
+  .product-card-grid .icard{background:#fff;}
+  .icard:hover,.future-item:hover{border-color:#84cfc5;box-shadow:0 12px 28px rgba(7,155,145,.12);}
+  .product-tab.active,.product-tab:hover{background:var(--ink);border-color:var(--ink);}
+  .steps-grid,.team-grid,.details-grid,.social-row,.paper-grid{background:#d4e5e2;}
+  .step-cell:hover,.detail-cell:hover,.social-cell:hover,.member:hover,.paper-row:hover{background:#f0fbf8;}
+  .join-cta-block{background:var(--ink);box-shadow:inset 0 4px 0 var(--steady);}
+  footer{background:#e2f7f1;}
+  .footer-logo span,.footer-nav a:hover,.footer-socials a:hover{color:var(--steady);}
+
+  @media (max-width:900px){
+    .hero::before{left:1.4rem;top:22%;width:34px;height:34px;}
+  }
 </style>
 </head>
 <body>
@@ -752,8 +939,8 @@
 <div id="achievement-toast"><div class="ach-title">System Fully Calibrated</div><div class="ach-sub">You've explored every module. Signal steady.</div></div>
 <div id="boot-overlay" aria-hidden="true">
   <svg class="boot-wf" viewBox="0 0 400 80" preserveAspectRatio="none" aria-hidden="true">
-    <path id="boot-tremor" d="M0,40 C8,20 16,60 24,30 C32,5 40,58 48,26 C56,4 64,55 72,32 C80,10 88,50 96,35 C104,60 112,15 120,40 C128,65 136,10 144,38 C152,58 160,18 168,40 C176,20 184,55 192,30 C200,8 208,50 216,35 C224,55 232,20 240,40" fill="none" stroke="#ff5a5f" stroke-width="2" stroke-linecap="round"/>
-    <path id="boot-steady" d="M240,40 C280,41 320,40 400,40" fill="none" stroke="#3fe0c0" stroke-width="2" stroke-linecap="round" opacity="0"/>
+    <path id="boot-tremor" d="M0,40 C8,20 16,60 24,30 C32,5 40,58 48,26 C56,4 64,55 72,32 C80,10 88,50 96,35 C104,60 112,15 120,40 C128,65 136,10 144,38 C152,58 160,18 168,40 C176,20 184,55 192,30 C200,8 208,50 216,35 C224,55 232,20 240,40" fill="none" stroke="#9b3348" stroke-width="2" stroke-linecap="round"/>
+    <path id="boot-steady" d="M240,40 C280,41 320,40 400,40" fill="none" stroke="#087f78" stroke-width="2" stroke-linecap="round" opacity="0"/>
   </svg>
   <div class="boot-status" id="boot-status">INITIALIZING SENSOR ARRAY</div>
   <div class="boot-bar"><div class="boot-bar-fill" id="boot-bar-fill"></div></div>
@@ -778,7 +965,7 @@
 <nav id="nav">
   <a class="nav-logo" onclick="go('home')">
     <svg class="mark" viewBox="0 0 40 26" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-      <path d="M0,20 L6,8 L10,22 L14,4 L18,20 L24,13 L40,13" fill="none" stroke="#3fe0c0" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M0,20 L6,8 L10,22 L14,4 L18,20 L24,13 L40,13" fill="none" stroke="#087f78" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
     </svg>
     OAKTON <span class="sub">ENABLE</span>
   </a>
@@ -792,7 +979,7 @@
     <li><a onclick="go('cad')" data-p="cad">CAD</a></li>
     <li><a onclick="go('creations')" data-p="creations">Creations</a></li>
     <li><a onclick="go('team')" data-p="team">Team</a></li>
-    <li><a onclick="go('details')" data-p="details">Club Info</a></li>
+    <li><a onclick="go('details')" data-p="details">Company</a></li>
     <li><button class="nav-apply" onclick="go('join')" data-p="join" type="button">Apply</button></li>
     <li><button class="cmdk-hint" onclick="openCmdk()" aria-label="Open command palette">Jump to<kbd>/</kbd></button></li>
     <li><button class="cmdk-hint" id="sound-toggle" onclick="toggleSound()" aria-label="Toggle interface sound">SND<kbd id="sound-state">OFF</kbd></button></li>
@@ -806,7 +993,7 @@
 <div class="page active" id="page-home">
   <section class="hero" id="hero">
     <div class="hero-spotlight" id="hero-spotlight"></div>
-    <div class="hero-badge">Oakton High School  Biomedical Engineering Club</div>
+    <div class="hero-badge">Oakton Enable  Biomedical Engineering Startup</div>
 
     <svg class="hero-wf" viewBox="0 0 1200 220" preserveAspectRatio="none" aria-hidden="true">
       <path class="tremor-line wf-draw" d="M0,110 C15,70 30,155 45,90 C60,25 75,165 90,80 C105,10 120,150 135,95 C150,35 165,130 180,100 C195,155 210,55 225,115 C240,175 255,35 270,105 C285,60 300,145 315,95 C330,25 345,155 360,85 C375,130 390,45 405,110 C420,160 435,50 450,100 C465,25 480,150 495,90 C510,140 525,45 540,105 C555,15 570,150 585,100" fill="none" stroke-width="1.6" opacity="0.55"/>
@@ -815,10 +1002,10 @@
 
     <div class="hero-content">
       <h1>ENGINEER<br>THE <em>FUTURE</em><br>OF MEDICINE</h1>
-      <p class="hero-sub">Oakton Enable is a student-led team designing real-world solutions for people living with neurological challenges - starting with Parkinson's disease.</p>
+      <p class="hero-sub">Oakton Enable is a student-founded biomedical startup designing real-world solutions for people living with neurological challenges - starting with Parkinson's disease.</p>
       <div class="hero-btns">
         <button class="btn btn-steady" onclick="go('product')">Our Work</button>
-        <button class="btn btn-outline" onclick="go('join')">Join the Club</button>
+        <button class="btn btn-outline" onclick="go('join')">Join the Team</button>
       </div>
     </div>
     <div class="hero-caption">TREMOR SIGNAL <b>-></b> CALIBRATED OUTPUT<br>a stray hand made steady</div>
@@ -836,13 +1023,13 @@
       <div class="split-sticky">
         <span class="eyebrow">Who We Are</span>
         <h2 class="display-sm" style="margin-bottom:1.5rem;">WHERE EMPATHY<br>MEETS ENGINEERING</h2>
-        <p class="body-md" style="margin-bottom:2rem;">We tackle real biomedical challenges through student-driven design, research, and hardware - giving students the platform to create meaningful change before they ever leave high school.</p>
+        <p class="body-md" style="margin-bottom:2rem;">We tackle real biomedical challenges through student-built design, research, and hardware - turning early technical talent into meaningful medical impact.</p>
         <button class="btn btn-outline" onclick="go('about')">Learn More</button>
       </div>
       <div class="feat-list">
         <div class="feat-item"><div class="feat-mark"></div><div><div class="feat-title">Full-Pipeline Engineering</div><div class="feat-body">From concept sketch to physical prototype - CAD, 3D printing, embedded electronics, and firmware. We mirror a real product development pipeline.</div></div></div>
         <div class="feat-item"><div class="feat-mark"></div><div><div class="feat-title">Research Before We Build</div><div class="feat-body">Before we design anything, we go deep. Medical literature, patient communities, and clinical data shape every engineering decision we make.</div></div></div>
-        <div class="feat-item"><div class="feat-mark"></div><div><div class="feat-title">Student-Led. Impact-Driven.</div><div class="feat-body">Every design, line of code, and research finding is created by students. The next breakthrough in assistive tech could come from a high school lab.</div></div></div>
+        <div class="feat-item"><div class="feat-mark"></div><div><div class="feat-title">Student-Built. Impact-Driven.</div><div class="feat-body">Every design, line of code, and research finding is created by our founding team. The next breakthrough in assistive tech can start in a focused lab.</div></div></div>
         <div class="feat-item"><div class="feat-mark"></div><div><div class="feat-title">Open Source Everything</div><div class="feat-body">Our code, schematics, and CAD files are public. We believe accessible technology starts with accessible development.</div></div></div>
       </div>
     </div>
@@ -880,12 +1067,12 @@
 <div class="page" id="page-about">
   <div class="section">
     <span class="eyebrow">Who We Are</span>
-    <h1 class="display" style="margin-bottom:3rem;">ABOUT<br>THE CLUB</h1>
+    <h1 class="display" style="margin-bottom:3rem;">ABOUT<br>THE STARTUP</h1>
     <hr class="rule" style="margin-bottom:4rem;">
 
     <div class="split" style="margin-bottom:5rem;">
       <div>
-        <p class="body-lg" style="margin-bottom:1.5rem;">Oakton Enable is where biology meets engineering, where empathy drives design, and where high school students prove that age is no barrier to solving medicine's hardest problems.</p>
+        <p class="body-lg" style="margin-bottom:1.5rem;">Oakton Enable is where biology meets engineering, where empathy drives design, and where a focused founding team takes on medicine's hardest problems.</p>
         <p class="body-md">We operate in the space between clinical need and technical possibility - choosing problems rooted in real human experience, and building solutions with dignity at the center of every design decision.</p>
       </div>
       <div>
@@ -1042,7 +1229,7 @@
     </div>
 
     <div class="reveal delay-3">
-      <span class="eyebrow">Club Research Output</span>
+      <span class="eyebrow">Startup Research Output</span>
       <h2 class="display-sm" style="margin-bottom:2rem;">IN PROGRESS</h2>
       <div class="paper-grid">
         <div class="paper-row">
@@ -1130,7 +1317,7 @@
         <div class="member-init">AN</div>
         <div class="member-name">Arnav Nair</div>
         <div class="member-role">President</div>
-        <p class="member-bio">As founding president, Arnav provides the vision, strategic direction, and leadership that holds the club together. He coordinates across disciplines - ensuring that programmers, designers, and researchers are working in concert toward a coherent goal. His leadership is defined by inclusivity, rigorous standards, and a personal belief that student innovation can and should matter in the real world.</p>
+        <p class="member-bio">As founding president, Arnav provides the vision, strategic direction, and leadership that holds Oakton Enable together. He coordinates across disciplines - ensuring that programmers, designers, and researchers are working in concert toward a coherent goal. His leadership is defined by inclusivity, rigorous standards, and a personal belief that student innovation can and should matter in the real world.</p>
         <div class="member-tags"><span class="tag">Leadership</span><span class="tag">Strategy</span><span class="tag">Vision</span></div>
         <div class="vitals-row"><canvas class="vcanvas" data-seed="1"></canvas><span class="vitals-tag"><span class="vdot"></span>Signal</span></div>
       </div>
@@ -1138,7 +1325,7 @@
         <div class="member-init">AD</div>
         <div class="member-name">Aditya Nandimandalam</div>
         <div class="member-role">Head of Outreach & Research  Programmer</div>
-        <p class="member-bio">Aditya serves as the intellectual and external bridge of Oakton Enable. As Head of Outreach and Research, he digs deep into medical literature, connects the club with patient communities, and shapes how the team communicates its work. He also contributes as a core programmer - translating research findings into functional software and control logic for the IsoWrite's sensor systems.</p>
+        <p class="member-bio">Aditya serves as the intellectual and external bridge of Oakton Enable. As Head of Outreach and Research, he digs deep into medical literature, connects the startup with patient communities, and shapes how the team communicates its work. He also contributes as a core programmer - translating research findings into functional software and control logic for the IsoWrite's sensor systems.</p>
         <div class="member-tags"><span class="tag">Research</span><span class="tag">Outreach</span><span class="tag">Programming</span></div>
         <div class="vitals-row"><canvas class="vcanvas" data-seed="2"></canvas><span class="vitals-tag"><span class="vdot"></span>Signal</span></div>
       </div>
@@ -1165,7 +1352,7 @@
         </div>
         <div class="member-name">Samarth Prakash</div>
         <div class="member-role">Head of Media</div>
-        <p class="member-bio">Samarth shapes how Oakton Enable looks and sounds to the outside world. He leads photography, video, and content strategy - documenting builds, testing sessions, and milestones, then turning that raw footage into the story that shows people why IsoWrite matters. His work is what makes the club's progress visible, shareable, and easy to rally behind.</p>
+        <p class="member-bio">Samarth shapes how Oakton Enable looks and sounds to the outside world. He leads photography, video, and content strategy - documenting builds, testing sessions, and milestones, then turning that raw footage into the story that shows people why IsoWrite matters. His work is what makes the startup's progress visible, shareable, and easy to rally behind.</p>
         <div class="member-tags"><span class="tag">Photography</span><span class="tag">Video</span><span class="tag">Content Strategy</span></div>
         <div class="vitals-row"><canvas class="vcanvas" data-seed="5"></canvas><span class="vitals-tag"><span class="vdot"></span>Signal</span></div>
       </div>
@@ -1182,17 +1369,17 @@
 <!-- ---- DETAILS ---- -->
 <div class="page" id="page-details">
   <div class="section">
-    <span class="eyebrow">Club Information</span>
-    <h1 class="display" style="margin-bottom:3rem;">CLUB<br>DETAILS</h1>
+    <span class="eyebrow">Company Information</span>
+    <h1 class="display" style="margin-bottom:3rem;">COMPANY<br>DETAILS</h1>
     <hr class="rule" style="margin-bottom:4rem;">
 
     <div class="details-grid">
       <div class="detail-cell"><div class="detail-icon">"</div><div class="detail-label">Meeting Times</div><div class="detail-val">TBA</div><div class="detail-body">Our official meeting schedule is being finalized. Follow our Instagram for announcements the moment times are confirmed.</div></div>
-      <div class="detail-cell"><div class="detail-icon">"</div><div class="detail-label">Location</div><div class="detail-val">Oakton High School</div><div class="detail-body">We meet on campus. The specific room and schedule details will be released alongside our first meeting announcement.</div></div>
+      <div class="detail-cell"><div class="detail-icon">"</div><div class="detail-label">Location</div><div class="detail-val">Oakton, Virginia</div><div class="detail-body">Our founding team builds from Oakton High School while developing a product for people living with neurological challenges.</div></div>
       <div class="detail-cell"><div class="detail-icon">"</div><div class="detail-label">Open To</div><div class="detail-val">All Grade Levels</div><div class="detail-body">Oakton Enable welcomes students from every grade level. No engineering background required - we teach you what you need as we go.</div></div>
       <div class="detail-cell"><div class="detail-icon"></div><div class="detail-label">Structure</div><div class="detail-val">Project-Based</div><div class="detail-body">We operate on project cycles. Your time commitment scales with the needs of the project you contribute to.</div></div>
       <div class="detail-cell"><div class="detail-icon"></div><div class="detail-label">At Meetings</div><div class="detail-val">Build & Research</div><div class="detail-body">Meetings include design reviews, programming sessions, research presentations, and hands-on prototyping. Every session moves the project forward.</div></div>
-      <div class="detail-cell"><div class="detail-icon">"</div><div class="detail-label">How to Join</div><div class="detail-val">Interest Form</div><div class="detail-body">Fill out our interest form and a club officer will reach out with next steps once the schedule is locked in.</div></div>
+      <div class="detail-cell"><div class="detail-icon">"</div><div class="detail-label">How to Connect</div><div class="detail-val">Interest Form</div><div class="detail-body">Fill out our interest form and a team lead will reach out with next steps.</div></div>
     </div>
 
     <div style="margin-top:4rem; padding:3rem; border:1px solid var(--line); background:var(--panel);">
@@ -1243,7 +1430,7 @@
       <div class="join-tab-panel active" id="join-connect-panel">
         <h3 style="font-family:var(--mono);font-size:.7rem;color:var(--muted);text-transform:uppercase;letter-spacing:.11em;margin-bottom:1.5rem;">Find Us Online</h3>
         <div class="social-row" style="margin-bottom:4rem;">
-          <a href="https://instagram.com/oaktonenable" target="_blank" class="social-cell"><div class="sc-icon">"</div><div class="sc-name">Instagram</div><div class="sc-handle">@oaktonenable</div><div class="sc-note">Club updates, photos, and announcements</div></a>
+          <a href="https://instagram.com/oaktonenable" target="_blank" class="social-cell"><div class="sc-icon">"</div><div class="sc-name">Instagram</div><div class="sc-handle">@oaktonenable</div><div class="sc-note">Startup updates, builds, and announcements</div></a>
           <a href="https://github.com/oaktonenable" target="_blank" class="social-cell"><div class="sc-icon">'</div><div class="sc-name">GitHub</div><div class="sc-handle">github.com/oaktonenable</div><div class="sc-note">Open source code and project repositories</div></a>
           <div class="social-cell" style="opacity:.4;cursor:default;"><div class="sc-icon">"</div><div class="sc-name">OnShape</div><div class="sc-handle" style="color:var(--muted);">Coming Soon</div><div class="sc-note">3D CAD models and design files</div></div>
         </div>
@@ -1336,7 +1523,7 @@
       <a onclick="go('research')">Research</a>
       <a onclick="go('cad')">CAD</a>
       <a onclick="go('team')">Team</a>
-      <a onclick="go('details')">Club Info</a>
+      <a onclick="go('details')">Company</a>
       <a onclick="go('join')">Apply</a>
     </nav>
     <div class="footer-right">
