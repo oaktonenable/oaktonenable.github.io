@@ -2,22 +2,25 @@
   const PAGES = ['home','about','product','try','research','cad','creations','team','details','join'];
 
   function go(id) {
-    const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
-    const sweepEl = document.getElementById('sweep');
-    if (sweepEl && !reduced) { sweepEl.classList.remove('go'); void sweepEl.offsetWidth; sweepEl.classList.add('go'); }
     PAGES.forEach(p => {
       document.getElementById('page-' + p).classList.remove('active');
-      document.querySelectorAll('[data-p="' + p + '"]').forEach(a => a.classList.remove('active'));
+      document.querySelectorAll('[data-p="' + p + '"]').forEach(button => {
+        button.classList.remove('active');
+        button.removeAttribute('aria-current');
+      });
     });
     document.getElementById('page-' + id).classList.add('active');
-    document.querySelectorAll('[data-p="' + id + '"]').forEach(a => a.classList.add('active'));
+    document.querySelectorAll('[data-p="' + id + '"]').forEach(button => {
+      button.classList.add('active');
+      button.setAttribute('aria-current', 'page');
+    });
     document.getElementById('nav-links').classList.remove('open');
+    document.getElementById('ham').setAttribute('aria-expanded', 'false');
     window.scrollTo({ top: 0, behavior: 'smooth' });
     setTimeout(updateProgress, 50);
     const hudPage = document.getElementById('hud-page');
     if (hudPage) hudPage.textContent = id.toUpperCase();
     if (window.trackVisit) window.trackVisit(id);
-    if (window.playBlip) window.playBlip('nav');
   }
 
   function setProductTab(tab) {
@@ -29,14 +32,11 @@
     button.addEventListener('click', () => setProductTab(button.dataset.productTab));
   });
 
-  function toggleMenu(){ document.getElementById('nav-links').classList.toggle('open'); }
-
-  const revealObserver = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) { entry.target.classList.add('visible'); revealObserver.unobserve(entry.target); }
-    });
-  }, { threshold: 0.18 });
-  document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+  function toggleMenu(){
+    const menu = document.getElementById('nav-links');
+    const isOpen = menu.classList.toggle('open');
+    document.getElementById('ham').setAttribute('aria-expanded', String(isOpen));
+  }
 
   window.addEventListener('scroll', () => {
     const nav = document.getElementById('nav');
@@ -54,114 +54,19 @@
   }
   updateProgress();
 
-  const heroEl = document.getElementById('hero');
-  const spotlight = document.getElementById('hero-spotlight');
-  if (heroEl && spotlight && matchMedia('(hover: hover)').matches) {
-    heroEl.addEventListener('mousemove', (e) => {
-      const r = heroEl.getBoundingClientRect();
-      spotlight.style.setProperty('--mx', ((e.clientX - r.left) / r.width * 100) + '%');
-      spotlight.style.setProperty('--my', ((e.clientY - r.top) / r.height * 100) + '%');
-    });
-  }
-
   function runCountUps(scope){
     scope.querySelectorAll('[data-count]').forEach(el => {
       if (el.dataset.counted) return;
       el.dataset.counted = '1';
       const target = parseInt(el.dataset.count, 10);
       const pad = el.dataset.pad ? parseInt(el.dataset.pad,10) : 0;
-      const duration = 900;
-      const start = performance.now();
-      function tick(now){
-        const p = Math.min(1, (now - start) / duration);
-        const eased = 1 - Math.pow(1 - p, 3);
-        const val = Math.round(target * eased);
-        el.textContent = pad ? String(val).padStart(pad, '0') : String(val);
-        if (p < 1) requestAnimationFrame(tick); else el.textContent = pad ? String(target).padStart(pad,'0') : String(target);
-      }
-      requestAnimationFrame(tick);
+      el.textContent = pad ? String(target).padStart(pad, '0') : String(target);
     });
   }
   const countObserver = new IntersectionObserver((entries) => {
     entries.forEach(entry => { if (entry.isIntersecting) runCountUps(entry.target); });
   }, { threshold: 0.4 });
   document.querySelectorAll('.readout-strip, .impact-row').forEach(el => countObserver.observe(el));
-
-  /*  BOOT / CALIBRATION SEQUENCE  */
-  (function boot(){
-    const overlay = document.getElementById('boot-overlay');
-    const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
-    if (sessionStorage.getItem('oe-booted') || reduced) { overlay.style.display = 'none'; return; }
-    sessionStorage.setItem('oe-booted', '1');
-    const statusEl = document.getElementById('boot-status');
-    const fill = document.getElementById('boot-bar-fill');
-    const pctEl = document.getElementById('boot-pct');
-    const tremorPath = document.getElementById('boot-tremor');
-    const steadyPath = document.getElementById('boot-steady');
-    const steps = [
-      { t: 'INITIALIZING SENSOR ARRAY', p: 20 },
-      { t: 'READING TREMOR SIGNAL', p: 48 },
-      { t: 'APPLYING STABILIZATION FILTER', p: 78 },
-      { t: 'CALIBRATED', p: 100, ok: true }
-    ];
-    let i = 0;
-    function nextStep(){
-      const s = steps[i];
-      statusEl.innerHTML = s.ok ? '<span class="ok">' + s.t + '</span>' : s.t;
-      fill.style.width = s.p + '%';
-      pctEl.textContent = s.p + '%';
-      if (s.ok) { tremorPath.style.transition = 'opacity .5s'; tremorPath.style.opacity = '0.15'; steadyPath.style.transition = 'opacity .5s'; steadyPath.style.opacity = '1'; }
-      i++;
-      if (i < steps.length) setTimeout(nextStep, 480);
-      else setTimeout(() => {
-        overlay.classList.add('hide');
-        setTimeout(() => overlay.style.display = 'none', 700);
-      }, 550);
-    }
-    setTimeout(nextStep, 350);
-  })();
-
-  /*  CUSTOM CURSOR  */
-  (function cursor(){
-    if (!matchMedia('(hover: hover) and (pointer: fine)').matches || matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-    document.body.classList.add('cc-on');
-    const dot = document.getElementById('cc-dot');
-    const ring = document.getElementById('cc-ring');
-    let rx = window.innerWidth/2, ry = window.innerHeight/2;
-    document.addEventListener('mousemove', (e) => {
-      dot.style.left = e.clientX + 'px'; dot.style.top = e.clientY + 'px';
-      rx = e.clientX; ry = e.clientY;
-      const el = e.target.closest('a, button, .icard, .future-item, #demo-canvas, .cmdk-item, input');
-      ring.classList.toggle('active', !!el);
-    });
-    function loop(){
-      const cur = ring.getBoundingClientRect();
-      const cx = cur.left + cur.width/2, cy = cur.top + cur.height/2;
-      const nx = cx + (rx - cx) * 0.22, ny = cy + (ry - cy) * 0.22;
-      ring.style.left = nx + 'px'; ring.style.top = ny + 'px';
-      requestAnimationFrame(loop);
-    }
-    ring.style.left = rx + 'px'; ring.style.top = ry + 'px';
-    loop();
-  })();
-
-  /*  MAGNETIC BUTTONS  */
-  (function magnets(){
-    if (!matchMedia('(hover: hover) and (pointer: fine)').matches) return;
-    document.querySelectorAll('.btn').forEach(btn => {
-      btn.addEventListener('mousemove', (e) => {
-        const r = btn.getBoundingClientRect();
-        const mx = (e.clientX - r.left - r.width/2) * 0.22;
-        const my = (e.clientY - r.top - r.height/2) * 0.32;
-        btn.style.setProperty('--mx', mx + 'px');
-        btn.style.setProperty('--my', my + 'px');
-      });
-      btn.addEventListener('mouseleave', () => {
-        btn.style.setProperty('--mx', '0px');
-        btn.style.setProperty('--my', '0px');
-      });
-    });
-  })();
 
   /*  COMMAND PALETTE  */
   const CMDK_PAGES = [
@@ -623,4 +528,3 @@
     const days = Math.max(0, Math.floor((Date.now() - founded.getTime()) / 86400000));
     el.textContent = days;
   })();
-

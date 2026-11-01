@@ -772,7 +772,7 @@
   .readout-strip{background:#dfeae7;}
   .readout-cell{border-color:#c1d2cf;}
   .readout-cell:hover{background:#d4e4e0;}
-  .product-card-grid .icard{background:var(--panel);}
+  #page-product .product-card-grid .icard{background:var(--panel);}
   .join-cta-block{background:var(--ink);}
   footer{background:#dfeae7;}
   .hero::after{filter:none;mix-blend-mode:multiply;}
@@ -1102,6 +1102,180 @@
     .hero-content{margin-bottom:255px;}
     .hero::after{top:435px;height:235px;}
   }
+
+  :root{
+    --bg:#090909;
+    --panel:#121212;
+    --panel2:#1b1b1b;
+    --ink:#f5f5f5;
+    --muted:#b8b8b8;
+    --dim:#929292;
+    --line:#303030;
+    --line2:#484848;
+    --steady:#c62828;
+    --steady-dim:rgba(198,40,40,.28);
+    --tremor:#c62828;
+    --tremor-dim:rgba(198,40,40,.28);
+    --disp:'DM Sans',Arial,sans-serif;
+    --serif:'DM Sans',Arial,sans-serif;
+  }
+  body,.page{background:var(--bg);color:var(--ink);}
+  ::selection{background:var(--steady);color:#fff;}
+  :focus-visible{outline:2px solid var(--steady);outline-offset:3px;}
+  #nav{
+    height:72px;
+    padding:0 max(2rem,calc((100vw - 1180px)/2));
+    background:rgba(9,9,9,.96);
+    border-bottom:1px solid var(--line);
+    box-shadow:none!important;
+  }
+  .nav-logo{
+    display:inline-flex;
+    align-items:center;
+    gap:.55rem;
+    padding:0;
+    border:0;
+    background:none;
+    color:var(--ink);
+    font:700 .95rem var(--disp);
+    letter-spacing:.02em;
+    cursor:pointer;
+  }
+  .nav-logo .mark{display:block!important;width:30px;height:20px;flex-shrink:0;}
+  .nav-logo::before{display:none!important;content:none!important;}
+  .nav-logo .sub{color:var(--muted);font-size:.76rem;font-weight:500;}
+  .nav-links{gap:1.35rem;}
+  .nav-links .nav-page-btn{
+    padding:0;
+    border:0;
+    background:none;
+    color:var(--muted);
+    font:500 .76rem var(--disp);
+    cursor:pointer;
+    transition:color .15s ease;
+  }
+  .nav-links .nav-page-btn:hover,.nav-links .nav-page-btn.active{color:var(--steady);}
+  .nav-links .nav-page-btn.active{font-weight:700;}
+  .nav-apply{
+    border:1px solid var(--steady)!important;
+    border-radius:4px;
+    background:var(--steady);
+    color:#fff!important;
+    padding:.58rem 1rem!important;
+    font:600 .76rem var(--disp);
+  }
+  .nav-apply:hover{background:#a51f1f!important;border-color:#a51f1f!important;color:#fff!important;}
+  .hamburger span{background:var(--ink);}
+  #scroll-progress{top:72px;background:var(--steady);}
+
+  .hero{
+    min-height:760px;
+    padding:140px max(2rem,calc((100vw - 1180px)/2)) 72px;
+    align-items:flex-start;
+    justify-content:center;
+    text-align:left;
+    background:var(--bg);
+  }
+  .hero-badge{
+    top:112px;
+    left:max(2rem,calc((100vw - 1180px)/2));
+    transform:none;
+    color:var(--steady);
+    font-size:.62rem;
+    letter-spacing:.12em;
+    white-space:normal;
+  }
+  .hero-content{width:min(60%,620px);max-width:620px;margin:0;}
+  .hero h1{
+    max-width:620px;
+    margin:0 0 1.4rem;
+    color:var(--ink);
+    font:700 clamp(3.2rem,6vw,5.6rem)/.98 var(--disp);
+    letter-spacing:-.055em;
+  }
+  .hero h1 em{color:var(--steady);}
+  .hero-sub{max-width:520px;margin:0 0 1.8rem;font:400 1.05rem/1.65 var(--disp);color:var(--muted);}
+  .hero-btns{justify-content:flex-start;gap:.75rem;width:auto;margin:0;padding:0;border:0;border-radius:0;background:none;box-shadow:none;}
+  .btn{border-radius:4px;padding:.8rem 1.2rem;font:600 .82rem var(--disp);letter-spacing:0;text-transform:none;}
+  .btn-steady{background:var(--steady);color:#fff;box-shadow:none;}
+  .btn-steady:hover{background:#a51f1f;box-shadow:none;}
+  .btn-outline{border-color:var(--line2);background:var(--panel);color:var(--ink);}
+  .btn-outline:hover{border-color:var(--steady);background:var(--panel2);color:var(--ink);}
+  .hero::after{
+    top:50%;
+    right:max(2rem,calc((100vw - 1180px)/2));
+    bottom:auto;
+    left:auto;
+    width:clamp(260px,32vw,390px);
+    height:auto;
+    aspect-ratio:1;
+    transform:translateY(-42%);
+    border:0;
+    border-radius:0;
+    box-shadow:none;
+    filter:none;
+    opacity:1;
+    mix-blend-mode:normal;
+    background:url('Oakton_Enable_Logo.png') center/contain no-repeat;
+  }
+  .trust-strip{color:var(--muted);}
+  .trust-strip span::before{border-color:var(--line2);color:var(--steady);}
+  .readout-strip{box-shadow:none;}
+  .join-cta-block{background:#151515;border-radius:4px;box-shadow:none;}
+  .join-cta-block h3{color:#fff;}
+  .join-cta-block p{color:#ddd;}
+  .join-cta-block::before,.join-cta-block::after{border-color:var(--steady-dim);}
+  footer{background:#111;}
+
+  .readout-strip,.readout-cell,.product-shell,.product-hero,.demo-block,.soon-list,
+  .icard,.future-item,.paper-row,.detail-cell,.social-cell,.member,.step-cell,
+  .product-tab,.demo-toggle,.tag,.join-cta-block{background-color:var(--panel);}
+  .steps-grid,.team-grid,.details-grid,.social-row,.paper-grid{background-color:var(--line);}
+  .product-hero,.demo-block,.soon-list,.future-item{background-color:var(--panel2);}
+  .product-card-grid .icard{background:var(--panel);}
+  .product-tab.active,.product-tab:hover{background-color:var(--steady);border-color:var(--steady);color:#fff;}
+  .demo-canvas-wrap{background:#111;}
+  .demo-toggle button{background:var(--panel);color:var(--ink);}
+  input,select,textarea{background:var(--panel);border-color:var(--line2);color:var(--ink);}
+  input::placeholder,textarea::placeholder{color:var(--dim);}
+  .footer-nav a:hover,.footer-socials a:hover{color:var(--steady);}
+  .step-cell:hover,.detail-cell:hover,.social-cell:hover,.member:hover,.paper-row:hover,.icard:hover,.future-item:hover{background-color:#222;}
+  .btn-outline:hover{background-color:var(--panel2);}
+
+  body::before,body::after,#bg-signal,#burst-canvas,#hud,#cc-dot,#cc-ring,
+  #egg-flash,#achievement-toast,#sweep,.hero-wf,.hero-spotlight,.hero-caption{display:none!important;}
+  #boot-overlay{display:none!important;}
+  .page.active,.product-panel{animation:none!important;}
+  .reveal,.reveal.visible{opacity:1;transform:none;transition:none;}
+  .wf-draw,.tremor-line,.dot,.vitals-tag .vdot{animation:none!important;}
+  .wf-draw,.tremor-line{stroke-dasharray:none!important;stroke-dashoffset:0!important;}
+  .icard:hover,.future-item:hover,.step-cell:hover,.member:hover,
+  .detail-cell:hover,.social-cell:hover,.paper-row:hover,.btn:hover,.btn:active{transform:none!important;}
+
+  @media (max-width:900px){
+    #nav{height:72px;padding:0 1.4rem;}
+    #scroll-progress{top:72px;}
+    .nav-links{top:72px;background:var(--bg);padding:1rem 1.4rem;gap:.8rem;border-color:var(--line);}
+    .nav-links li{width:100%;justify-content:flex-start;}
+    .nav-links .nav-page-btn{width:100%;padding:.4rem 0;text-align:left;}
+    .nav-apply{width:100%;}
+    .hero{min-height:900px;padding:145px 1.4rem 250px;}
+    .hero-badge{top:112px;left:1.4rem;}
+    .hero-content{width:100%;max-width:620px;margin:0 0 260px;}
+    .hero h1{font-size:clamp(3.4rem,9vw,5.4rem);}
+    .hero::after{top:auto;right:1.4rem;bottom:1.5rem;width:min(34vw,250px);height:auto;transform:none;}
+    .readout-strip{margin:0 1.4rem;}
+  }
+  @media (max-width:560px){
+    #nav{padding:0 1rem;}
+    .hero{min-height:850px;padding:138px 1.2rem 220px;}
+    .hero-badge{left:1.2rem;font-size:.55rem;}
+    .hero-content{margin-bottom:220px;}
+    .hero h1{font-size:clamp(3rem,13vw,4.6rem);}
+    .hero-sub{max-width:350px;font-size:.95rem;}
+    .hero::after{right:1.2rem;bottom:1.25rem;width:min(42vw,185px);}
+    .readout-strip{grid-template-columns:repeat(2,1fr);}
+  }
 </style>
 </head>
 <body>
@@ -1137,23 +1311,23 @@
 
 <!-- NAV -->
 <nav id="nav">
-  <a class="nav-logo" onclick="go('home')">
+  <button class="nav-logo" type="button" onclick="go('home')" aria-label="Oakton Enable home">
     <svg class="mark" viewBox="0 0 40 26" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-      <path d="M0,20 L6,8 L10,22 L14,4 L18,20 L24,13 L40,13" fill="none" stroke="#087f78" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M0,20 L6,8 L10,22 L14,4 L18,20 L24,13 L40,13" fill="none" stroke="#c62828" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
     </svg>
     OAKTON <span class="sub">ENABLE</span>
-  </a>
-  <button class="hamburger" id="ham" onclick="toggleMenu()" aria-label="Menu"><span></span><span></span><span></span></button>
+  </button>
+  <button class="hamburger" id="ham" type="button" onclick="toggleMenu()" aria-label="Menu" aria-controls="nav-links" aria-expanded="false"><span></span><span></span><span></span></button>
   <ul class="nav-links" id="nav-links">
-    <li><a onclick="go('home')" data-p="home" class="active">Home</a></li>
-    <li><a onclick="go('about')" data-p="about">About</a></li>
-    <li><a onclick="go('product')" data-p="product">Product</a></li>
-    <li><a onclick="go('try')" data-p="try">Try</a></li>
-    <li><a onclick="go('research')" data-p="research">Research</a></li>
-    <li><a onclick="go('cad')" data-p="cad">CAD</a></li>
-    <li><a onclick="go('creations')" data-p="creations">Creations</a></li>
-    <li><a onclick="go('team')" data-p="team">Team</a></li>
-    <li><a onclick="go('details')" data-p="details">Company</a></li>
+    <li><button class="nav-page-btn active" type="button" onclick="go('home')" data-p="home" aria-current="page">Home</button></li>
+    <li><button class="nav-page-btn" type="button" onclick="go('about')" data-p="about">About</button></li>
+    <li><button class="nav-page-btn" type="button" onclick="go('product')" data-p="product">Product</button></li>
+    <li><button class="nav-page-btn" type="button" onclick="go('try')" data-p="try">Try</button></li>
+    <li><button class="nav-page-btn" type="button" onclick="go('research')" data-p="research">Research</button></li>
+    <li><button class="nav-page-btn" type="button" onclick="go('cad')" data-p="cad">CAD</button></li>
+    <li><button class="nav-page-btn" type="button" onclick="go('creations')" data-p="creations">Creations</button></li>
+    <li><button class="nav-page-btn" type="button" onclick="go('team')" data-p="team">Team</button></li>
+    <li><button class="nav-page-btn" type="button" onclick="go('details')" data-p="details">Company</button></li>
     <li><button class="nav-apply" onclick="go('join')" data-p="join" type="button">Apply</button></li>
     <li><button class="cmdk-hint" onclick="openCmdk()" aria-label="Open command palette">Jump to<kbd>/</kbd></button></li>
     <li><button class="cmdk-hint" id="sound-toggle" onclick="toggleSound()" aria-label="Toggle interface sound">SND<kbd id="sound-state">OFF</kbd></button></li>
@@ -1619,7 +1793,7 @@
         <div class="join-cta-block">
           <h3>READY TO JOIN<br>OAKTON ENABLE?</h3>
           <p>Fill out our interest form and we'll be in touch. We'd love to hear from you - regardless of your background or skill level.</p>
-          <a href="https://docs.google.com/forms/d/e/1FAIpQLSediQK2menlsXeRNVHi76ocW_E3qNm8afyynof9Xd01SNs3rQ/viewform?usp=publish-editor" target="_blank" class="btn btn-steady" style="font-size:.78rem;padding:1rem 2.25rem;">Fill Out the Interest Form '</a>
+          <a href="https://docs.google.com/forms/d/e/1FAIpQLSediQK2menlsXeRNVHi76ocW_E3qNm8afyynof9Xd01SNs3rQ/viewform?usp=publish-editor" target="_blank" class="btn btn-steady" style="font-size:.78rem;padding:1rem 2.25rem;">Fill Out the Interest Form</a>
           <p class="join-fine">No experience required  All grades welcome  All interests considered</p>
         </div>
       </div>
