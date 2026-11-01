@@ -131,60 +131,298 @@
 
     .model-stage {
       position: relative;
-      min-height: 320px;
+      min-height: 420px;
       border: 1px solid var(--line);
-      background: linear-gradient(145deg, rgba(255,255,255,0.03), rgba(255,255,255,0.01));
+      background:
+        radial-gradient(ellipse at center, rgba(63,224,192,0.08), transparent 58%),
+        linear-gradient(145deg, rgba(255,255,255,0.03), rgba(255,255,255,0.01));
       overflow: hidden;
       border-radius: 24px;
-      display: grid;
-      place-items: center;
       isolation: isolate;
     }
 
     .model-stage::before {
       content: '';
       position: absolute;
-      inset: 12% 16%;
-      border: 1px solid rgba(63,224,192,0.18);
-      border-radius: 30px;
-      transform: perspective(900px) rotateX(18deg) rotateY(-16deg);
+      inset: 0;
+      opacity: .24;
+      background-image:
+        linear-gradient(rgba(63,224,192,.12) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(63,224,192,.12) 1px, transparent 1px);
+      background-size: 32px 32px;
+      mask-image: linear-gradient(transparent, black 24%, black 76%, transparent);
       pointer-events: none;
     }
 
-    .model-stage svg {
-      width: min(100%, 560px);
-      height: auto;
-      filter: drop-shadow(0 18px 40px rgba(0, 0, 0, 0.3));
-      transform: perspective(1000px) rotateX(18deg) rotateY(-16deg);
-      transition: transform .35s ease;
+    .model-viewport {
+      position: absolute;
+      inset: 0;
+      display: grid;
+      place-items: center;
+      perspective: 900px;
+      touch-action: none;
+      cursor: grab;
+      outline: none;
     }
 
-    .model-stage[data-component="grip"] svg { transform: perspective(1000px) rotateX(10deg) rotateY(-18deg); }
-    .model-stage[data-component="sensor"] svg { transform: perspective(1000px) rotateX(8deg) rotateY(-12deg); }
-    .model-stage[data-component="stabilizer"] svg { transform: perspective(1000px) rotateX(10deg) rotateY(-6deg); }
-    .model-stage[data-component="pen"] svg { transform: perspective(1000px) rotateX(14deg) rotateY(-10deg); }
-    .model-stage[data-component="board"] svg { transform: perspective(1000px) rotateX(12deg) rotateY(-16deg); }
+    .model-viewport:focus-visible {
+      box-shadow: inset 0 0 0 2px var(--steady);
+      border-radius: 23px;
+    }
 
-    .hotspot {
+    .model-stage.is-dragging .model-viewport { cursor: grabbing; }
+
+    .cad-viewer {
       position: absolute;
-      border: 1px solid rgba(63,224,192,0.6);
-      background: rgba(63,224,192,0.12);
-      color: var(--ink);
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      background: transparent;
+      --poster-color: transparent;
+    }
+
+    .cad-viewer[hidden] { display: none; }
+
+    .model-scene {
+      position: relative;
+      width: 0;
+      height: 0;
+      transform-style: preserve-3d;
+      transform: rotateX(var(--pitch, -24deg)) rotateY(var(--yaw, -34deg)) scale(var(--zoom, 1));
+      transition: transform .2s ease-out;
+      will-change: transform;
+    }
+
+    .model-stage.is-dragging .model-scene { transition: none; }
+
+    .model-part {
+      position: absolute;
+      left: 0;
+      top: 0;
+      padding: 0;
+      border: 0;
+      color: inherit;
+      background: transparent;
+      cursor: pointer;
+      transform-style: preserve-3d;
+    }
+
+    .model-part:focus-visible {
+      outline: 2px solid var(--steady);
+      outline-offset: 4px;
+    }
+
+    .model-cuboid {
+      width: var(--width);
+      height: var(--height);
+      transform: translate3d(var(--x, 0px), var(--y, 0px), var(--z, 0px)) translate(-50%, -50%) rotateZ(var(--angle, 0deg));
+    }
+
+    .cuboid-face {
+      position: absolute;
+      display: grid;
+      place-items: center;
+      box-sizing: border-box;
+      border: 1px solid rgba(116, 188, 168, .55);
+      background: var(--face-color, #17372f);
+      backface-visibility: visible;
+    }
+
+    .cuboid-face--front,
+    .cuboid-face--back {
+      width: var(--width);
+      height: var(--height);
+    }
+
+    .cuboid-face--front { transform: translateZ(calc(var(--depth) / 2)); }
+    .cuboid-face--back { transform: rotateY(180deg) translateZ(calc(var(--depth) / 2)); }
+
+    .cuboid-face--right,
+    .cuboid-face--left {
+      width: var(--depth);
+      height: var(--height);
+    }
+
+    .cuboid-face--right { transform: rotateY(90deg) translateZ(calc(var(--width) / 2)); }
+    .cuboid-face--left { transform: rotateY(-90deg) translateZ(calc(var(--width) / 2)); }
+
+    .cuboid-face--top,
+    .cuboid-face--bottom {
+      width: var(--width);
+      height: var(--depth);
+    }
+
+    .cuboid-face--top { transform: rotateX(90deg) translateZ(calc(var(--height) / 2)); }
+    .cuboid-face--bottom { transform: rotateX(-90deg) translateZ(calc(var(--height) / 2)); }
+
+    .model-part.is-active .cuboid-face--front {
+      border-color: var(--steady);
+      box-shadow: inset 0 0 0 1px rgba(63,224,192,.35), 0 0 12px rgba(63,224,192,.35);
+    }
+
+    .model-part--clamp.is-active {
+      box-shadow: 0 0 0 5px #1a332b, inset 0 0 0 3px #344c43, 0 0 0 1px #b4c7bf, 0 0 16px rgba(63,224,192,.65);
+    }
+
+    .model-part:hover .cuboid-face--front { border-color: var(--steady); }
+
+    .model-part--shell {
+      --width: 276px;
+      --height: 98px;
+      --depth: 48px;
+      --face-color: #16352d;
+      --x: 0px;
+      --y: -12px;
+      --z: 0px;
+      border-radius: 24px;
+    }
+
+    .model-part--shell .cuboid-face { border-radius: 12px; }
+    .model-part--shell .cuboid-face--front { background: linear-gradient(145deg, #173b32, #102720); }
+    .model-part--shell .cuboid-face--back { background: #10251f; }
+
+    .model-part--sensor {
+      --width: 82px;
+      --height: 58px;
+      --depth: 16px;
+      --face-color: #255046;
+      --x: -73px;
+      --y: -12px;
+      --z: 32px;
+    }
+
+    .model-part--sensor .cuboid-face { border-color: #4dd8bf; border-radius: 10px; }
+    .model-part--sensor .cuboid-face--front {
+      background-color: #1d372f;
+      background-image: radial-gradient(circle, #75e8d1 2px, transparent 2.5px);
+      background-size: 16px 16px;
+    }
+
+    .sensor-label,
+    .board-label {
+      padding: 3px 5px;
+      background: rgba(3,17,15,.8);
+      color: #b6eee2;
+      font: 8px var(--mono);
+      letter-spacing: .08em;
+      text-transform: uppercase;
+    }
+
+    .model-part--board {
+      --width: 70px;
+      --height: 62px;
+      --depth: 14px;
+      --face-color: #15362f;
+      --x: 77px;
+      --y: -12px;
+      --z: 32px;
+    }
+
+    .model-part--board .cuboid-face { border-color: #7ed9c6; border-radius: 9px; }
+    .model-part--board .cuboid-face--front { background: #173a32; }
+    .board-chip {
+      width: 26px;
+      height: 22px;
+      border: 2px solid #68cbb5;
+      border-radius: 4px;
+      background: #0c211b;
+      box-shadow: 22px 10px 0 -7px #ff5a5f, -21px -12px 0 -8px #3fe0c0;
+    }
+
+    .model-part--stabilizer {
+      --width: 15px;
+      --height: 86px;
+      --depth: 12px;
+      --face-color: #526e64;
+      --y: 67px;
+      --z: 38px;
+      border-radius: 999px;
+    }
+
+    .model-part--stabilizer .cuboid-face { border-color: #9ab5aa; border-radius: 999px; }
+    .model-part--stabilizer-left { --x: -22px; --angle: -18deg; }
+    .model-part--stabilizer-right { --x: 22px; --angle: 18deg; }
+
+    .model-part--clamp {
+      width: 58px;
+      height: 58px;
+      left: 0;
+      top: 0;
+      border: 10px solid #718a80;
+      border-radius: 50%;
+      background: #0a1915;
+      box-shadow: 0 0 0 5px #1a332b, inset 0 0 0 3px #344c43, 0 0 0 1px #b4c7bf;
+      transform: translate3d(0, 95px, 43px) translate(-50%, -50%);
+    }
+
+    .model-part--pen {
+      --width: 23px;
+      --height: 112px;
+      --depth: 23px;
+      --face-color: #303e39;
+      --x: 0px;
+      --y: 145px;
+      --z: 42px;
+    }
+
+    .model-part--pen .cuboid-face { border-color: #9caea6; border-radius: 999px; }
+    .model-part--pen .cuboid-face--front { background: linear-gradient(90deg, #34443d, #83968c 48%, #38463f); }
+
+    .model-controls {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: .45rem;
+    }
+
+    .view-button {
+      border: 1px solid var(--line2);
       border-radius: 999px;
       padding: .4rem .65rem;
-      font-family: var(--mono);
-      font-size: .64rem;
-      letter-spacing: .12em;
-      text-transform: uppercase;
+      color: var(--muted);
+      background: rgba(255,255,255,.03);
+      font: .64rem var(--mono);
+      letter-spacing: .05em;
       cursor: pointer;
-      transition: transform .2s ease, background .2s ease, border-color .2s ease;
+      transition: color .2s ease, border-color .2s ease, background .2s ease;
     }
 
-    .hotspot:hover,
-    .hotspot.active {
-      transform: scale(1.05);
-      background: rgba(63,224,192,0.24);
-      border-color: var(--steady);
+    .view-button:hover,
+    .view-button[aria-pressed="true"] {
+      color: var(--steady);
+      border-color: var(--steady-dim);
+      background: rgba(63,224,192,.08);
+    }
+
+    .view-button--reset { margin-left: auto; }
+
+    .view-status,
+    .model-help {
+      color: var(--muted);
+      font: .65rem var(--mono);
+      letter-spacing: .04em;
+    }
+
+    .view-status { margin-left: auto; }
+    .model-help { margin: 0; }
+
+    .model-file-controls {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: .75rem;
+    }
+
+    .model-file-status {
+      color: var(--muted);
+      font: .65rem var(--mono);
+      overflow-wrap: anywhere;
+    }
+
+    .hotspot { cursor: pointer; }
+
+    @media (prefers-reduced-motion: reduce) {
+      .model-scene { transition: none; }
     }
 
     .hotspot-grip { top: 24%; left: 18%; }
@@ -246,6 +484,8 @@
       margin-top: 1.4rem;
     }
 
+    .story-list[hidden] { display: none; }
+
     .story-step {
       border: 1px solid var(--line);
       background: rgba(255,255,255,0.02);
@@ -287,38 +527,79 @@
   <div class="page">
     <div class="topbar">
       <a class="back-link" href="index.html#page-product"> Back to product overview</a>
-      <span class="note">3D asset pending - this interactive view is a working explainer while the final CAD file is being prepared.</span>
+      <span class="note" id="model-banner">IsoWrite CAD model — drag to orbit · scroll to zoom.</span>
     </div>
 
     <div class="eyebrow">IsoWrite anatomy</div>
     <h1>Interactive 3D model preview</h1>
-    <p class="lead">Scroll through the sections below to move between the core components of the IsoWrite concept. Each part can be highlighted and described as we continue refining the final CAD model.</p>
+    <p class="lead">Drag the model to orbit around it, or use the view buttons to inspect each side. Scroll to zoom, then select a component or scroll through the sections below to learn how the IsoWrite concept fits together.</p>
 
     <div class="model-shell">
       <div class="model-card">
         <div class="model-stage" id="model-stage" data-component="grip">
-          <svg viewBox="0 0 620 420" role="img" aria-label="IsoWrite concept model">
-            <rect x="124" y="92" width="372" height="220" rx="36" fill="#112722" stroke="#2f4f46" stroke-width="3"></rect>
-            <rect x="170" y="132" width="170" height="120" rx="24" fill="#1d372f" stroke="#4dd8bf" stroke-width="2"></rect>
-            <rect x="354" y="132" width="94" height="120" rx="24" fill="#0f241e" stroke="#7ed9c6" stroke-width="2"></rect>
-            <rect x="186" y="166" width="138" height="48" rx="14" fill="#2f4c43" stroke="#9ed9ca" stroke-width="2"></rect>
-            <rect x="366" y="146" width="70" height="92" rx="16" fill="#193731" stroke="#5de0c0" stroke-width="2"></rect>
-            <path d="M296 240 L342 286 L412 240" fill="none" stroke="#ff5a5f" stroke-width="8" stroke-linecap="round"></path>
-            <rect x="242" y="250" width="124" height="26" rx="13" fill="#0b1512" stroke="#7f938d" stroke-width="2"></rect>
-            <rect x="242" y="280" width="88" height="18" rx="9" fill="#18322b" stroke="#7f938d" stroke-width="2"></rect>
-            <circle cx="250" cy="174" r="20" fill="#3fe0c0"></circle>
-            <circle cx="360" cy="168" r="16" fill="#ff5a5f"></circle>
-            <path d="M165 298 C220 270 248 272 288 292" fill="none" stroke="#6cb7a5" stroke-width="3" stroke-linecap="round"></path>
-            <path d="M440 162 L477 142 L516 172" fill="none" stroke="#7ed9c6" stroke-width="4" stroke-linecap="round"></path>
-            <rect x="438" y="150" width="74" height="40" rx="18" fill="#0f241e" stroke="#45beaa" stroke-width="2"></rect>
-          </svg>
-
-          <button class="hotspot hotspot-grip active" data-hotspot="grip">Grip shell</button>
-          <button class="hotspot hotspot-sensor" data-hotspot="sensor">Sensor array</button>
-          <button class="hotspot hotspot-stabilizer" data-hotspot="stabilizer">Stabilizer arm</button>
-          <button class="hotspot hotspot-pen" data-hotspot="pen">Pen clamp</button>
-          <button class="hotspot hotspot-board" data-hotspot="board">Control board</button>
+          <div class="model-viewport" id="model-viewport" tabindex="0" aria-label="Interactive IsoWrite CAD model. Drag to orbit; use the mouse wheel to zoom.">
+            <div class="model-scene" id="model-scene">
+              <button class="model-part model-cuboid model-part--shell is-active" data-hotspot="grip" type="button" aria-label="Select grip shell" aria-pressed="true">
+                <span class="cuboid-face cuboid-face--front"></span><span class="cuboid-face cuboid-face--back"></span>
+                <span class="cuboid-face cuboid-face--right"></span><span class="cuboid-face cuboid-face--left"></span>
+                <span class="cuboid-face cuboid-face--top"></span><span class="cuboid-face cuboid-face--bottom"></span>
+              </button>
+              <button class="model-part model-cuboid model-part--sensor" data-hotspot="sensor" type="button" aria-label="Select sensor array" aria-pressed="false">
+                <span class="cuboid-face cuboid-face--front"><span class="sensor-label">IMU array</span></span><span class="cuboid-face cuboid-face--back"></span>
+                <span class="cuboid-face cuboid-face--right"></span><span class="cuboid-face cuboid-face--left"></span>
+                <span class="cuboid-face cuboid-face--top"></span><span class="cuboid-face cuboid-face--bottom"></span>
+              </button>
+              <button class="model-part model-cuboid model-part--board" data-hotspot="board" type="button" aria-label="Select control board" aria-pressed="false">
+                <span class="cuboid-face cuboid-face--front"><span class="board-chip"></span></span><span class="cuboid-face cuboid-face--back"></span>
+                <span class="cuboid-face cuboid-face--right"></span><span class="cuboid-face cuboid-face--left"></span>
+                <span class="cuboid-face cuboid-face--top"></span><span class="cuboid-face cuboid-face--bottom"></span>
+              </button>
+              <button class="model-part model-cuboid model-part--stabilizer model-part--stabilizer-left" data-hotspot="stabilizer" type="button" aria-label="Select stabilizer arm" aria-pressed="false">
+                <span class="cuboid-face cuboid-face--front"></span><span class="cuboid-face cuboid-face--back"></span>
+                <span class="cuboid-face cuboid-face--right"></span><span class="cuboid-face cuboid-face--left"></span>
+                <span class="cuboid-face cuboid-face--top"></span><span class="cuboid-face cuboid-face--bottom"></span>
+              </button>
+              <button class="model-part model-cuboid model-part--stabilizer model-part--stabilizer-right" data-hotspot="stabilizer" type="button" aria-label="Select stabilizer arm" aria-pressed="false">
+                <span class="cuboid-face cuboid-face--front"></span><span class="cuboid-face cuboid-face--back"></span>
+                <span class="cuboid-face cuboid-face--right"></span><span class="cuboid-face cuboid-face--left"></span>
+                <span class="cuboid-face cuboid-face--top"></span><span class="cuboid-face cuboid-face--bottom"></span>
+              </button>
+              <button class="model-part model-part--clamp" data-hotspot="pen" type="button" aria-label="Select pen clamp" aria-pressed="false"></button>
+              <button class="model-part model-cuboid model-part--pen" data-hotspot="pen" type="button" aria-label="Select pen" aria-pressed="false">
+                <span class="cuboid-face cuboid-face--front"></span><span class="cuboid-face cuboid-face--back"></span>
+                <span class="cuboid-face cuboid-face--right"></span><span class="cuboid-face cuboid-face--left"></span>
+                <span class="cuboid-face cuboid-face--top"></span><span class="cuboid-face cuboid-face--bottom"></span>
+              </button>
+            </div>
+            <model-viewer
+              class="cad-viewer"
+              id="cad-viewer"
+              aria-label="IsoWrite CAD model"
+              camera-controls
+              interaction-prompt="none"
+              shadow-intensity="1"
+              exposure="1"
+              environment-image="neutral"
+              loading="eager"
+              hidden>
+            </model-viewer>
+          </div>
         </div>
+        <div class="model-controls" role="group" aria-label="Model camera views">
+          <button class="view-button" type="button" data-view="iso" aria-pressed="true">Iso</button>
+          <button class="view-button" type="button" data-view="front" aria-pressed="false">Front</button>
+          <button class="view-button" type="button" data-view="back" aria-pressed="false">Back</button>
+          <button class="view-button" type="button" data-view="left" aria-pressed="false">Left</button>
+          <button class="view-button" type="button" data-view="right" aria-pressed="false">Right</button>
+          <button class="view-button" type="button" data-view="top" aria-pressed="false">Top</button>
+          <button class="view-button" type="button" data-view="bottom" aria-pressed="false">Bottom</button>
+          <button class="view-button view-button--reset" id="view-reset" type="button">Reset</button>
+          <span class="view-status" id="view-status" aria-live="polite">ISO · 100%</span>
+        </div>
+        <div class="model-file-controls">
+          <span class="model-file-status" id="model-file-status" role="status" aria-live="polite">Loading the IsoWrite CAD model…</span>
+        </div>
+        <p class="model-help">IsoWrite loads automatically. Drag to orbit · scroll to zoom · use the view buttons or arrow keys for more views.</p>
       </div>
 
       <div class="detail-panel">
@@ -353,6 +634,7 @@
     </div>
   </div>
 
+  <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.5.0/model-viewer.min.js" onerror="document.getElementById('model-file-status').textContent = 'Could not load the 3D viewer library. Check your internet connection.';"></script>
   <script>
     const componentData = {
       grip: {
@@ -383,29 +665,180 @@
     };
 
     const stage = document.getElementById('model-stage');
+    const viewport = document.getElementById('model-viewport');
+    const scene = document.getElementById('model-scene');
+    const cadViewer = document.getElementById('cad-viewer');
+    const fileStatus = document.getElementById('model-file-status');
+    const storyList = document.querySelector('.story-list');
+    const viewStatus = document.getElementById('view-status');
     const title = document.getElementById('detail-title');
     const body = document.getElementById('detail-body');
     const pill = document.getElementById('detail-pill');
     const steps = Array.from(document.querySelectorAll('.story-step'));
-    const hotspots = Array.from(document.querySelectorAll('.hotspot'));
+    const parts = Array.from(document.querySelectorAll('.model-part'));
+    const viewButtons = Array.from(document.querySelectorAll('[data-view]'));
+    const modelBanner = document.getElementById('model-banner');
+    const cameraViews = {
+      iso: { pitch: -24, yaw: -34 },
+      front: { pitch: 0, yaw: 0 },
+      back: { pitch: 0, yaw: 180 },
+      left: { pitch: 0, yaw: -90 },
+      right: { pitch: 0, yaw: 90 },
+      top: { pitch: -90, yaw: 0 },
+      bottom: { pitch: 90, yaw: 0 }
+    };
+    let pitch = cameraViews.iso.pitch;
+    let yaw = cameraViews.iso.yaw;
+    let zoom = 1;
+    let currentView = 'iso';
+    let dragPointerId = null;
+    let dragStartX = 0;
+    let dragStartY = 0;
+    let dragStartPitch = pitch;
+    let dragStartYaw = yaw;
+    let activeModelName = '';
+    let cadModelLoaded = false;
+
+    function updateCamera() {
+      scene.style.setProperty('--pitch', `${pitch}deg`);
+      scene.style.setProperty('--yaw', `${yaw}deg`);
+      scene.style.setProperty('--zoom', zoom);
+      cadViewer.setAttribute('camera-orbit', `${yaw}deg ${Math.max(0, Math.min(180, 90 + pitch))}deg ${100 / zoom}%`);
+      viewButtons.forEach(button => {
+        button.setAttribute('aria-pressed', String(button.dataset.view === currentView));
+      });
+      viewStatus.textContent = `${currentView === 'custom' ? 'CUSTOM' : currentView.toUpperCase()} · ${Math.round(zoom * 100)}%`;
+    }
 
     function setActive(component) {
-      const data = componentData[component] || componentData.grip;
+      if (cadModelLoaded) return;
+      const selectedComponent = componentData[component] ? component : 'grip';
+      const data = componentData[selectedComponent];
       title.textContent = data.title;
       body.textContent = data.body;
       pill.textContent = data.pill;
-      stage.dataset.component = component;
+      stage.dataset.component = selectedComponent;
 
-      steps.forEach(step => step.classList.toggle('active', step.dataset.component === component));
-      hotspots.forEach(hotspot => hotspot.classList.toggle('active', hotspot.dataset.hotspot === component));
+      steps.forEach(step => step.classList.toggle('active', step.dataset.component === selectedComponent));
+      parts.forEach(part => {
+        const isActive = part.dataset.hotspot === selectedComponent;
+        part.classList.toggle('is-active', isActive);
+        part.setAttribute('aria-pressed', String(isActive));
+      });
     }
 
     steps.forEach(step => {
       step.addEventListener('click', () => setActive(step.dataset.component));
     });
 
-    hotspots.forEach(hotspot => {
-      hotspot.addEventListener('click', () => setActive(hotspot.dataset.hotspot));
+    parts.forEach(part => {
+      part.addEventListener('click', () => setActive(part.dataset.hotspot));
+    });
+
+    viewButtons.forEach(button => {
+      button.addEventListener('click', () => {
+        currentView = button.dataset.view;
+        pitch = cameraViews[currentView].pitch;
+        yaw = cameraViews[currentView].yaw;
+        updateCamera();
+      });
+    });
+
+    document.getElementById('view-reset').addEventListener('click', () => {
+      currentView = 'iso';
+      pitch = cameraViews.iso.pitch;
+      yaw = cameraViews.iso.yaw;
+      zoom = 1;
+      updateCamera();
+    });
+
+    function loadCadModel(source, name) {
+      cadModelLoaded = false;
+      activeModelName = name;
+      cadViewer.hidden = true;
+      scene.hidden = false;
+      storyList.hidden = false;
+      setActive(stage.dataset.component);
+      fileStatus.textContent = `Loading ${name}…`;
+      cadViewer.setAttribute('src', source);
+    }
+
+    cadViewer.addEventListener('load', () => {
+      cadModelLoaded = true;
+      cadViewer.hidden = false;
+      scene.hidden = true;
+      storyList.hidden = true;
+      title.textContent = 'Assembly 1';
+      body.textContent = 'The model is loaded. Drag it to orbit, scroll to zoom, or use the view buttons to inspect each side.';
+      pill.textContent = '3D model loaded';
+      modelBanner.textContent = `Loaded ${activeModelName} — drag to orbit · scroll to zoom.`;
+      fileStatus.textContent = `Viewing ${activeModelName}`;
+      viewport.setAttribute('aria-label', 'Interactive CAD model. Drag to rotate; use the mouse wheel to zoom.');
+    });
+
+    cadViewer.addEventListener('error', () => {
+      cadModelLoaded = false;
+      cadViewer.hidden = true;
+      scene.hidden = false;
+      storyList.hidden = false;
+      fileStatus.textContent = 'Could not load models/isowrite.glb. Confirm the file is included when publishing the site.';
+      modelBanner.textContent = 'IsoWrite CAD model could not be loaded.';
+      setActive(stage.dataset.component);
+      viewport.setAttribute('aria-label', 'Interactive 3D concept model. Drag to rotate; use the mouse wheel to zoom.');
+    });
+
+    viewport.addEventListener('pointerdown', event => {
+      if (cadModelLoaded) return;
+      if (event.button !== 0) return;
+      dragPointerId = event.pointerId;
+      dragStartX = event.clientX;
+      dragStartY = event.clientY;
+      dragStartPitch = pitch;
+      dragStartYaw = yaw;
+      stage.classList.add('is-dragging');
+    });
+
+    window.addEventListener('pointermove', event => {
+      if (event.pointerId !== dragPointerId) return;
+      yaw = dragStartYaw + (event.clientX - dragStartX) * .65;
+      pitch = Math.max(-89, Math.min(89, dragStartPitch - (event.clientY - dragStartY) * .65));
+      currentView = 'custom';
+      updateCamera();
+    });
+
+    function endDrag(event) {
+      if (event.pointerId !== dragPointerId) return;
+      dragPointerId = null;
+      stage.classList.remove('is-dragging');
+    }
+
+    window.addEventListener('pointerup', endDrag);
+    window.addEventListener('pointercancel', endDrag);
+    viewport.addEventListener('wheel', event => {
+      event.preventDefault();
+      zoom = Math.max(.65, Math.min(1.8, zoom + (event.deltaY < 0 ? .1 : -.1)));
+      currentView = 'custom';
+      updateCamera();
+    }, { passive: false });
+
+    viewport.addEventListener('keydown', event => {
+      const rotationStep = 5;
+      if (event.key === 'ArrowLeft') yaw -= rotationStep;
+      else if (event.key === 'ArrowRight') yaw += rotationStep;
+      else if (event.key === 'ArrowUp') pitch = Math.min(89, pitch + rotationStep);
+      else if (event.key === 'ArrowDown') pitch = Math.max(-89, pitch - rotationStep);
+      else if (event.key === '+' || event.key === '=') zoom = Math.min(1.8, zoom + .1);
+      else if (event.key === '-' || event.key === '_') zoom = Math.max(.65, zoom - .1);
+      else return;
+      event.preventDefault();
+      currentView = 'custom';
+      updateCamera();
+    });
+
+    updateCamera();
+
+    customElements.whenDefined('model-viewer').then(() => {
+      loadCadModel('models/isowrite.glb', 'Assembly 1');
     });
 
     const observer = new IntersectionObserver((entries) => {
